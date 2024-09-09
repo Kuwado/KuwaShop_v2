@@ -1,0 +1,89 @@
+*** Adding a local repository to GitHub ***
+git init
+git add .
+git commit -m "first commit"
+git remote add origin #url.git
+git branch -M main
+git push -u origin main
+
+
+*** Using react in laravel 11 ***
+npm install react@latest react-dom@latest
+npm install --save-dev @vitejs/plugin-react
+-> change vite.config.js
+-> change <style> of welcome.blade.php into:
+    @viteReactRefresh
+    @vite(['resources/css/app.css', 'resources/css/app.jsx'])
+npm install
+npm run dev
+
+
+*** Prettier *** ( for Css and React )
+- Download extension Prettier - Code formatter
+- Create '.vscode/setting.json' with content: // Or set default Formatter in Setting into Prettier
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
+- Create '.prettierrc' with content:
+{
+    "arrowParens": "always",
+    "bracketSameLine": false,
+    "bracketSpacing": true,
+    "embeddedLanguageFormatting": "auto",
+    "htmlWhitespaceSensitivity": "css",
+    "insertPragma": false,
+    "jsxSingleQuote": false,
+    "printWidth": 120,
+    "proseWrap": "preserve",
+    "quoteProps": "as-needed",
+    "requirePragma": false,
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 4,
+    "trailingComma": "all",
+    "useTabs": false,
+    "vueIndentScriptAndStyle": false
+}
+
+
+*** Sass ***
+npm i -D sass
+npm install --save normalize.css
+npm i classnames
+
+
+*** React router ***
+npm install react-router-dom
+
+// Chua dung duoc trong nay
+*** Customize-cra + Babel-plugin ***
+npm i customize-cra react-app-rewired -D
+npm install --save-dev babel-plugin-module-resolver
+- Create '.babelrc' with content: 
+{
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "alias": {
+                    "~": "./resources/js"
+                }
+            }
+        ]
+    ]
+}
+- Create 'jsconfig.json' with content:
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "~/*": ["resources/js/*"]
+      }
+    }
+}
+- Create 'config-overrides.js' with content:
+const { override, useBabelRc } = require("customize-cra");
+module.exports = override(
+    useBabelRc()
+);
