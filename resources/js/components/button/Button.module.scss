@@ -1,0 +1,115 @@
+.wrapper {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    font-size: var(--font-size);
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    // @extend .medium;
+    padding: 9px 18px;
+    border-radius: 12px 0;
+    // @extend .text;
+    border: 2px solid transparent;
+    background-color: transparent;
+    margin: 10px;
+
+    &.shadow {
+        box-shadow: var(--shadow);
+    }
+
+    &.disabled {
+        opacity: 0.5;
+        cursor: none;
+    }
+
+    &.curved {
+        border-radius: 999px;
+    }
+}
+
+// Icons
+.icon {
+    display: inline-block;
+    width: fit-content;
+    text-align: center;
+}
+
+.icon + .content,
+.content + .icon {
+    margin-left: calc(var(--font-size) / 2);
+}
+
+// Types
+.primary {
+    background-color: var(--primary);
+    color: var(--text-primary);
+
+    &:hover {
+        background-color: var(--secondary);
+        color: var(--text-secondary);
+    }
+}
+
+.secondary {
+    background-color: var(--secondary);
+    color: var(--text-secondary);
+
+    &:hover {
+        background-color: var(--primary);
+        color: var(--text-primary);
+    }
+}
+
+.primaryBorder {
+    @extend .primary;
+    border-color: var(--text-primary);
+
+    &:hover {
+        border-color: var(--text-secondary);
+    }
+}
+
+.secondaryBorder {
+    @extend .secondary;
+    border-color: var(--text-secondary);
+
+    &:hover {
+        border-color: var(--text-primary);
+    }
+}
+
+.outline {
+    background-color: transparent;
+    border-color: var(--primary);
+    color: var(--text-primary);
+
+    &:hover {
+        background-color: var(--primary);
+        border-color: var(--secondary);
+        color: var(--text-secondary);
+    }
+}
+
+.text {
+    border: 1px solid transparent;
+    background-color: transparent;
+}
+
+// Size
+.small {
+    padding: 6px 12px;
+    border-radius: 9px 0;
+}
+
+.medium {
+    padding: 9px 18px;
+    border-radius: 12px 0;
+}
+
+.large {
+    padding: 12px 24px;
+    border-radius: 15px 0;
+    font-size: 1.8rem;
+    border-width: 2px;
+}

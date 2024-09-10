@@ -1,12 +1,8 @@
+@use 'ColorStyles' as *;
+@use 'SizeStyles' as *;
+
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-:root {
-    --primary: #fe2c55;
-    --black: #000;
-    --white: #fff;
-    --text-color: #333;
-}
 
 * {
     margin: 0;
@@ -15,15 +11,16 @@
 }
 
 html {
+    // => 1rem = 10px
     font-size: 62.5%;
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.6rem;
+    font-size: var(--font-size);
     line-height: 1.2;
     text-rendering: optimizeSpeed;
-    color: var(--text-color);
+    color: var(--text-primary);
 }
 
 button,
@@ -34,7 +31,7 @@ input,
 }
 
 a {
-    color: var(--text-color);
+    color: var(--text-primary);
     text-decoration: none;
 }
 
@@ -45,7 +42,7 @@ body {
         font-weight: 600;
         font-size: 1.4rem;
         line-height: 2.2rem;
-        background-color: rgba(84, 84, 84, 0.92);
+        background: rgba(84, 84, 84, 0.92);
     }
 
     .tippy-arrow {
@@ -71,10 +68,10 @@ html *::-webkit-scrollbar {
 
 html *::-webkit-scrollbar-thumb {
     border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.15);
 }
 
 html *::-webkit-scrollbar-track {
     border-radius: 0;
-    background-color: rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
 }
