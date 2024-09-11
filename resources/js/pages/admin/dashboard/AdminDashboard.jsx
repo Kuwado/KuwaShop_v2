@@ -1,10 +1,10 @@
 import React from 'react';
-import config from '../../../config';
+import config from '~/config';
 import classNames from 'classnames/bind';
 import styles from './AdminDashboard.module.scss';
-import Button from '../../../components/button/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import Button from '~/components/button/Button';
 
 const cx = classNames.bind(styles);
 

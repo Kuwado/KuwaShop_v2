@@ -1,0 +1,6 @@
+*** Button ***
+- Type (defult = text): primary, secondary, primaryBorder, secondaryBorder, outline, shadow, disabled
+- Radius (defult = cong chéo canh): curved (cong 4 góc)
+- Size (defult = medium): small, large
+- Icon: leftIcon, rightIcon
+- Others: children, onClick, classname (nếu muốn custom thêm)

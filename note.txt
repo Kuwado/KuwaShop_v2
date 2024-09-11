@@ -89,6 +89,25 @@ module.exports = override(
 );
 
 
+*** Alias React in laravel ***
+- Add to 'vite.config.js' with content:
+    resolve: {
+        alias: {
+            '~': path.resolve(__dirname, 'resources/js'),
+        },
+    },
+- Create 'jsconfig.js' with content:
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "~/*": ["resources/js/*"]
+        }
+    },
+    "include": ["resources/js"]
+}
+
+
 *** React ***
 npm install prop-types
 ** FontAwesome
