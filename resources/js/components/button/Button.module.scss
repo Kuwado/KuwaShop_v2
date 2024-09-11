@@ -26,6 +26,10 @@
     &.curved {
         border-radius: 999px;
     }
+
+    &:hover {
+        background-color: var(--primary-25);
+    }
 }
 
 // Icons

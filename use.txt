@@ -1,6 +1,61 @@
 *** Button ***
-- Type (defult = text): primary, secondary, primaryBorder, secondaryBorder, outline, shadow, disabled
-- Radius (defult = cong chéo canh): curved (cong 4 góc)
-- Size (defult = medium): small, large
-- Icon: leftIcon, rightIcon
-- Others: children, onClick, classname (nếu muốn custom thêm)
+a) Type (defult = text):
+    - primary 
+    - secondary
+    - primaryBorder
+    - secondaryBorder
+    - outline
+    - shadow
+    - disabled
+
+b) Radius (defult = cong chéo canh): 
+    - curved (cong 4 góc)
+
+c) Size (defult = medium): 
+    - small
+    - large
+
+d) Icon: 
+    - leftIcon
+    - rightIcon
+
+e) Others: 
+    - children -> node
+    - onClick -> func
+    - classname (nếu muốn custom thêm) -> string
+
+
+*** Image ***
+- src -> string
+- alt -> string
+- width -> string
+- height -> string
+- classname -> string
+- fallback (đường dẫn ảnh mặc định khi lỗi) -> string
+
+*** Menu ***
+a) MenuItem:
+    - data -> object { 
+        to: string 
+        content: string 
+        leftIcon: node 
+        rightIcon: node
+        type: string (nếu cấp cuối không phải thẻ a -> dùng để xác định nhiệm vụ)
+        children: object {
+            - data -> array (chứa các item con)
+            - title -> string
+            - icon -> node
+        }
+    } 
+    - onClick -> func
+
+b) Header of Menu:
+    - title -> string
+    - icon -> node
+    - onClick -> func
+
+c) Menu:
+    - children -> node
+    - items -> array
+    - hideOnClick -> bool
+    - onChange -> func

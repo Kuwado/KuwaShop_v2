@@ -1,6 +1,6 @@
-import AdminDashboard from './dashboard/AdminDashboard';
-import AdminProductList from './product/list/AdminProductList';
-import AdminProductDetail from './product/detail/AdminProductDetail';
+import AdminDashboard from './Dashboard';
+import AdminProductList from './product/List';
+import AdminProductDetail from './product/Detail';
 
 const admin = {
     dashboard: AdminDashboard,

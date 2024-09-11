@@ -110,8 +110,12 @@ module.exports = override(
 
 *** React ***
 npm install prop-types
+
 ** FontAwesome
 npm install --save @fortawesome/react-fontawesome
 npm i --save @fortawesome/fontawesome-svg-core
 npm i --save @fortawesome/free-solid-svg-icons
 npm i --save @fortawesome/free-regular-svg-icons
+
+** Tippy
+npm i @tippyjs/react
