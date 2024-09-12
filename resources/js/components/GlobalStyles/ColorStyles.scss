@@ -19,7 +19,11 @@
     --text-primary-50: rgba(0, 0, 0, 0.5);
     --text-secondary: white;
     --text-secondary-50: rgba(255, 255, 255, 0.5);
+    --text-hightlight: var(--secondary);
 
     --shadow: 5px 5px 10px var(--text-primary-50);
     --shadow-menu: rgba(0 0 0 / 12%) 0px 2px 12px;
+
+    --hover-item: var(--secondary-25);
+    --active-item: var(--secondary-75);
 }

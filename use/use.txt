@@ -1,5 +1,5 @@
 *** Button ***
-a) Type (defult = text):
+a) Type (default = text):
     - primary 
     - secondary
     - primaryBorder
@@ -8,10 +8,10 @@ a) Type (defult = text):
     - shadow
     - disabled
 
-b) Radius (defult = cong chéo canh): 
+b) Radius (default = cong chéo canh): 
     - curved (cong 4 góc)
 
-c) Size (defult = medium): 
+c) Size (default = medium): 
     - small
     - large
 
@@ -59,3 +59,5 @@ c) Menu:
     - items -> array
     - hideOnClick -> bool
     - onChange -> func
+    - click -> bool (default là hover sẽ hiện)
+    - header -> node

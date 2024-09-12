@@ -11,7 +11,8 @@ const cx = classNames.bind(styles);
 
 const defaultFunction = () => {};
 
-const Menu = ({ children, items = [], hideOnClick = false, onChange = defaultFunction }) => {
+const Menu = ({ children, items = [], hideOnClick = false, onChange = defaultFunction, click, header: h }) => {
+    const [visible, setVisible] = useState(false);
     const [history, setHistory] = useState([{ data: items }]);
     const current = history[history.length - 1];
 
@@ -36,6 +37,7 @@ const Menu = ({ children, items = [], hideOnClick = false, onChange = defaultFun
 
     const renderResults = (attrs) => (
         <div className={cx('menu')} tabIndex="-1" {...attrs}>
+            {h && <header>{h}</header>}
             {current.title && <Header title={current.title} icon={current.icon} onClick={handleBack} />}
             <div className={cx('menu-body')}>{renderItems()}</div>
         </div>
@@ -49,17 +51,22 @@ const Menu = ({ children, items = [], hideOnClick = false, onChange = defaultFun
         setHistory((prev) => prev.slice(0, 1));
     };
 
+    const close = () => {
+        setHistory((prev) => prev.slice(0, 1));
+        setVisible(false);
+    };
+
     return (
         <Tippy
             interactive
             placement="bottom-end"
             delay={[0, 700]}
             offset={[10, 5]}
-            hideOnClick={hideOnClick}
+            {...(click ? { visible: visible, onClickOutside: close } : { hideOnClick: hideOnClick })}
             render={renderResults}
             onHide={handleBackToFirst}
         >
-            {children}
+            <div onClick={() => setVisible(!visible)}>{children}</div>
         </Tippy>
     );
 };
@@ -69,6 +76,8 @@ Menu.propTypes = {
     items: PropTypes.array,
     hideOnClick: PropTypes.bool,
     onChange: PropTypes.func,
+    click: PropTypes.bool,
+    header: PropTypes.node,
 };
 
 export default Menu;

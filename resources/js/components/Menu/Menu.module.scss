@@ -1,10 +1,12 @@
 .menu {
     min-width: 200px;
+    max-width: var(--max-width-menu);
+    max-height: var(--max-height-menu);
     display: flex;
     flex-direction: column;
     box-shadow: var(--shadow-menu);
     background-color: var(--primary);
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     overflow-y: overlay;
 }
 
@@ -18,7 +20,7 @@
     justify-content: center;
 }
 
-.icon {
+.back-btn {
     width: calc(var(--header-height) - 10px);
     height: calc(var(--header-height) - 10px);
     position: absolute;
@@ -62,8 +64,9 @@
     width: 100%;
     border-radius: 0;
     font-weight: 500;
+    text-align: left;
 
     &:hover {
-        background-color: var(--secondary-25);
+        background-color: var(--hover-item);
     }
 }

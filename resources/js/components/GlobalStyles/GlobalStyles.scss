@@ -20,6 +20,7 @@ body {
     font-size: var(--font-size);
     text-rendering: optimizeSpeed;
     color: var(--text-primary);
+    line-height: var(--line-height);
 }
 
 button,
@@ -27,11 +28,20 @@ input,
 [tabindex] {
     border: none;
     outline: none;
+    line-height: var(--line-height);
 }
 
 a {
+    display: inline-block;
     color: var(--text-primary);
     text-decoration: none;
+    // line-height: var(--line-height);
+}
+
+// Active
+.icon-active {
+    background-color: var(--active-item);
+    color: var(--text-secondary);
 }
 
 // Custom tippy tooltip
