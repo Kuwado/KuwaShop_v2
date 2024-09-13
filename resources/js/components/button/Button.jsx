@@ -26,6 +26,7 @@ const Button = ({
     leftIcon,
     rightIcon,
     // others
+    active,
     children,
     classname,
     onClick,
@@ -54,7 +55,7 @@ const Button = ({
         Comp = 'a';
     }
 
-    const classes = cx('wrapper', {
+    const classes = cx('text', {
         [classname]: classname,
         primary,
         secondary,
@@ -66,6 +67,7 @@ const Button = ({
         curved,
         small,
         large,
+        active,
     });
 
     return (
@@ -97,6 +99,7 @@ Button.propTypes = {
     leftIcon: PropTypes.node,
     rightIcon: PropTypes.node,
     // other
+    active: PropTypes.bool,
     children: PropTypes.node.isRequired,
     classname: PropTypes.string,
     onClick: PropTypes.func,

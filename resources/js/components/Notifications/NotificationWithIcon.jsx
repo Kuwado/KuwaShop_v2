@@ -5,12 +5,18 @@ import PropTypes from 'prop-types';
 import Tippy from '@tippyjs/react/headless';
 import styles from './Notifications.module.scss';
 import NotificationBox from './NotificationBox';
-import NotificationButton from './NotificationButton';
+import IconButton from '../Button/Icon/IconButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
 const NotificationWithIcon = ({ items = [], classnameButton }) => {
     const [visible, setVisible] = useState(false);
+    const classes = cx({
+        active: visible,
+        [classnameButton]: classnameButton,
+    });
 
     return (
         <div>
@@ -27,9 +33,12 @@ const NotificationWithIcon = ({ items = [], classnameButton }) => {
                     </div>
                 )}
             >
-                <NotificationButton
-                    classname={cx(classnameButton, { 'icon-active': visible })}
+                <IconButton
+                    classname={classes}
+                    icon={<FontAwesomeIcon icon={faBell} />}
+                    content="Thông báo"
                     onClick={() => setVisible(!visible)}
+                    active={visible}
                 />
             </Tippy>
         </div>

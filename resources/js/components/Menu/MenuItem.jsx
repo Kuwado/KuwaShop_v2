@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 
 import styles from './Menu.module.scss';
-import Button from '../Button';
+import { Button } from '../Button';
 
 const cx = classNames.bind(styles);
 

@@ -39,9 +39,32 @@ a {
 }
 
 // Active
-.icon-active {
-    background-color: var(--active-item);
+.icon-btn.icon-btn-active {
+    // background-color: var(--active-item);
     color: var(--text-secondary);
+    border: 2px solid var(--text-secondary);
+
+    &:hover {
+        background-color: inherit;
+    }
+}
+
+.icon-btn {
+    background-color: transparent;
+    color: var(--secondary);
+    border-radius: var(--border-radius);
+    border: 2px solid transparent;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--hover-item);
+    }
+}
+
+.icon-btn-medium {
+    @extend .icon-btn;
+    font-size: var(--icon-medium);
+    padding: 6px 10px;
 }
 
 // Custom tippy tooltip

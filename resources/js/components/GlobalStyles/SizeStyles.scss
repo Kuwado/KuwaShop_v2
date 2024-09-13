@@ -13,5 +13,5 @@
     --padding-item: 9px 18px;
 
     --max-width-menu: min(360px, 100vw);
-    --max-height-menu: calc(100vh - var(--header-height));
+    --max-height-menu: calc(100vh - var(--header-height) * 1.5);
 }

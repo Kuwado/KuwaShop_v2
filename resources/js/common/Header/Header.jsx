@@ -21,6 +21,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Menu from '~/components/Menu';
 import { NotificationWithIcon } from '~/components/Notifications';
+import MessageItem from '~/components/Messages/MessageItem';
+import MessageBox from '~/components/Messages/MessageBox';
 
 const cx = classNames.bind(styles);
 
@@ -277,6 +279,8 @@ const Header = () => {
                         </>
                     ) : (
                         <>
+                            <MessageBox />
+
                             <NotificationWithIcon items={NOTIFICATIONS} classnameButton={cx('actions-icon')} />
 
                             <Menu items={ADMIN_MENU} onChange={handleMenuChange} click header={customHeader}>

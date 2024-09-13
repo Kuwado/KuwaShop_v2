@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './Notifications.module.scss';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faGear } from '@fortawesome/free-solid-svg-icons';
 
@@ -40,7 +40,7 @@ const NotificationItem = ({ item }) => {
     return (
         <Link to={'/'} className={cx('item')} onClick={handleClickItem}>
             <span className={cx('item-icon')}>{icon}</span>
-            <div className={read ? 'read' : ''}>
+            <div className={cx(read ? 'read' : '')}>
                 <span className={cx('item-text')} style={threeLine}>
                     {item.content}
                 </span>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import styles from './Notifications.module.scss';
 import NotificationItem from './NotificationItem';
+import { Button } from '../Button';
 
 const cx = classNames.bind(styles);
 
@@ -122,18 +123,22 @@ const NotificationBox = ({ items = [], classname }) => {
             <div className={cx('box-header')}>
                 <h3>Thông báo</h3>
                 <div className={cx('box-header-actions')}>
-                    <button
+                    <Button
                         onClick={handleShowAllOfNotices}
-                        className={cx('box-header-btn', !isNotRead ? 'active' : '')}
+                        classname={cx('box-header-btn')}
+                        curved
+                        active={!isNotRead}
                     >
                         Tất cả
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                        classname={cx('box-header-btn')}
                         onClick={handleShowNotReadNotices}
-                        className={cx('box-header-btn', isNotRead ? 'active' : '')}
+                        curved
+                        active={isNotRead}
                     >
                         Chưa đọc
-                    </button>
+                    </Button>
                 </div>
             </div>
             <div className={cx('box-body')}>{renderItems}</div>

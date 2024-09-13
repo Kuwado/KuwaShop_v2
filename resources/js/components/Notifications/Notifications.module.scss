@@ -14,9 +14,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: transparent;
-    padding: 10px 0;
-    overflow: hidden;
+    padding-top: 10px;
 }
 
 .box-header {
@@ -38,25 +36,13 @@
     width: 100px;
     padding: 6px 9px;
     font-weight: 500;
-    background-color: transparent;
-    border-radius: 999px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--hover-item);
-    }
-
-    &.active {
-        background-color: var(--active-item);
-    }
 }
 
 .box-body {
     width: 100%;
-    max-height: calc(100vh - var(--header-height) * 7 / 3);
+    max-height: calc(var(--max-height-menu) - var(--header-height) * 4 / 3 - 10px);
     display: flex;
     flex-direction: column;
-    padding-bottom: 10px;
     overflow-y: overlay;
 }
 
