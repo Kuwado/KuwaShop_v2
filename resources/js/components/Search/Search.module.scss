@@ -21,6 +21,12 @@
         background-color: var(--secondary-50);
     }
 
+    input::placeholder {
+        font-style: italic;
+        color: var(--text-primary);
+        opacity: 0.5;
+    }
+
     input:not(:placeholder-shown) ~ .search-btn {
         color: var(--secondary-75);
 

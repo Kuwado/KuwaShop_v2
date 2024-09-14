@@ -8,25 +8,25 @@ import 'tippy.js/dist/tippy.css';
 
 const cx = classNames.bind(styles);
 
-const IconButton = forwardRef(
-    ({ icon, content = '', onClick, classname, small, large, active, number = '50' }, ref) => {
-        const classes = cx('medium', {
-            [classname]: classname,
-            small,
-            large,
-            active,
-        });
+const IconButton = forwardRef(({ icon, content = '', onClick, classname, small, large, active, number }, ref) => {
+    const classes = cx('medium', {
+        [classname]: classname,
+        small,
+        large,
+        active,
+    });
 
-        return (
+    return (
+        <div>
             <Tippy delay={[0, 50]} content={content} placement="bottom">
                 <button className={classes} ref={ref} onClick={onClick}>
                     {icon}
                     {number && <div className={cx('number')}>{number}</div>}
                 </button>
             </Tippy>
-        );
-    },
-);
+        </div>
+    );
+});
 
 IconButton.propTypes = {
     icon: PropTypes.node.isRequired,

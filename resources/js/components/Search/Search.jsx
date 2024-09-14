@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import classNames from 'classnames/bind';
+import PropTypes from 'prop-types';
 
 import Tippy from '@tippyjs/react/headless';
 import styles from './Search.module.scss';
@@ -172,6 +173,12 @@ const Search = ({ account, product, order }) => {
             </Tippy>
         </div>
     );
+};
+
+Search.propTypes = {
+    account: PropTypes.bool,
+    product: PropTypes.bool,
+    order: PropTypes.bool,
 };
 
 export default Search;

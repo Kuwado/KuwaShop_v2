@@ -13,6 +13,7 @@ import Menu from '~/components/Menu';
 import { NotificationWithIcon } from '~/components/Notifications';
 import { MessageWithIcon } from '~/components/Messages';
 import Search from '../../components/Search/Search';
+import ThemeButon from '~/components/Button/Theme/ThemeButon';
 
 const cx = classNames.bind(styles);
 
@@ -372,6 +373,8 @@ const Header = () => {
                         </>
                     ) : (
                         <>
+                            <ThemeButon />
+
                             <MessageWithIcon items={MESSAGES} />
 
                             <NotificationWithIcon items={NOTIFICATIONS} />

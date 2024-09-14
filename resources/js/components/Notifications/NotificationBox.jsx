@@ -147,7 +147,7 @@ const NotificationBox = ({ items = [], classname }) => {
 };
 
 NotificationBox.propTypes = {
-    items: PropTypes.array,
+    items: PropTypes.array.isRequired,
     classname: PropTypes.string,
 };
 

@@ -153,7 +153,7 @@ const MessageBox = ({ items = MESSAGES, classname }) => {
 };
 
 MessageBox.propTypes = {
-    items: PropTypes.array,
+    items: PropTypes.array.isRequired,
     classname: PropTypes.string,
 };
 

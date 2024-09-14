@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import PropTypes from 'prop-types';
 
 import styles from './Search.module.scss';
 import Image from '../Image';
@@ -28,6 +29,11 @@ const SearchItem = ({ avatar, name }) => {
             </div>
         </div>
     );
+};
+
+SearchItem.propTypes = {
+    avatar: PropTypes.string,
+    name: PropTypes.string,
 };
 
 export default SearchItem;

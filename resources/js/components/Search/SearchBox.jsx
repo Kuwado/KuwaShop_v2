@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import PropTypes from 'prop-types';
 
 import styles from './Search.module.scss';
 import SearchItem from './SearchItem';
@@ -44,6 +45,13 @@ const SearchBox = ({ accounts = [], products = [], orders = [], classname }) => 
             )}
         </div>
     );
+};
+
+SearchBox.propTypes = {
+    accounts: PropTypes.array,
+    products: PropTypes.array,
+    orders: PropTypes.array,
+    classname: PropTypes.string,
 };
 
 export default SearchBox;
