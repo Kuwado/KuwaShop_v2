@@ -39,6 +39,7 @@ const NotificationWithIcon = ({ items = [], classnameButton }) => {
                     content="Thông báo"
                     onClick={() => setVisible(!visible)}
                     active={visible}
+                    number={items.length}
                 />
             </Tippy>
         </div>

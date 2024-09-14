@@ -120,7 +120,6 @@ const MessageBox = ({ items = MESSAGES, classname }) => {
 
     const renderItems = () => {
         return items.map((item) => {
-            console.log(item.id);
             return <MessageItem key={item.id} item={item} />;
         });
     };
@@ -134,7 +133,12 @@ const MessageBox = ({ items = MESSAGES, classname }) => {
             <div className={cx('box-header')}>
                 <h3>Tin nhắn</h3>
                 <div className={cx('box-header-search')}>
-                    <input className={cx('box-header-input')} type="text" />
+                    <input
+                        className={cx('box-header-input')}
+                        type="text"
+                        placeholder="Bạn muốn tìm gì?"
+                        spellCheck={false}
+                    />
                     <button className={cx('box-header-search-btn')}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>

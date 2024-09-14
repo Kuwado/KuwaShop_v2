@@ -1,0 +1,139 @@
+.search {
+    --search-height: 36px;
+    --search-width: 360px;
+}
+
+.search-content {
+    position: relative;
+    height: var(--search-height);
+    width: var(--search-width);
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: var(--search-height);
+    border-radius: var(--border-radius);
+    background-color: var(--secondary-25);
+
+    &::after {
+        content: '';
+        height: 80%;
+        width: 1px;
+        background-color: var(--secondary-50);
+    }
+
+    input:not(:placeholder-shown) ~ .search-btn {
+        color: var(--secondary-75);
+
+        &:hover {
+            color: var(--secondary);
+        }
+    }
+}
+
+.input {
+    height: 30px;
+    background-color: transparent;
+    outline: transparent;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.actions {
+    position: relative;
+    height: var(--search-height);
+    width: var(--search-height);
+}
+.clear,
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: calc(var(--font-size) * 1.1);
+    background-color: transparent;
+    cursor: pointer;
+    color: var(--secondary);
+}
+
+.search-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--search-height);
+    height: var(--search-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom-right-radius: 10px;
+    font-size: calc(var(--font-size) * 1.1);
+    color: var(--secondary-25);
+    cursor: pointer;
+}
+
+.container {
+    max-height: var(--max-height-menu);
+    background-color: var(--primary);
+    box-shadow: var(--shadow-menu);
+    border-radius: var(--border-radius-menu);
+    overflow: hidden;
+}
+
+// SearchBox
+.wrapper {
+    width: var(--search-width);
+    max-height: calc(var(--max-height-menu) - 10px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: overlay;
+    padding-top: 10px;
+}
+
+.accounts,
+.products,
+.orders {
+    width: 100%;
+
+    h4 {
+        padding-left: 10px;
+    }
+}
+
+//SearchItem
+.item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: var(--padding-item);
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--hover-item);
+    }
+}
+
+.item-left {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+    }
+}
+
+.item-icon {
+    font-size: calc(var(--font-size) * 1.5);
+    color: var(--secondary);
+}
+
+.item-right {
+    flex: 1;
+    overflow: hidden;
+}

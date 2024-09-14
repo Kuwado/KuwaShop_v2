@@ -1,28 +1,18 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEarthAsia, faCircleQuestion, faKeyboard } from '@fortawesome/free-solid-svg-icons';
+
 import styles from './Header.module.scss';
+import config from '~/config';
 import images from '~/assets/images';
 import Image from '~/components/Image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faLaptop,
-    faSignIn,
-    faEllipsisVertical,
-    faEarthAsia,
-    faCircleQuestion,
-    faKeyboard,
-    faUpload,
-    faMessage,
-    faUser,
-    faCoins,
-    faGear,
-    faSignOut,
-} from '@fortawesome/free-solid-svg-icons';
 import Menu from '~/components/Menu';
 import { NotificationWithIcon } from '~/components/Notifications';
-import MessageItem from '~/components/Messages/MessageItem';
-import MessageBox from '~/components/Messages/MessageBox';
+import { MessageWithIcon } from '~/components/Messages';
+import Search from '../../components/Search/Search';
 
 const cx = classNames.bind(styles);
 
@@ -243,6 +233,109 @@ const NOTIFICATIONS = [
     },
 ];
 
+const MESSAGES = [
+    {
+        id: 1,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content: 'Có một đơn đặt hàng mới 1 !!!',
+        created_at: '8 giờ',
+        read: false,
+        type: 'update',
+    },
+    {
+        id: 2,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content:
+            'Có một đơn đặt hàng mới, đó là đơn đặt hàng gì vậy ạ. Tôi cũng không biết nữa, bạn tự tìm hiểu đi nhé!!! Chúc bạn may mắn kaka haha blabla bye bye nhaaa.',
+        created_at: '8 giờ',
+        read: false,
+        type: 'update',
+    },
+    {
+        id: 3,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content: 'Có một đơn đặt hàng mới 3 !!!',
+        created_at: '8 giờ',
+        read: true,
+    },
+    {
+        id: 4,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content: 'Có một đơn đặt hàng mới 4 !!!',
+        created_at: '8 giờ',
+        read: true,
+        type: 'update',
+    },
+    {
+        id: 5,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content: 'Có một đơn đặt hàng mới 5 !!!',
+        created_at: '8 giờ',
+        read: false,
+    },
+    {
+        id: 6,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content: 'Có một đơn đặt hàng mới 6 !!!',
+        created_at: '8 giờ',
+        read: false,
+    },
+    {
+        id: 7,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content: 'Có một đơn đặt hàng mới 7 !!!',
+        created_at: '8 giờ',
+        read: true,
+    },
+    {
+        id: 8,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content: 'Có một đơn đặt hàng mới 8 !!!',
+        created_at: '8 giờ',
+        read: false,
+    },
+    {
+        id: 9,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content: 'Có một đơn đặt hàng mới 9 !!!',
+        created_at: '8 giờ',
+        read: false,
+    },
+    {
+        id: 10,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content: 'Có một đơn đặt hàng mới 10 !!!',
+        created_at: '8 giờ',
+        read: true,
+    },
+    {
+        id: 11,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content: 'Có một đơn đặt hàng mới 11 !!!',
+        created_at: '8 giờ',
+        read: false,
+    },
+    {
+        id: 12,
+        from: 'Lưu Việt Hoàn',
+        avatar: images.avatarTest,
+        content: 'Có một đơn đặt hàng mới 12 !!!',
+        created_at: '8 giờ',
+        read: false,
+    },
+];
+
 const handleMenuChange = (menuItem) => {
     switch (menuItem.type) {
         case 'language':
@@ -265,11 +358,11 @@ const Header = () => {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('content')}>
-                <div className={cx('logo')}>
+                <Link to={config.routes.admin.dashboard} className={cx('logo')}>
                     <Image src={images.logo} alt="kuwashop" width="100%" height="100%" />
-                </div>
+                </Link>
 
-                {/* search */}
+                <Search />
 
                 <div className={cx('actions')}>
                     {currentUser ? (
@@ -279,9 +372,9 @@ const Header = () => {
                         </>
                     ) : (
                         <>
-                            <MessageBox />
+                            <MessageWithIcon items={MESSAGES} />
 
-                            <NotificationWithIcon items={NOTIFICATIONS} classnameButton={cx('actions-icon')} />
+                            <NotificationWithIcon items={NOTIFICATIONS} />
 
                             <Menu items={ADMIN_MENU} onChange={handleMenuChange} click header={customHeader}>
                                 <div className={cx('avatar')}>
