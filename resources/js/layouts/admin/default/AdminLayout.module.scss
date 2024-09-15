@@ -1,3 +1,22 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    background-color: var(--primary);
+}
+
 .content {
+    width: var(--content-width);
     padding-top: var(--header-height);
+    display: flex;
+}
+
+.content-left {
+    width: 250px;
+    height: calc(100vh - var(--header-height));
+}
+
+.content-right {
+    flex: 1;
 }

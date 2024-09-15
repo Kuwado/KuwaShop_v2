@@ -1,12 +1,12 @@
 .menu {
     min-width: 200px;
-    max-width: var(--max-width-menu);
-    max-height: var(--max-height-menu);
+    max-width: var(--menu-max-width);
+    max-height: var(--menu-max-height);
     display: flex;
     flex-direction: column;
     box-shadow: var(--shadow-menu);
     background-color: var(--primary);
-    border-radius: var(--border-radius-menu);
+    border-radius: var(--menu-border-radius);
     overflow-y: overlay;
 }
 

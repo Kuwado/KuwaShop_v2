@@ -3,6 +3,8 @@ const routes = {
         dashboard: '/',
         productDetail: '/admin/product/:id',
         productList: '/admin/products',
+        productCreate: '/admin/product/create',
+        customers: '/admin/customers',
     },
 
     user: {},
