@@ -14,6 +14,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './Sidebar.module.scss';
 import SidebarItem from './SidebarItem';
+import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -34,17 +35,51 @@ const makeIcon = (type) => {
     }
 };
 
+const findItemByPath = (items, path) => {
+    for (let item of items) {
+        if (item.to === path) {
+            return item;
+        }
+        if (item.children) {
+            for (let child of item.children) {
+                if (child.to === path) return child;
+            }
+        }
+    }
+    return items[0];
+};
+
+const checkChildrenActive = (children, item) => {
+    for (let child of children) {
+        if (child === item) {
+            return true;
+        }
+    }
+    return false;
+};
+
 const Sidebar = ({ items }) => {
-    const [currentItem, setCurrentItem] = useState(items[0]);
-    const [currentChildren, setCurrentChildren] = useState({});
+    const location = useLocation();
+    const [currentItem, setCurrentItem] = useState(findItemByPath(items, location.pathname));
     const [shrink, setShrink] = useState(false);
 
     useEffect(() => {
-        setCurrentChildren({});
-    }, [currentItem]);
+        const matchedItem = findItemByPath(items, location.pathname);
+        setCurrentItem(matchedItem);
+    }, [location.pathname]);
 
     const handleShrink = () => {
         setShrink(!shrink);
+    };
+
+    const checkActive = (item) => {
+        if (item.children) {
+            if (checkChildrenActive(item.children, currentItem)) {
+                return true;
+            } else return false;
+        } else {
+            return item.type === currentItem.type;
+        }
     };
 
     return (
@@ -55,8 +90,8 @@ const Sidebar = ({ items }) => {
                     title={item.title}
                     to={item.to}
                     icon={makeIcon(item.type)}
-                    onclick={() => setCurrentItem(item)}
-                    active={item.type === currentItem.type}
+                    onclick={() => setCurrentItem(item.children ? {} : item)}
+                    active={checkActive(item)}
                 >
                     <>
                         {item.children &&
@@ -66,8 +101,8 @@ const Sidebar = ({ items }) => {
                                     title={child.title}
                                     to={child.to}
                                     icon={makeIcon(child.type)}
-                                    onclick={() => setCurrentChildren(child)}
-                                    active={child.type === currentChildren.type}
+                                    onclick={() => setCurrentItem(child)}
+                                    active={child.type === currentItem.type}
                                 />
                             ))}
                     </>

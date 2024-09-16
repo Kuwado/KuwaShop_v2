@@ -16,7 +16,7 @@ const ITEM = {
 };
 
 const SidebarItem = ({ icon, title, to, children, onclick, active }) => {
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(active);
 
     useEffect(() => {
         if (!active) {
@@ -28,12 +28,7 @@ const SidebarItem = ({ icon, title, to, children, onclick, active }) => {
         active,
     });
 
-    const classesDropdown = cx(
-        'item',
-        active && {
-            'dd-active': showDropdown,
-        },
-    );
+    const classesDropdown = cx('item', { 'dd-active': showDropdown });
 
     const handleDropdown = () => {
         setShowDropdown(!showDropdown);

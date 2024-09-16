@@ -39,7 +39,7 @@ const ITEMS = [
     {
         type: 'revenue',
         title: 'Doanh thu',
-        to: '/revenue',
+        to: config.routes.admin.productDetail,
     },
 ];
 
