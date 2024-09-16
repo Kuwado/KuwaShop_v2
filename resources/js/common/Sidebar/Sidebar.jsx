@@ -12,45 +12,10 @@ import {
     faTachometerAlt,
     faUsers,
 } from '@fortawesome/free-solid-svg-icons';
-import config from '~/config';
 import styles from './Sidebar.module.scss';
 import SidebarItem from './SidebarItem';
 
 const cx = classNames.bind(styles);
-
-const ITEMS = [
-    {
-        type: 'dashboard',
-        title: 'Trang chủ',
-        to: '/',
-    },
-    {
-        type: 'product',
-        title: 'Sản phẩm',
-        children: [
-            {
-                type: 'product_create',
-                title: 'Thêm mới',
-                to: config.routes.admin.productCreate,
-            },
-            {
-                type: 'product_list',
-                title: 'Danh sách',
-                to: '/',
-            },
-        ],
-    },
-    {
-        type: 'customers',
-        title: 'Khách hàng',
-        to: config.routes.admin.customers,
-    },
-    {
-        type: 'revenue',
-        title: 'Doanh thu',
-        to: '/revenue',
-    },
-];
 
 const makeIcon = (type) => {
     switch (type) {
@@ -69,7 +34,7 @@ const makeIcon = (type) => {
     }
 };
 
-const Sidebar = ({ items = ITEMS }) => {
+const Sidebar = ({ items }) => {
     const [currentItem, setCurrentItem] = useState(items[0]);
     const [currentChildren, setCurrentChildren] = useState({});
     const [shrink, setShrink] = useState(false);
@@ -93,7 +58,7 @@ const Sidebar = ({ items = ITEMS }) => {
                     onclick={() => setCurrentItem(item)}
                     active={item.type === currentItem.type}
                 >
-                    <div>
+                    <>
                         {item.children &&
                             item.children.map((child) => (
                                 <SidebarItem
@@ -105,7 +70,7 @@ const Sidebar = ({ items = ITEMS }) => {
                                     active={child.type === currentChildren.type}
                                 />
                             ))}
-                    </div>
+                    </>
                 </SidebarItem>
             ))}
             <div className={cx('shrink-btn')} onClick={handleShrink}>
