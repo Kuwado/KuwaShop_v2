@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('l')->default(0);
             $table->integer('xl')->default(0);
             $table->integer('xxl')->default(0);
+            $table->longText('images')->nullable();
             $table->integer('sold_quantity')->default(0);
             $table->foreignId('color_id')->constrained()->onDelete('cascade');
             $table->foreignId('product')->constrained()->onDelete('cascade');

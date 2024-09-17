@@ -1,6 +1,13 @@
 .product-create {
+    height: 100%;
     width: 100%;
-    height: 2000px;
     display: flex;
-    background-color: antiquewhite;
+    gap: 10px;
+}
+
+.left,
+.right {
+    width: 100%;
+    padding: 10px;
+    // background-color: antiquewhite;
 }

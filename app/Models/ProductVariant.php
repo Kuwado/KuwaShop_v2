@@ -15,6 +15,7 @@ class ProductVariant extends Model
         'l',
         'xl',
         'xxl',
+        'images',
         'sold_quantity',
     ];
 
