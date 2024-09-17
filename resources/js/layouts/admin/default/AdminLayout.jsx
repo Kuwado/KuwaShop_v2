@@ -53,6 +53,7 @@ function AdminLayout({ children }) {
                 </div>
                 <div className={cx('body-right')}>{children}</div>
             </div>
+            <div className={cx('footer')}></div>
         </div>
     );
 }

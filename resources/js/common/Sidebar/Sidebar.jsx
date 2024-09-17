@@ -90,7 +90,7 @@ const Sidebar = ({ items }) => {
                     title={item.title}
                     to={item.to}
                     icon={makeIcon(item.type)}
-                    onclick={() => setCurrentItem(item.children ? {} : item)}
+                    onclick={() => setCurrentItem((prev) => (item.children ? prev : item))}
                     active={checkActive(item)}
                 >
                     <>

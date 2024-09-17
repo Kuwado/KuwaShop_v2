@@ -18,7 +18,11 @@ const BREADCRUMB = [
 ];
 
 const AdminProductCreate = () => {
-    return <Content breadcrumb={BREADCRUMB}>Admin</Content>;
+    return (
+        <Content breadcrumb={BREADCRUMB}>
+            <div className={cx('product-create')}></div>
+        </Content>
+    );
 };
 
 export default AdminProductCreate;
