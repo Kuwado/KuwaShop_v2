@@ -35,7 +35,7 @@ const Input = ({ type = 'text', name, label, required, spellCheck = false, note,
 
     return (
         <div className={cx('input')}>
-            <div className={cx('content')}>
+            <div className={cx('content', { error: error })}>
                 <input
                     type={type}
                     name={name}
