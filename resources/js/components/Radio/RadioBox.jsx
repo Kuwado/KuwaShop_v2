@@ -24,7 +24,7 @@ const RADIOS = [
     },
 ];
 
-const RadioBox = ({ radios = RADIOS, name = 'price', title = 'Phương thức giảm', classname }) => {
+const RadioBox = ({ radios = RADIOS, name = 'price', title = 'Phương thức giảm' }) => {
     const [radio, setRadio] = useState(radios[0]);
 
     const handleRadioChange = (rad) => {
@@ -51,7 +51,7 @@ const RadioBox = ({ radios = RADIOS, name = 'price', title = 'Phương thức gi
                     ))}
                 </div>
             </div>
-            <div className={cx('content')}> {radio.content}</div>
+            <div className={cx('content')}>{radio.content}</div>
         </div>
     );
 };

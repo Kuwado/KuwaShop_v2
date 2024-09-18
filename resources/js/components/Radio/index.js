@@ -1,3 +1,4 @@
 import RadioBox from './RadioBox';
+import RadioInput from './RadioInput';
 
-export default RadioBox;
+export { RadioBox, RadioInput };

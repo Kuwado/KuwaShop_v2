@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 
 import styles from './Input.module.scss';
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -16,50 +16,70 @@ const validateEmail = (value) => {
     return '';
 };
 
-const Input = ({ type = 'text', name, label, required, spellCheck = false, note, validate = validateEmail }) => {
-    const [value, setValue] = useState('');
-    const [error, setError] = useState('');
+const Input = forwardRef(
+    (
+        {
+            type = 'text',
+            name,
+            value,
+            onChange,
+            label,
+            required,
+            spellCheck = false,
+            readOnly = false,
+            disabled = false,
+            note,
+            validate = validateEmail,
+        },
+        ref,
+    ) => {
+        const [value2, setValue] = useState('');
+        const [error, setError] = useState('');
 
-    const handleChange = (e) => {
-        const inputValue = e.target.value;
-        if (!inputValue.startsWith(' ')) {
-            console.log(inputValue);
-            setValue(inputValue);
+        const handleChange = (e) => {
+            const inputValue = e.target.value;
+            if (!inputValue.startsWith(' ')) {
+                console.log(inputValue);
+                setValue(inputValue);
 
-            if (validate) {
-                const errorMessage = validate(e.target.value);
-                setError(errorMessage);
+                if (validate) {
+                    const errorMessage = validate(e.target.value);
+                    setError(errorMessage);
+                }
             }
-        }
-    };
+        };
 
-    return (
-        <div className={cx('input')}>
-            <div className={cx('content', { error: error })}>
-                <input
-                    type={type}
-                    name={name}
-                    id={name}
-                    required={required}
-                    placeholder=" "
-                    spellCheck={spellCheck}
-                    value={value}
-                    onChange={handleChange}
-                />
-                {label && (
-                    <label htmlFor={name}>
-                        {label}
-                        {required && <span className={cx('required-note')}>*</span>}
-                    </label>
-                )}
+        return (
+            <div className={cx('input')}>
+                <div className={cx('content', { error: error })}>
+                    <input
+                        ref={ref}
+                        type={type}
+                        name={name}
+                        id={name}
+                        required={required}
+                        placeholder=" "
+                        spellCheck={spellCheck}
+                        readOnly={readOnly}
+                        disabled={disabled}
+                        value={value}
+                        onChange={onChange}
+                    />
+                    {label && (
+                        <label htmlFor={name}>
+                            {label}
+                            {required && <span className={cx('required-note')}>*</span>}
+                        </label>
+                    )}
+                </div>
+                <div className={cx('message')}>
+                    {note && !value && !error && <div className={cx('note-message')}>{note}</div>}
+                    {error && <div className={cx('error-message')}>{error}</div>}
+                </div>
             </div>
-            <div className={cx('message')}>
-                {note && !value && !error && <div className={cx('note-message')}>{note}</div>}
-                {error && <div className={cx('error-message')}>{error}</div>}
-            </div>
-        </div>
-    );
-};
+        );
+    },
+);
 
 Input.propTypes = {
     type: PropTypes.string,

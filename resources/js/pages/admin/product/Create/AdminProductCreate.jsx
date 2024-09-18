@@ -4,7 +4,9 @@ import styles from './AdminProductCreate.module.scss';
 import Content from '~/common/Content/Content';
 import config from '~/config';
 import { Input } from '~/components/Input';
-import RadioBox from '~/components/Radio';
+import { RadioBox } from '~/components/Radio';
+import { Fragment, useState } from 'react';
+import Price from './Price';
 
 const cx = classNames.bind(styles);
 
@@ -19,36 +21,100 @@ const BREADCRUMB = [
     },
 ];
 
-const a = {
-    i: <div>ff</div>,
-};
-
 const AdminProductCreate = () => {
-    console.log(a.i);
+    const [product, setProduct] = useState({
+        name: '',
+        sku: '',
+        type: '',
+        original_price: '',
+        price: '',
+        intro: '',
+        detail: '',
+        preserve: '',
+        sale: '',
+    });
+
+    const resetSale = () => {
+        setProduct({
+            ...product,
+            sale: '',
+        });
+    };
+
+    const setPrice = (value) => {
+        setProduct({
+            ...product,
+            price: value,
+        });
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setProduct({
+            ...product,
+            [name]: value,
+        });
+    };
+
+    const DISCOUNT = [
+        {
+            id: 1,
+            title: 'Không giảm',
+            content: <Fragment></Fragment>,
+        },
+        {
+            id: 2,
+            title: 'Giảm theo phần trăm',
+            content: (
+                <Input
+                    name="sale"
+                    label="Phần trăm giảm (%)"
+                    type="number"
+                    value={product.sale}
+                    onChange={handleInputChange}
+                />
+            ),
+        },
+        // {
+        //     id: 3,
+        //     title: 'Giảm theo giá trị',
+        //     content: (
+        //         <Input
+        //             name="sale"
+        //             label="Giá trị giảm (đ)"
+        //             type="number"
+        //             value={product.sale}
+        //             onChange={handleInputChange}
+        //         />
+        //     ),
+        // },
+    ];
+
+    console.log(product);
+
     return (
         <Content breadcrumb={BREADCRUMB}>
-            <div className={cx('product-create')}>
+            <form className={cx('product-create')}>
                 <div className={cx('left')}>
                     <Input
                         name="name"
                         label="Tên sản phẩm"
                         required
-                        note="Tên sản phẩm thích nhập gì cũng được nha. Bạn thích là được"
+                        value={product.name}
+                        onChange={handleInputChange}
                     />
-                    <Input name="original_price" label="Giá sản phẩm" required type="number" />
 
-                    <RadioBox classname={cx('radioo')} />
-
-                    <Input name="price" label="Giá sản phẩm" required type="number" />
-                    <Input
-                        name="name"
-                        label="Tên sản phẩm"
-                        required
-                        note="Tên sản phẩm thích nhập gì cũng được nha. Bạn thích là được"
+                    <Price
+                        sale={product.sale}
+                        original_price={product.original_price}
+                        price={product.price}
+                        onChange={handleInputChange}
+                        resetSale={resetSale}
+                        setPrice={setPrice}
                     />
                 </div>
                 <div className={cx('right')}></div>
-            </div>
+            </form>
         </Content>
     );
 };
