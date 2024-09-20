@@ -340,7 +340,7 @@ const MESSAGES = [
 const handleMenuChange = (menuItem) => {
     switch (menuItem.type) {
         case 'language':
-            //
+            console.log('lang');
             break;
         default:
     }
@@ -348,7 +348,6 @@ const handleMenuChange = (menuItem) => {
 
 const customHeader = (
     <div className={cx('custom-header')}>
-        {/* Header content here */}
         <p>Custom Header Content</p>
     </div>
 );
@@ -379,8 +378,8 @@ const Header = () => {
 
                             <NotificationWithIcon items={NOTIFICATIONS} />
 
-                            <Menu items={ADMIN_MENU} onChange={handleMenuChange} click header={customHeader}>
-                                <div className={cx('avatar')}>
+                            <div className={cx('avatar')}>
+                                <Menu items={ADMIN_MENU} onClick={handleMenuChange} click>
                                     <Image
                                         classname={cx('avatar-image')}
                                         src={images.avatar}
@@ -388,8 +387,8 @@ const Header = () => {
                                         width="100%"
                                         height="100%"
                                     />
-                                </div>
-                            </Menu>
+                                </Menu>
+                            </div>
                         </>
                     )}
                 </div>

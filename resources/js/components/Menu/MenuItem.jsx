@@ -24,6 +24,7 @@ const MenuItem = ({ data, onClick }) => {
             rightIcon={data.rightIcon}
             to={data.to}
             onClick={onClick}
+            type="button"
         >
             {formatContent(data.content)}
         </Button>

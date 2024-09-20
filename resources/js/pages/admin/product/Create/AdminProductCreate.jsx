@@ -4,9 +4,10 @@ import styles from './AdminProductCreate.module.scss';
 import Content from '~/common/Content/Content';
 import config from '~/config';
 import { Input } from '~/components/Input';
-import { RadioBox } from '~/components/Radio';
-import { Fragment, useState } from 'react';
+import { useCallback, useState } from 'react';
 import Price from './Price';
+import Categories from './Categories';
+import TextArea from '~/components/TextArea';
 
 const cx = classNames.bind(styles);
 
@@ -22,10 +23,11 @@ const BREADCRUMB = [
 ];
 
 const AdminProductCreate = () => {
+    const [saleType, setSaleType] = useState('');
     const [product, setProduct] = useState({
         name: '',
         sku: '',
-        type: '',
+        category_id: '',
         original_price: '',
         price: '',
         intro: '',
@@ -34,19 +36,9 @@ const AdminProductCreate = () => {
         sale: '',
     });
 
-    const resetSale = () => {
-        setProduct({
-            ...product,
-            sale: '',
-        });
-    };
-
-    const setPrice = (value) => {
-        setProduct({
-            ...product,
-            price: value,
-        });
-    };
+    const setField = useCallback((field, value) => {
+        setProduct((prev) => ({ ...prev, [field]: value }));
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -56,39 +48,38 @@ const AdminProductCreate = () => {
         });
     };
 
-    const DISCOUNT = [
-        {
-            id: 1,
-            title: 'Không giảm',
-            content: <Fragment></Fragment>,
-        },
-        {
-            id: 2,
-            title: 'Giảm theo phần trăm',
-            content: (
-                <Input
-                    name="sale"
-                    label="Phần trăm giảm (%)"
-                    type="number"
-                    value={product.sale}
-                    onChange={handleInputChange}
-                />
-            ),
-        },
-        // {
-        //     id: 3,
-        //     title: 'Giảm theo giá trị',
-        //     content: (
-        //         <Input
-        //             name="sale"
-        //             label="Giá trị giảm (đ)"
-        //             type="number"
-        //             value={product.sale}
-        //             onChange={handleInputChange}
-        //         />
-        //     ),
-        // },
-    ];
+    const setName = useCallback((e) => {
+        const { name, value } = e.target;
+        setField(name, value);
+    }, []);
+
+    const setCategoryId = useCallback((value) => {
+        setField('category_id', value);
+    }, []);
+
+    const setOriginalPrice = useCallback((value) => {
+        setField('original_price', value);
+    }, []);
+
+    const setPrice = useCallback((value) => {
+        setField('price', value);
+    }, []);
+
+    const setSale = useCallback((value) => {
+        setField('sale', value);
+    }, []);
+
+    const setIntro = useCallback((value) => {
+        setField('intro', value);
+    }, []);
+
+    const setDetail = useCallback((value) => {
+        setField('detail', value);
+    }, []);
+
+    const setPreserve = useCallback(() => {
+        setField('preserve', value);
+    }, []);
 
     console.log(product);
 
@@ -96,24 +87,27 @@ const AdminProductCreate = () => {
         <Content breadcrumb={BREADCRUMB}>
             <form className={cx('product-create')}>
                 <div className={cx('left')}>
-                    <Input
-                        name="name"
-                        label="Tên sản phẩm"
-                        required
-                        value={product.name}
-                        onChange={handleInputChange}
-                    />
+                    <div className={cx('name-and-category')}>
+                        <Input name="name" label="Tên sản phẩm" required value={product.name} onChange={setName} />
+                        <Categories categoryId={product.category_id} onClick={setCategoryId} />
+                    </div>
 
                     <Price
-                        sale={product.sale}
                         original_price={product.original_price}
                         price={product.price}
-                        onChange={handleInputChange}
-                        resetSale={resetSale}
+                        sale={product.sale}
+                        saleType={saleType}
+                        setOriginalPrice={setOriginalPrice}
                         setPrice={setPrice}
+                        setSale={setSale}
+                        setSaleType={setSaleType}
                     />
                 </div>
-                <div className={cx('right')}></div>
+                <div className={cx('right')}>
+                    <TextArea text={product.intro} onChange={setIntro} />
+                    <TextArea text={product.detail} onChange={setDetail} />
+                    <TextArea text={product.preserve} onChange={setPreserve} />
+                </div>
             </form>
         </Content>
     );

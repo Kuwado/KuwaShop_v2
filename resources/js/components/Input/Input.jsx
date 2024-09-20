@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 
 import styles from './Input.module.scss';
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -29,29 +29,36 @@ const Input = forwardRef(
             readOnly = false,
             disabled = false,
             note,
-            validate = validateEmail,
+            error = '',
+            validate,
+            time = 3000,
         },
         ref,
     ) => {
-        const [value2, setValue] = useState('');
-        const [error, setError] = useState('');
+        const [errorValue, setError] = useState(error);
+
+        useEffect(() => {
+            setError(error);
+        }, [error]);
 
         const handleChange = (e) => {
             const inputValue = e.target.value;
             if (!inputValue.startsWith(' ')) {
-                console.log(inputValue);
-                setValue(inputValue);
-
                 if (validate) {
                     const errorMessage = validate(e.target.value);
-                    setError(errorMessage);
+                    if (errorMessage) {
+                        setError(errorMessage);
+                    } else {
+                        setError('');
+                    }
                 }
+                onChange(e);
             }
         };
 
         return (
             <div className={cx('input')}>
-                <div className={cx('content', { error: error })}>
+                <div className={cx('content', { error: errorValue })}>
                     <input
                         ref={ref}
                         type={type}
@@ -63,7 +70,7 @@ const Input = forwardRef(
                         readOnly={readOnly}
                         disabled={disabled}
                         value={value}
-                        onChange={onChange}
+                        onChange={handleChange}
                     />
                     {label && (
                         <label htmlFor={name}>
@@ -74,7 +81,7 @@ const Input = forwardRef(
                 </div>
                 <div className={cx('message')}>
                     {note && !value && !error && <div className={cx('note-message')}>{note}</div>}
-                    {error && <div className={cx('error-message')}>{error}</div>}
+                    {errorValue && <div className={cx('error-message')}>{errorValue}</div>}
                 </div>
             </div>
         );

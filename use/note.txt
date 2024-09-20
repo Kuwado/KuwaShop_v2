@@ -119,3 +119,7 @@ npm i --save @fortawesome/free-regular-svg-icons
 
 ** Tippy
 npm i @tippyjs/react
+
+** Ckeditor
+npm install @ckeditor/ckeditor5-react
+npm install ckeditor5 ckeditor5-premium-features

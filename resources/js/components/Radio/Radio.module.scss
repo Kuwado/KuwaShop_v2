@@ -13,7 +13,7 @@
 }
 
 .title {
-    font-weight: 500;
+    font-weight: var(--font-normal);
 }
 
 .options {
@@ -41,6 +41,10 @@
         user-select: none;
         display: flex;
         align-items: center;
+    }
+
+    &:hover label {
+        font-weight: var(--font-normal);
     }
 
     input {

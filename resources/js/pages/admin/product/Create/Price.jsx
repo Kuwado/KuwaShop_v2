@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, memo } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './AdminProductCreate.module.scss';
@@ -7,51 +7,64 @@ import { RadioInput } from '~/components/Radio';
 
 const cx = classNames.bind(styles);
 
-const Price = ({ sale, original_price, price, onChange, resetSale, setPrice }) => {
-    const [discountType, setDiscountType] = useState('not');
+const Price = ({ sale, original_price, price, saleType, setOriginalPrice, setPrice, setSale, setSaleType }) => {
+    const handleOriginalPriceChange = useCallback(
+        (e) => {
+            const value = e.target.value;
+            if ((!isNaN(value) && value > 0) || value === '') {
+                setOriginalPrice(value);
+            }
+        },
+        [setOriginalPrice],
+    );
 
-    const handleOriginalPriceChange = (e) => {
-        const value = e.target.value;
-        if ((!isNaN(value) && value > 0) || value === '') {
-            onChange(e);
+    const handleRadioInputChange = useCallback(
+        (value) => {
+            setSale('');
+            setSaleType(value);
+        },
+        [setSale],
+    );
+
+    const handlePercentChange = useCallback(
+        (e) => {
+            const value = e.target.value;
+            if ((!isNaN(value) && value > 0 && value < 100) || value === '') {
+                setSale(value);
+            }
+        },
+        [setSale],
+    );
+
+    const handleValueChange = useCallback(
+        (e) => {
+            const value = e.target.value;
+            if ((!isNaN(value) && value > 0 && value < Number(original_price)) || value === '') {
+                setSale(value);
+            }
+        },
+        [setSale],
+    );
+
+    const finalPrice = useMemo(() => {
+        if (saleType === 'percent' && sale) {
+            return original_price - (original_price * sale) / 100;
+        } else if (saleType === 'value' && sale) {
+            return original_price - sale;
+        } else {
+            return original_price;
         }
-    };
-
-    const handleRadioInputChange = (value) => {
-        resetSale();
-        setDiscountType(value);
-    };
-
-    const handlePercentChange = (e) => {
-        const value = e.target.value;
-        if ((!isNaN(value) && value > 0 && value < 100) || value === '') {
-            onChange(e);
-        }
-    };
-
-    const handleValueChange = (e) => {
-        const value = e.target.value;
-        if ((!isNaN(value) && value > 0 && value < Number(original_price)) || value === '') {
-            onChange(e);
-        }
-    };
+    }, [original_price, sale, saleType]);
 
     useEffect(() => {
-        let finalPrice = original_price;
-        if (discountType === 'percent' && sale) {
-            finalPrice = original_price - (original_price * sale) / 100;
-        } else if (discountType === 'value' && sale) {
-            finalPrice = original_price - sale;
-        }
-
         setPrice(finalPrice);
-    }, [original_price, discountType, sale]);
+    }, [finalPrice]);
 
     return (
         <div className={cx('price')}>
             <Input
                 name="original_price"
-                label="Giá sản phẩm"
+                label="Giá sản phẩm (đ)"
                 required
                 type="number"
                 value={original_price}
@@ -67,43 +80,45 @@ const Price = ({ sale, original_price, price, onChange, resetSale, setPrice }) =
                                 name="sale-radio"
                                 id="not-sale"
                                 title="Không giảm giá"
-                                checked={discountType === 'not'}
+                                checked={saleType === 'not'}
                                 onChange={() => handleRadioInputChange('not')}
                             />
                             <RadioInput
                                 name="sale-radio"
                                 id="percent-sale"
                                 title="Giảm theo phần trăm"
-                                checked={discountType === 'percent'}
+                                checked={saleType === 'percent'}
                                 onChange={() => handleRadioInputChange('percent')}
                             />
                             <RadioInput
                                 name="sale-radio"
                                 id="value-sale"
                                 title="Giảm theo giá trị"
-                                checked={discountType === 'value'}
+                                checked={saleType === 'value'}
                                 onChange={() => handleRadioInputChange('value')}
                             />
                         </div>
                     </div>
 
                     <div className={cx('price-body')}>
-                        {discountType == 'percent' && (
+                        {saleType == 'percent' && (
                             <Input
                                 name="sale"
                                 label="Phần trăm giảm (%)"
                                 type="number"
                                 value={sale}
                                 onChange={handlePercentChange}
+                                note="Chọn phần trăm giảm giá từ 1 - 99"
                             />
                         )}
-                        {discountType == 'value' && (
+                        {saleType == 'value' && (
                             <Input
                                 name="sale"
                                 label="Giá trị giảm (đ)"
                                 type="number"
                                 value={sale}
                                 onChange={handleValueChange}
+                                note="Chọn giá trị được giảm ( < giá gốc )"
                             />
                         )}
                     </div>
@@ -117,4 +132,4 @@ const Price = ({ sale, original_price, price, onChange, resetSale, setPrice }) =
     );
 };
 
-export default Price;
+export default memo(Price);

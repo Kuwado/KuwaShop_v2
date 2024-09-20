@@ -30,6 +30,12 @@
     text-align: center;
 }
 
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: start;
+}
+
 .icon + .content,
 .content + .icon {
     margin-left: calc(var(--font-size) / 2);

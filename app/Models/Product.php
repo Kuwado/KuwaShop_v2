@@ -12,7 +12,7 @@ class Product extends Model
     protected $fillable = [
         'name',
         'sku',
-        'type',
+        'category_id',
         'original_price',
         'price',
         'sold_quantity',
@@ -27,5 +27,10 @@ class Product extends Model
     public function variants() 
     {   
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 } 

@@ -39,14 +39,20 @@ const SidebarItem = ({ icon, title, to, children, onclick, active }) => {
         <div className={cx('item-wrapper')}>
             {to ? (
                 <Link className={classes} to={to} onClick={onclick}>
-                    <div className={cx('item-icon')}>{icon}</div>
+                    <div className={cx('item-icon')}>
+                        {icon}
+                        <div className={cx('tooltip')}>{title}</div>
+                    </div>
                     <div className={cx('item-title')}>{title}</div>
                 </Link>
             ) : (
                 children && (
                     <div className={cx('item-btn')}>
                         <div className={classesDropdown} onClick={handleDropdown}>
-                            <div className={cx('item-icon')}>{icon}</div>
+                            <div className={cx('item-icon')}>
+                                {icon}
+                                <div className={cx('tooltip')}>{title}</div>
+                            </div>
                             <div className={cx('item-title')}>{title}</div>
                             <div className={cx('dropdown-icon')}>
                                 {showDropdown ? (
@@ -62,7 +68,6 @@ const SidebarItem = ({ icon, title, to, children, onclick, active }) => {
                     </div>
                 )
             )}
-            <div className={cx('tooltip')}>{title}</div>
         </div>
     );
 };
