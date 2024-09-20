@@ -82,6 +82,7 @@ const AdminProductCreate = () => {
     }, []);
 
     console.log(product);
+    console.log(product);
 
     return (
         <Content breadcrumb={BREADCRUMB}>
