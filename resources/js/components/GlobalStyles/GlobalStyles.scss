@@ -21,6 +21,7 @@ body {
     text-rendering: optimizeSpeed;
     color: var(--text-primary);
     line-height: var(--line-height);
+    overflow-y: overlay;
 }
 
 button,
@@ -120,7 +121,7 @@ html *::-webkit-scrollbar-track {
 }
 
 .ck.ck-editor__top {
-    z-index: 5;
+    z-index: 2 !important;
     .ck-sticky-panel__content {
         border: none !important;
         background-color: transparent;
@@ -172,7 +173,7 @@ a.ck.ck-button.ck-on {
 
 .ck.ck-editor__main {
     flex: 1;
-    overflow-y: auto;
+    overflow-y: overlay;
     background-color: transparent;
 
     .ck.ck-editor__editable {
@@ -185,5 +186,29 @@ a.ck.ck-button.ck-on {
 
     .ck-placeholder::before {
         color: var(--secondary-50);
+    }
+}
+
+// Transition
+.transition {
+    transition: opacity 0.3s ease;
+    opacity: 1;
+
+    &.fade-enter {
+        opacity: 0;
+    }
+
+    &.fade-enter-active {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+    &.fade-exit {
+        opacity: 1;
+    }
+
+    &.fade-exit-active {
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
 }

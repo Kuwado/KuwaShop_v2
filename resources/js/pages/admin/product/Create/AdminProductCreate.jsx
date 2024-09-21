@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import classNames from 'classnames/bind';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
+import config from '~/config';
 import styles from './AdminProductCreate.module.scss';
 import Content from '~/common/Content/Content';
-import config from '~/config';
-import { Input } from '~/components/Input';
-import { useCallback, useState } from 'react';
-import Price from './Price';
-import Categories from './Categories';
-import TextArea from '~/components/TextArea';
+import StepOne from './StepOne/StepOne';
+import StepTwo from './StepTwo/StepTwo';
+import StepThree from './StepThree/StepThree';
+import { OutInTransition } from '~/animations/Transition';
+import { Button } from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
@@ -23,7 +26,7 @@ const BREADCRUMB = [
 ];
 
 const AdminProductCreate = () => {
-    const [saleType, setSaleType] = useState('');
+    const [step, setStep] = useState(1);
     const [product, setProduct] = useState({
         name: '',
         sku: '',
@@ -35,79 +38,97 @@ const AdminProductCreate = () => {
         preserve: '',
         sale: '',
     });
+    const [categoryName, setCategoryName] = useState('');
+    const [saleType, setSaleType] = useState('not');
 
-    const setField = useCallback((field, value) => {
-        setProduct((prev) => ({ ...prev, [field]: value }));
-    }, []);
+    console.log(product);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setProduct({
-            ...product,
-            [name]: value,
-        });
+    const handleSubmit = () => {};
+
+    const handleNextStep = (p) => {
+        setProduct(p);
+        setStep('two');
     };
-
-    const setName = useCallback((e) => {
-        const { name, value } = e.target;
-        setField(name, value);
-    }, []);
-
-    const setCategoryId = useCallback((value) => {
-        setField('category_id', value);
-    }, []);
-
-    const setOriginalPrice = useCallback((value) => {
-        setField('original_price', value);
-    }, []);
-
-    const setPrice = useCallback((value) => {
-        setField('price', value);
-    }, []);
-
-    const setSale = useCallback((value) => {
-        setField('sale', value);
-    }, []);
-
-    const setIntro = useCallback((value) => {
-        setField('intro', value);
-    }, []);
-
-    const setDetail = useCallback((value) => {
-        setField('detail', value);
-    }, []);
-
-    const setPreserve = useCallback(() => {
-        setField('preserve', value);
-    }, []);
-
-    console.log(product);
-    console.log(product);
 
     return (
         <Content breadcrumb={BREADCRUMB}>
             <form className={cx('product-create')}>
-                <div className={cx('left')}>
-                    <div className={cx('name-and-category')}>
-                        <Input name="name" label="Tên sản phẩm" required value={product.name} onChange={setName} />
-                        <Categories categoryId={product.category_id} onClick={setCategoryId} />
+                <div className={cx('step-header')}>
+                    <div className={cx('step-item', { active: step >= 1 })} onClick={() => setStep(1)}>
+                        <span className={cx('circle')}>1</span>
+                        <span className={cx('step-name')}>Thông tin sản phẩm</span>
                     </div>
-
-                    <Price
-                        original_price={product.original_price}
-                        price={product.price}
-                        sale={product.sale}
-                        saleType={saleType}
-                        setOriginalPrice={setOriginalPrice}
-                        setPrice={setPrice}
-                        setSale={setSale}
-                        setSaleType={setSaleType}
-                    />
+                    <div className={cx('step-item', { active: step >= 2 })} onClick={() => setStep(2)}>
+                        <span className={cx('circle')}>2</span>
+                        <span className={cx('step-name')}>Màu sắc và số lượng</span>
+                    </div>
+                    <div className={cx('step-item', { active: step >= 3 })} onClick={() => setStep(3)}>
+                        <span className={cx('circle')}>3</span>
+                        <span className={cx('step-name')}>Kết quả</span>
+                    </div>
                 </div>
-                <div className={cx('right')}>
-                    <TextArea text={product.intro} onChange={setIntro} />
-                    <TextArea text={product.detail} onChange={setDetail} />
-                    <TextArea text={product.preserve} onChange={setPreserve} />
+
+                <div className={cx('step-content')}>
+                    <OutInTransition state={step}>
+                        {step === 1 ? (
+                            <StepOne
+                                product={product}
+                                categoryName={categoryName}
+                                saleType={saleType}
+                                setProduct={setProduct}
+                                setCategoryName={setCategoryName}
+                                setSaleType={setSaleType}
+                                onClick={handleNextStep}
+                                step={step}
+                                setStep={setStep}
+                            />
+                        ) : step === 2 ? (
+                            <StepTwo onClick={() => setStep(1)} onSubmit={handleSubmit} />
+                        ) : (
+                            <StepThree />
+                        )}
+                    </OutInTransition>
+                </div>
+
+                <div className={cx('action-btns')}>
+                    {step === 1 ? (
+                        <div className={cx('step-one-btn')}>
+                            <Button
+                                type="button"
+                                onClick={() => setStep(2)}
+                                rightIcon={<FontAwesomeIcon icon={faArrowRight} />}
+                            >
+                                Bước tiếp
+                            </Button>
+                        </div>
+                    ) : step === 2 ? (
+                        <div className={cx('step-two-btn')}>
+                            <Button
+                                type="button"
+                                onClick={() => setStep(1)}
+                                leftIcon={<FontAwesomeIcon icon={faArrowLeft} />}
+                            >
+                                Quay lại
+                            </Button>
+                            <Button
+                                type="button"
+                                onClick={() => setStep(3)}
+                                rightIcon={<FontAwesomeIcon icon={faArrowRight} />}
+                            >
+                                Bước tiếp
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className={cx('step-three-btn')}>
+                            <Button
+                                type="button"
+                                onClick={() => setStep(2)}
+                                leftIcon={<FontAwesomeIcon icon={faArrowLeft} />}
+                            >
+                                Quay lại
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </form>
         </Content>

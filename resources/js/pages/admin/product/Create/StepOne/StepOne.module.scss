@@ -1,0 +1,140 @@
+.step-one {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.left,
+.right {
+    width: 50%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+//NameAndType
+.name-and-category {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.categories {
+    max-width: 60%;
+    min-width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 12px 0;
+    border: 2px solid var(--secondary-25);
+    overflow: hidden;
+}
+
+.category {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    color: var(--text-primary);
+    font-weight: var(--font-normal);
+    background-color: transparent;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--secondary);
+        background-color: var(--secondary-25);
+    }
+}
+
+// Price
+.price {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.price-discount {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.price-header {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .price-title {
+        font-weight: 500;
+    }
+
+    .price-options {
+        padding-left: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+.price-body {
+    width: 100%;
+}
+
+.price-last {
+    width: 100%;
+}
+
+.right {
+    align-items: center;
+    justify-content: center;
+}
+
+// Informations
+.informations {
+    width: 96%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+}
+
+.info-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .info-option {
+        padding: 5px 10px;
+        cursor: pointer;
+        background-color: transparent;
+        border-bottom: 2px solid transparent;
+        color: var(--secondary);
+        font-weight: var(--font-normal);
+
+        &:hover {
+            font-weight: var(--font-bold);
+        }
+
+        &.active {
+            border-color: var(--secondary);
+            font-weight: var(--font-bold);
+            background-color: transparent;
+            cursor: default;
+        }
+    }
+}
+
+.info-content {
+    flex: 1;
+
+    .info-textarea {
+        width: 100%;
+        height: 400px;
+        overflow: auto;
+    }
+}

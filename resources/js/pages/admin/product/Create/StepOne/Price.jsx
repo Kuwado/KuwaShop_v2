@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useState, memo } from 'react';
+import { useCallback, useEffect, useMemo, memo } from 'react';
 import classNames from 'classnames/bind';
 
-import styles from './AdminProductCreate.module.scss';
+import styles from './StepOne.module.scss';
 import { Input } from '~/components/Input';
 import { RadioInput } from '~/components/Radio';
 

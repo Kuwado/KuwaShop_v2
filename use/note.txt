@@ -123,3 +123,7 @@ npm i @tippyjs/react
 ** Ckeditor
 npm install @ckeditor/ckeditor5-react
 npm install ckeditor5 ckeditor5-premium-features
+
+** Transition
+npm install react-transition-group
+

@@ -1,10 +1,10 @@
+import { useEffect, useState, memo } from 'react';
 import classNames from 'classnames/bind';
 
-import styles from './AdminProductCreate.module.scss';
-import Menu from '~/components/Menu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import styles from './StepOne.module.scss';
+import Menu from '~/components/Menu';
 
 const cx = classNames.bind(styles);
 
@@ -59,20 +59,11 @@ const transformCategoriesToMenu = (categories) => {
     }));
 };
 
-const Categories = ({ categoryId, onClick, title = 'Loại sản phẩm' }) => {
+const Categories = ({ categoryId, categoryName, setCategoryId, setCategoryName, title = 'Loại sản phẩm' }) => {
     const categories = transformCategoriesToMenu(CATEGORIES);
-    const [categoryName, setCategoryName] = useState('');
-
-    useEffect(() => {
-        const category = categories
-            .flatMap((cat) => (Array.isArray(cat.children) ? [cat, ...cat.children] : cat))
-            .find((cat) => cat.id === categoryId);
-        setCategoryName(category ? category.content : '');
-    }, []);
-
     const handleCategoryClick = (item) => {
+        setCategoryId(item.id);
         setCategoryName(item.content);
-        onClick(item.id);
     };
 
     return (
@@ -84,4 +75,4 @@ const Categories = ({ categoryId, onClick, title = 'Loại sản phẩm' }) => {
     );
 };
 
-export default Categories;
+export default memo(Categories);
