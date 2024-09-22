@@ -1,0 +1,33 @@
+.upload-images {
+    --image-length: 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.actions {
+    label {
+        padding: 5px;
+        cursor: pointer;
+        font-weight: var(--font-normal);
+    }
+
+    input {
+        display: none;
+    }
+}
+
+.images {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    img {
+        width: calc(var(--image-length) * 3);
+        height: calc(var(--image-length) * 4);
+        object-fit: contain;
+        // border: 1px solid var(--secondary);
+    }
+}

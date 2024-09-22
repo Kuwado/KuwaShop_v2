@@ -21,7 +21,7 @@ return new class extends Migration
             $table->longText('images')->nullable();
             $table->integer('sold_quantity')->default(0);
             $table->foreignId('color_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
