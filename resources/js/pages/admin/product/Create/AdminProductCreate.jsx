@@ -14,6 +14,7 @@ import { Button } from '~/components/Button';
 import StepHeader from './Part/StepHeader';
 import ActionsBtns from './Part/ActionsBtns';
 import Colors from './StepTwo/Colors';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -32,7 +33,6 @@ const AdminProductCreate = () => {
     const [step, setStep] = useState(1);
     const [product, setProduct] = useState({
         name: '',
-        sku: '',
         category_id: '',
         original_price: '',
         price: '',
@@ -57,11 +57,32 @@ const AdminProductCreate = () => {
         },
     ]);
 
-    const [colorId, setColorId] = useState();
+    const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     console.log(product);
 
-    const handleSubmit = () => {};
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setStep(3);
+        setLoading(true);
+
+        const filteredProduct = Object.fromEntries(Object.entries(product).filter(([_, value]) => value !== ''));
+
+        try {
+            const productResponse = await axios.post('/api/product/create', filteredProduct);
+            if (productResponse.status === 201) {
+                setLoading(false);
+                setMessages((prev) => [...prev, productResponse.data.message]);
+                const productId = productResponse.data.product.id;
+                setVariants((prevVariants) => prevVariants.map((variant) => ({ ...variant, product_id: productId })));
+                console.log(variants);
+            }
+            console.log(productResponse);
+        } catch (error) {
+            console.error('Chưa tạo được sản phẩm', error);
+        }
+    };
 
     const handleNextStep = (p) => {
         setProduct(p);
@@ -83,19 +104,16 @@ const AdminProductCreate = () => {
                                 setProduct={setProduct}
                                 setCategoryName={setCategoryName}
                                 setSaleType={setSaleType}
-                                onClick={handleNextStep}
-                                step={step}
-                                setStep={setStep}
                             />
                         ) : step === 2 ? (
                             <StepTwo variants={variants} setVariants={setVariants} />
                         ) : (
-                            <StepThree />
+                            <StepThree loading={loading} messages={messages} />
                         )}
                     </OutInTransition>
                 </div>
 
-                <ActionsBtns step={step} setStep={setStep} />
+                <ActionsBtns step={step} setStep={setStep} handleSubmit={handleSubmit} setMessages={setMessages} />
             </form>
         </Content>
     );

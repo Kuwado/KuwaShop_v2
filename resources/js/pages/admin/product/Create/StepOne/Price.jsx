@@ -103,7 +103,7 @@ const Price = ({ sale, original_price, price, saleType, setOriginalPrice, setPri
                     <div className={cx('price-body')}>
                         {saleType == 'percent' && (
                             <Input
-                                name="sale"
+                                name="sale-percent"
                                 label="Phần trăm giảm (%)"
                                 type="number"
                                 value={sale}
@@ -113,7 +113,7 @@ const Price = ({ sale, original_price, price, saleType, setOriginalPrice, setPri
                         )}
                         {saleType == 'value' && (
                             <Input
-                                name="sale"
+                                name="sale-value"
                                 label="Giá trị giảm (đ)"
                                 type="number"
                                 value={sale}

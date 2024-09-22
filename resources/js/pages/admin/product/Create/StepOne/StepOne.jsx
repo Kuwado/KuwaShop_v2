@@ -10,17 +10,7 @@ import { Button } from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-const StepOne = ({
-    product,
-    categoryName,
-    saleType,
-    setProduct,
-    setCategoryName,
-    setSaleType,
-    onClick,
-    step,
-    setStep,
-}) => {
+const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName, setSaleType }) => {
     const setField = useCallback((field, value) => {
         setProduct((prev) => ({ ...prev, [field]: value }));
     }, []);

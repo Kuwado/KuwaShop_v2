@@ -7,7 +7,7 @@ import { Button } from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-const ActionsBtns = ({ step, setStep }) => {
+const ActionsBtns = ({ step, setStep, handleSubmit }) => {
     return (
         <div className={cx('action-btns')}>
             {step === 1 ? (
@@ -25,11 +25,7 @@ const ActionsBtns = ({ step, setStep }) => {
                     <Button type="button" onClick={() => setStep(1)} leftIcon={<FontAwesomeIcon icon={faArrowLeft} />}>
                         Quay lại
                     </Button>
-                    <Button
-                        type="button"
-                        onClick={() => setStep(3)}
-                        rightIcon={<FontAwesomeIcon icon={faArrowRight} />}
-                    >
+                    <Button type="button" onClick={handleSubmit} rightIcon={<FontAwesomeIcon icon={faArrowRight} />}>
                         Bước tiếp
                     </Button>
                 </div>
