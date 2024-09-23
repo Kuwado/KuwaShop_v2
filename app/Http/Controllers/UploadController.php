@@ -19,12 +19,13 @@ class UploadController extends Controller
         foreach($request->file('images') as $image) {
             $imageName = time() . '_' . uniqid() . '.' . $image->extension();
             $image->storeAs('images', $imageName, 'public');
-            $imagesNames[] = $imageName;
+            $imageNames[] = $imageName;
         }
 
         return response()->json([
             'message' => 'Ảnh đã được thêm thành công',
-            'images' => $imageNames
+            'images' => $imageNames,
+            'image_paths' => json_encode($imageNames)
         ]);
     }
 }

@@ -43,7 +43,7 @@ const Price = ({ sale, original_price, price, saleType, setOriginalPrice, setPri
                 setSale(value);
             }
         },
-        [setSale],
+        [setSale, original_price],
     );
 
     const finalPrice = useMemo(() => {

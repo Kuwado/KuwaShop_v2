@@ -52,8 +52,7 @@ const AdminProductCreate = () => {
             xl: '',
             xxl: '',
             images: [],
-            image_paths: '',
-            color_id: '',
+            color_id: 3,
         },
     ]);
 
@@ -78,34 +77,13 @@ const AdminProductCreate = () => {
 
                 await Promise.all(
                     variants.map(async (variant) => {
-                        if (variant.images.length > 0) {
-                            const formData = new FormData();
-
-                            variant.images.forEach((image) => {
-                                formData.append('images[]', image);
-                            });
-
-                            try {
-                                const imagesResponse = await axios.post('/api/upload-images', formData, {
-                                    headers: {
-                                        'Content-Type': 'multipart/form-data',
-                                    },
-                                });
-                                variant.image_paths = imagesResponse.data.image_paths;
-                                console.log(variant.image_paths);
-                                console.log(imagesResponse.data.image_paths);
-                            } catch (error) {
-                                console.error('Error creating variant', error);
-                            }
-                        }
-
+                        const filteredVariant = Object.fromEntries(
+                            Object.entries(variant).filter(
+                                ([_, value]) => value !== '' && (!Array.isArray(value) || value.length > 0),
+                            ),
+                        );
                         try {
-                            console.log(variant.image_paths);
-
-                            const variantResponse = await axios.post(
-                                `/api/product/variant/create/${productId}`,
-                                variant,
-                            );
+                            const variantResponse = await axios.post('/api/product/variant/create', filteredVariant);
                             if (variantResponse.status === 201) {
                                 console.log(variantResponse);
                                 setMessages((prev) => [...prev, variantResponse.data.message]);
@@ -115,15 +93,30 @@ const AdminProductCreate = () => {
                         }
                     }),
                 );
+
+                // await Promise.all(
+                //     variants.map(async (variant) => {
+                //         const filteredVariant = Object.fromEntries(
+                //             Object.entries(variant).filter(([_, value]) => value !== ''),
+                //         );
+                //         try {
+                //             const variantResponse = await axios.post(
+                //                 `/api/product/variant/create/${productId}`,
+                //                 filteredVariant,
+                //             );
+                //             if (variantResponse.status === 201) {
+                //                 console.log(variantResponse);
+                //                 setMessages((prev) => [...prev, variantResponse.data.message]);
+                //             }
+                //         } catch (error) {
+                //             console.error('Error creating variant', error);
+                //         }
+                //     }),
+                // );
             }
         } catch (error) {
             console.error('Chưa tạo được sản phẩm', error);
         }
-    };
-
-    const handleNextStep = (p) => {
-        setProduct(p);
-        setStep('two');
     };
 
     return (

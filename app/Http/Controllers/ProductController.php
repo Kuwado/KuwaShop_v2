@@ -12,7 +12,6 @@ class ProductController extends Controller
     //
     public function create(Request $request)
     {
-        // Xác thực dữ liệu đầu vào
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'nullable|exists:categories,id',
@@ -25,14 +24,16 @@ class ProductController extends Controller
         ]);
         
         try {
-            // Tạo sản phẩm mới
             $product = Product::create($request->all());
-
-            // Trả về phản hồi thành công
-            return response()->json(['message' => 'Sản phẩm đã được tạo thành công!', 'product' => $product], 201);
+            return response()->json([
+                'message' => 'Sản phẩm đã được tạo thành công!',
+                'product' => $product
+            ], 201);
         } catch (QueryException $e) {
-            // Xử lý lỗi khi không tạo được sản phẩm
-            return response()->json(['message' => 'Đã xảy ra lỗi khi tạo sản phẩm.', 'error' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => 'Đã xảy ra lỗi khi tạo sản phẩm.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }

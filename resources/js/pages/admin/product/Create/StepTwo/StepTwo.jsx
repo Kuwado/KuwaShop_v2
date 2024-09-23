@@ -78,7 +78,11 @@ const StepTwo = ({ variants, setVariants }) => {
                             <Colors colorId={variant.color_id} setColorId={(id) => setColorId(index, id)} />
                         </div>
                         <div className={cx('images')}>
-                            <UploadImages images={variant.images} setImages={(images) => setImages(index, images)} />
+                            <UploadImages
+                                id={`variant-${index}`}
+                                images={variant.images}
+                                setImages={(images) => setImages(index, images)}
+                            />
                         </div>
                     </div>
                     <Size
