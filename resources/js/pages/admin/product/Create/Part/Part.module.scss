@@ -96,11 +96,8 @@
         justify-content: right;
     }
 
-    .step-two-btn {
-        justify-content: space-between;
-    }
-
+    .step-two-btn,
     .step-three-btn {
-        justify-content: left;
+        justify-content: space-between;
     }
 }

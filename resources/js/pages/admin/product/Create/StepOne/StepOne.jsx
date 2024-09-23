@@ -48,8 +48,6 @@ const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName,
         setField('preserve', value);
     }, []);
 
-    console.log(product);
-    console.log('step - one');
     return (
         <div className={cx('step-one')}>
             <div className={cx('left')}>

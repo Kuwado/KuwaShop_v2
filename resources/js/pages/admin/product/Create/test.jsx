@@ -1,39 +1,28 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 import config from '~/config';
-import styles from './AdminProductCreate.module.scss';
 import Content from '~/common/Content/Content';
 import StepOne from './StepOne/StepOne';
 import StepTwo from './StepTwo/StepTwo';
 import StepThree from './StepThree/StepThree';
 import { OutInTransition } from '~/animations/Transition';
-import { Button } from '~/components/Button';
 import StepHeader from './Part/StepHeader';
 import ActionsBtns from './Part/ActionsBtns';
-import Colors from './StepTwo/Colors';
-import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
 const BREADCRUMB = [
-    {
-        title: 'Trang chủ',
-        link: config.routes.admin.dashboard,
-    },
-    {
-        title: 'Sản phẩm - Thêm mới',
-        link: config.routes.admin.productCreate,
-    },
+    { title: 'Trang chủ', link: config.routes.admin.dashboard },
+    { title: 'Sản phẩm - Thêm mới', link: config.routes.admin.productCreate },
 ];
 
-const AdminProductCreate = () => {
-    const [step, setStep] = useState(1);
+// Custom hook for managing product state and submission
+const useProduct = () => {
     const [product, setProduct] = useState({
         name: '',
-        category_id: '2',
+        category_id: '',
         original_price: '',
         price: '',
         intro: '',
@@ -41,82 +30,94 @@ const AdminProductCreate = () => {
         preserve: '',
         sale: '',
     });
-    const [categoryName, setCategoryName] = useState('');
-    const [saleType, setSaleType] = useState('not');
 
+    const createProduct = async () => {
+        const response = await axios.post('/api/product/create', product);
+        return response.status === 201 ? response.data.product.id : null;
+    };
+
+    return { product, setProduct, createProduct };
+};
+
+// Custom hook for managing variants
+const useVariants = () => {
     const [variants, setVariants] = useState([
-        {
-            s: '',
-            m: '',
-            l: '',
-            xl: '',
-            xxl: '',
-            images: [],
-            color_id: 3,
-        },
+        { s: '', m: '', l: '', xl: '', xxl: '', images: [], image_paths: '', color_id: '' },
     ]);
 
+    const uploadImages = async (images) => {
+        const formData = new FormData();
+        images.forEach((image) => formData.append('images[]', image));
+
+        const response = await axios.post('/api/upload-images', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        return response.data.image_paths;
+    };
+
+    const createVariant = async (variant, productId) => {
+        if (variant.images.length > 0) {
+            variant.image_paths = await uploadImages(variant.images);
+        }
+
+        const response = await axios.post(`/api/product/variant/create/${productId}`, variant);
+        return response.status === 201;
+    };
+
+    return { variants, setVariants, createVariant };
+};
+
+// Custom hook for managing messages and errors
+const useMessages = () => {
     const [messages, setMessages] = useState([]);
+    const [errors, setErrors] = useState([]);
+
+    const addMessage = (message) => setMessages((prev) => [...prev, message]);
+    const addError = (error) => setErrors((prev) => [...prev, error]);
+
+    return { messages, errors, addMessage, addError };
+};
+
+const AdminProductCreate = () => {
+    const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false);
 
-    console.log(product);
+    const { product, setProduct, createProduct } = useProduct();
+    const { variants, setVariants, createVariant } = useVariants();
+    const { messages, errors, addMessage, addError } = useMessages();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setStep(3);
         setLoading(true);
 
-        const filteredProduct = Object.fromEntries(Object.entries(product).filter(([_, value]) => value !== ''));
-
         try {
-            const productResponse = await axios.post('/api/product/create', filteredProduct);
-            if (productResponse.status === 201) {
-                console.log(productResponse);
-                setMessages((prev) => [...prev, productResponse.data.message]);
-                const productId = productResponse.data.product.id;
-
-                await Promise.all(
-                    variants.map(async (variant) => {
-                        const filteredVariant = Object.fromEntries(
-                            Object.entries(variant).filter(
-                                ([_, value]) => value !== '' && (!Array.isArray(value) || value.length > 0),
-                            ),
-                        );
-                        try {
-                            const variantResponse = await axios.post('/api/product/variant/create', filteredVariant);
-                            if (variantResponse.status === 201) {
-                                console.log(variantResponse);
-                                setMessages((prev) => [...prev, variantResponse.data.message]);
-                            }
-                        } catch (error) {
-                            console.error('Error creating variant', error);
-                        }
-                    }),
-                );
-
-                // await Promise.all(
-                //     variants.map(async (variant) => {
-                //         const filteredVariant = Object.fromEntries(
-                //             Object.entries(variant).filter(([_, value]) => value !== ''),
-                //         );
-                //         try {
-                //             const variantResponse = await axios.post(
-                //                 `/api/product/variant/create/${productId}`,
-                //                 filteredVariant,
-                //             );
-                //             if (variantResponse.status === 201) {
-                //                 console.log(variantResponse);
-                //                 setMessages((prev) => [...prev, variantResponse.data.message]);
-                //             }
-                //         } catch (error) {
-                //             console.error('Error creating variant', error);
-                //         }
-                //     }),
-                // );
+            const productId = await createProduct();
+            if (productId) {
+                await Promise.all(variants.map((variant) => createVariant(variant, productId)));
+                addMessage('Sản phẩm và biến thể đã được tạo thành công!');
             }
         } catch (error) {
             console.error('Chưa tạo được sản phẩm', error);
+            addError('Đã xảy ra lỗi khi tạo sản phẩm.');
+        } finally {
+            setLoading(false);
         }
+    };
+
+    const continueCreateProduct = () => {
+        setProduct({
+            name: '',
+            category_id: '',
+            original_price: '',
+            price: '',
+            intro: '',
+            detail: '',
+            preserve: '',
+            sale: '',
+        });
+        setVariants([{ s: '', m: '', l: '', xl: '', xxl: '', images: [], image_paths: '', color_id: '' }]);
+        setStep(1);
     };
 
     return (
@@ -127,23 +128,21 @@ const AdminProductCreate = () => {
                 <div className={cx('step-content')}>
                     <OutInTransition state={step}>
                         {step === 1 ? (
-                            <StepOne
-                                product={product}
-                                categoryName={categoryName}
-                                saleType={saleType}
-                                setProduct={setProduct}
-                                setCategoryName={setCategoryName}
-                                setSaleType={setSaleType}
-                            />
+                            <StepOne product={product} setProduct={setProduct} />
                         ) : step === 2 ? (
                             <StepTwo variants={variants} setVariants={setVariants} />
                         ) : (
-                            <StepThree loading={loading} messages={messages} />
+                            <StepThree loading={loading} messages={messages} errors={errors} />
                         )}
                     </OutInTransition>
                 </div>
 
-                <ActionsBtns step={step} setStep={setStep} handleSubmit={handleSubmit} setMessages={setMessages} />
+                <ActionsBtns
+                    step={step}
+                    setStep={setStep}
+                    handleSubmit={handleSubmit}
+                    continueCreateProduct={continueCreateProduct}
+                />
             </form>
         </Content>
     );

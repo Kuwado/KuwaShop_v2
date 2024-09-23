@@ -81,15 +81,23 @@
 
     .color-btn {
         position: relative;
+        display: flex;
+        align-items: center;
+        gap: 5px;
         font-weight: var(--font-normal);
         cursor: pointer;
+
+        .required {
+            color: var(--error-color);
+        }
     }
 
     .colors-table {
         position: absolute;
         top: 110%;
         left: 0;
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 5px;
         padding: 5px;
         background-color: var(--text-secondary);

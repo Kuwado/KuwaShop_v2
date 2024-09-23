@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import styles from './Part.module.scss';
 import { Button } from '~/components/Button';
+import config from '~/config';
 
 const cx = classNames.bind(styles);
 
-const ActionsBtns = ({ step, setStep, handleSubmit }) => {
+const ActionsBtns = ({ step, setStep, handleSubmit, continueCreateProduct }) => {
     return (
         <div className={cx('action-btns')}>
             {step === 1 ? (
@@ -31,8 +32,19 @@ const ActionsBtns = ({ step, setStep, handleSubmit }) => {
                 </div>
             ) : (
                 <div className={cx('step-three-btn')}>
-                    <Button type="button" onClick={() => setStep(2)} leftIcon={<FontAwesomeIcon icon={faArrowLeft} />}>
-                        Quay lại
+                    <Button
+                        type="button"
+                        onClick={continueCreateProduct}
+                        leftIcon={<FontAwesomeIcon icon={faArrowLeft} />}
+                    >
+                        Tiếp tục tạo
+                    </Button>
+                    <Button
+                        type="button"
+                        to={config.routes.admin.dashboard}
+                        rightIcon={<FontAwesomeIcon icon={faArrowRight} />}
+                    >
+                        Về trang chủ
                     </Button>
                 </div>
             )}

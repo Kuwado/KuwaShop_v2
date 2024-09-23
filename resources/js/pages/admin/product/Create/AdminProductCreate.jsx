@@ -1,7 +1,5 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import config from '~/config';
 import styles from './AdminProductCreate.module.scss';
@@ -10,10 +8,8 @@ import StepOne from './StepOne/StepOne';
 import StepTwo from './StepTwo/StepTwo';
 import StepThree from './StepThree/StepThree';
 import { OutInTransition } from '~/animations/Transition';
-import { Button } from '~/components/Button';
 import StepHeader from './Part/StepHeader';
 import ActionsBtns from './Part/ActionsBtns';
-import Colors from './StepTwo/Colors';
 import axios from 'axios';
 
 const cx = classNames.bind(styles);
@@ -33,7 +29,7 @@ const AdminProductCreate = () => {
     const [step, setStep] = useState(1);
     const [product, setProduct] = useState({
         name: '',
-        category_id: '2',
+        category_id: '',
         original_price: '',
         price: '',
         intro: '',
@@ -58,73 +54,100 @@ const AdminProductCreate = () => {
     ]);
 
     const [messages, setMessages] = useState([]);
+    const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(false);
 
     console.log(product);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setStep(3);
-        setLoading(true);
+    const continueCreateProduct = useCallback(() => {
+        setProduct({
+            name: '',
+            category_id: '',
+            original_price: '',
+            price: '',
+            intro: '',
+            detail: '',
+            preserve: '',
+            sale: '',
+        });
 
-        const filteredProduct = Object.fromEntries(Object.entries(product).filter(([_, value]) => value !== ''));
+        setVariants([
+            {
+                s: '',
+                m: '',
+                l: '',
+                xl: '',
+                xxl: '',
+                images: [],
+                image_paths: '',
+                color_id: '',
+            },
+        ]);
 
-        try {
-            const productResponse = await axios.post('/api/product/create', filteredProduct);
-            if (productResponse.status === 201) {
-                console.log(productResponse);
-                setMessages((prev) => [...prev, productResponse.data.message]);
-                const productId = productResponse.data.product.id;
+        setSaleType('not');
+        setCategoryName('');
+        setMessages([]);
+        setErrors([]);
+        setStep(1);
+    }, []);
 
-                await Promise.all(
-                    variants.map(async (variant) => {
-                        if (variant.images.length > 0) {
-                            const formData = new FormData();
-
-                            variant.images.forEach((image) => {
-                                formData.append('images[]', image);
-                            });
-
-                            try {
-                                const imagesResponse = await axios.post('/api/upload-images', formData, {
-                                    headers: {
-                                        'Content-Type': 'multipart/form-data',
-                                    },
-                                });
-                                variant.image_paths = imagesResponse.data.image_paths;
-                                console.log(variant.image_paths);
-                                console.log(imagesResponse.data.image_paths);
-                            } catch (error) {
-                                console.error('Error creating variant', error);
-                            }
-                        }
-
-                        try {
-                            console.log(variant.image_paths);
-
-                            const variantResponse = await axios.post(
-                                `/api/product/variant/create/${productId}`,
-                                variant,
-                            );
-                            if (variantResponse.status === 201) {
-                                console.log(variantResponse);
-                                setMessages((prev) => [...prev, variantResponse.data.message]);
-                            }
-                        } catch (error) {
-                            console.error('Error creating variant', error);
-                        }
-                    }),
-                );
-            }
-        } catch (error) {
-            console.error('Chưa tạo được sản phẩm', error);
+    const createProduct = useCallback(async (productData, saleTypeData) => {
+        if (saleTypeData === 'percent') {
+            productData.sale = `${productData.sale}%`;
         }
-    };
 
-    const handleNextStep = (p) => {
-        setProduct(p);
-        setStep('two');
-    };
+        const response = await axios.post('/api/product/create', productData);
+        if (response.status === 201) {
+            setMessages((prev) => [...prev, response.data.message]);
+            return response.data.product.id;
+        } else {
+            setErrors((prev) => [...prev, response.data.message]);
+            return null;
+        }
+    }, []);
+
+    const UploadImages = useCallback(async (images) => {
+        const formData = new FormData();
+        images.forEach((image) => formData.append('images[]', image));
+
+        const response = await axios.post('/api/upload-images', formData, {
+            headers: { 'content-Type': 'multipart/form-data' },
+        });
+        return response.data.image_paths;
+    }, []);
+
+    const createVariant = useCallback(async (variant, productId) => {
+        if (variant.images.length > 0) {
+            variant.image_paths = await UploadImages(variant.images);
+        }
+
+        const response = await axios.post(`/api/product/variant/create/${productId}`, variant);
+        if (response.status === 201) {
+            setMessages((prev) => [...prev, response.data.message]);
+        } else {
+            setErrors((prev) => [...prev, response.data.message]);
+        }
+    }, []);
+
+    const handleSubmit = useCallback(
+        async (e) => {
+            e.preventDefault();
+            setStep(3);
+            setLoading(true);
+
+            try {
+                const productId = await createProduct(product, saleType);
+                if (productId) {
+                    await Promise.all(variants.map((variant) => createVariant(variant, productId)));
+                }
+            } catch (error) {
+                console.error('Chưa tạo được sản phẩm', error);
+            } finally {
+                setLoading(false);
+            }
+        },
+        [product, variants, createProduct, createVariant],
+    );
 
     return (
         <Content breadcrumb={BREADCRUMB}>
@@ -145,12 +168,18 @@ const AdminProductCreate = () => {
                         ) : step === 2 ? (
                             <StepTwo variants={variants} setVariants={setVariants} />
                         ) : (
-                            <StepThree loading={loading} messages={messages} />
+                            <StepThree loading={loading} messages={messages} errors={errors} />
                         )}
                     </OutInTransition>
                 </div>
 
-                <ActionsBtns step={step} setStep={setStep} handleSubmit={handleSubmit} setMessages={setMessages} />
+                <ActionsBtns
+                    step={step}
+                    setStep={setStep}
+                    handleSubmit={handleSubmit}
+                    setMessages={setMessages}
+                    continueCreateProduct={continueCreateProduct}
+                />
             </form>
         </Content>
     );

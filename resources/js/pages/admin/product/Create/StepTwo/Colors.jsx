@@ -63,7 +63,9 @@ const Colors = ({ colorId, setColorId }) => {
     return (
         <div className={cx('colors')}>
             <div className={cx('color-btn')} ref={colorsRef} onClick={() => setShow(!show)}>
-                <span>Màu sắc: </span>
+                <span>
+                    Màu sắc<span className={cx('required')}>*</span>:
+                </span>
                 <FontAwesomeIcon icon={faPalette} />
                 {show && (
                     <div className={cx('colors-table')}>
