@@ -28,4 +28,16 @@ class UploadController extends Controller
             'image_paths' => json_encode($imageNames)
         ]);
     }
+
+    public function uploadImage(Request $request)
+    {
+        $image = $request->file('image');
+        $imageName = time() . '_' . uniqid() . '.' . $image->extension();
+        $image->storeAs('images', $imageName, 'public');
+
+        return response()->json([
+            'message' => 'Ảnh đã được thêm thành công',
+            'iamge' => $imageName
+        ]);
+    }
 }

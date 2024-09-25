@@ -1,10 +1,10 @@
 .step-two {
     width: 100%;
-    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    padding-right: 15px;
 
     .more-btn {
         width: fit-content;
@@ -37,7 +37,7 @@
         font-size: var(--icon-medium);
         cursor: pointer;
         color: var(--secondary);
-        background-color: var(--primary);
+        background-color: var(--background);
 
         &:hover {
             color: var(--error-color);
@@ -97,10 +97,12 @@
         top: 110%;
         left: 0;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 5px;
-        padding: 5px;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 7px;
+        padding: 10px;
         background-color: var(--text-secondary);
+        border-radius: 12px 0;
+        border: 2px solid var(--secondary);
         z-index: 5;
     }
 

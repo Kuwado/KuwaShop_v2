@@ -1,31 +1,27 @@
 import classNames from 'classnames/bind';
 
 import styles from './UploadImages.module.scss';
-import Image from '~/components/Image';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-const UploadImages = ({ images = [], setImages, submit = false, id = 'image' }) => {
+const UploadImage = ({ image = '', setImage, submit = false, id = 'image' }) => {
     const [message, setMessage] = useState('');
 
     const handleImagesChange = (e) => {
         const files = Array.from(e.target.files);
-        setImages(files);
+        setImage(files);
     };
 
-    const uploadImages = async (e) => {
+    const uploadImage = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-
-        images.forEach((image) => {
-            formData.append('images[]', image);
-        });
+        formData.append('image', image);
 
         try {
-            const response = await axios.post('/api/upload/images', formData, {
+            const response = await axios.post('/api/upload/image', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -44,19 +40,14 @@ const UploadImages = ({ images = [], setImages, submit = false, id = 'image' }) 
                 </label>
                 <input type="file" multiple onChange={handleImagesChange} id={id} />
                 {submit && (
-                    <button className={cx('submit-btn')} onClick={uploadImages}>
+                    <button className={cx('submit-btn')} onClick={uploadImage}>
                         Thêm ảnh
                     </button>
                 )}
             </div>
-            <div className={cx('images')}>
-                {images.map((image, index) => (
-                    <img key={index} src={URL.createObjectURL(image)} alt={`image${index}`} />
-                ))}
-            </div>
-            {message && <div className={cx('message')}>{message}</div>}
+            <div className={cx('image')}></div>
         </div>
     );
 };
 
-export default UploadImages;
+export default UploadImage;

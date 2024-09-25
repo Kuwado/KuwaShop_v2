@@ -2,13 +2,12 @@
     height: 100%;
     width: 100%;
     display: flex;
-    gap: 10px;
+    gap: 30px;
 }
 
 .left,
 .right {
     width: 50%;
-    padding: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;

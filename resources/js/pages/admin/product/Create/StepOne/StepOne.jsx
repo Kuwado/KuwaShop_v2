@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 
 import styles from './StepOne.module.scss';
-import { Input } from '~/components/Input';
+import { Input, UploadImage } from '~/components/Input';
 import { useCallback, useEffect } from 'react';
 import Price from './Price';
 import Categories from './Categories';
@@ -30,6 +30,10 @@ const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName,
 
     const setPrice = useCallback((value) => {
         setField('price', value);
+    }, []);
+
+    const setImage = useCallback((value) => {
+        setField('image', value);
     }, []);
 
     const setSale = useCallback((value) => {
@@ -71,6 +75,8 @@ const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName,
                     setSale={setSale}
                     setSaleType={setSaleType}
                 />
+
+                <UploadImage />
             </div>
             <div className={cx('right')}>
                 <Informations

@@ -46,4 +46,15 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
+
+    public function index()
+    {
+        $products = Product::take(20)->get();
+
+        return response()->json([
+            'message' => 'Lấy thành công danh sách sản phẩm',
+            'products' => $products
+        ]);
+    }
 }

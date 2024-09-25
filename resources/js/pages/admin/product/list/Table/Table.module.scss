@@ -1,0 +1,46 @@
+.product-table {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.head,
+.row {
+    width: 100%;
+    min-height: 30px;
+    max-height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.head {
+    font-weight: var(--font-bold);
+}
+
+.id {
+    width: 5%;
+}
+
+.avatar {
+    width: 120px;
+}
+
+.name {
+    flex: 1;
+}
+
+.price {
+    width: 15%;
+}
+
+.sold-quantity {
+    width: 10%;
+}
+
+.view {
+    width: 10%;
+}
+
+.delete {
+    width: 10%;
+}

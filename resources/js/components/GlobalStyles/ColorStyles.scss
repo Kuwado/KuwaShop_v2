@@ -1,7 +1,7 @@
 :root {
-    --primary-r: 0;
-    --primary-g: 204;
-    --primary-b: 255;
+    --primary-r: 80;
+    --primary-g: 200;
+    --primary-b: 237;
     --primary: rgb(var(--primary-r), var(--primary-g), var(--primary-b));
     --primary-25: rgba(var(--primary-r), var(--primary-g), var(--primary-b), 0.25);
     --primary-50: rgba(var(--primary-r), var(--primary-g), var(--primary-b), 0.5);
@@ -15,11 +15,12 @@
     --secondary-50: rgba(var(--secondary-r), var(--secondary-g), var(--secondary-b), 0.5);
     --secondary-75: rgba(var(--secondary-r), var(--secondary-g), var(--secondary-b), 0.75);
 
-    --text-primary: black;
+    --text-primary: var(--secondary);
     --text-primary-50: rgba(0, 0, 0, 0.5);
     --text-secondary: white;
     --text-secondary-50: rgba(255, 255, 255, 0.5);
     --text-hightlight: var(--secondary);
+    --background: white;
 
     --error-color: #ea4c89;
 

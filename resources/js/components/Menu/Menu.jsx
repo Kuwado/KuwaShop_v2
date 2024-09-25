@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import Tippy from '@tippyjs/react/headless';
@@ -25,6 +25,10 @@ const Menu = ({
     const [visible, setVisible] = useState(false);
     const [history, setHistory] = useState([{ data: items }]);
     const current = history[history.length - 1];
+
+    useEffect(() => {
+        setHistory([{ data: items }]);
+    }, [items]);
 
     const handleBack = () => {
         setHistory((prev) => prev.slice(0, prev.length - 1));

@@ -4,11 +4,14 @@ import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+    faBoxesStacked,
     faBoxOpen,
     faChevronLeft,
     faChevronRight,
     faDashboard,
     faDollarSign,
+    faHouse,
+    faTableCells,
     faTachometerAlt,
     faUsers,
 } from '@fortawesome/free-solid-svg-icons';
@@ -21,13 +24,13 @@ const cx = classNames.bind(styles);
 const makeIcon = (type) => {
     switch (type) {
         case 'dashboard':
-            return <FontAwesomeIcon icon={faTachometerAlt} />;
+            return <FontAwesomeIcon icon={faHouse} />;
         case 'product':
-            return <FontAwesomeIcon icon={faBoxOpen} />;
+            return <FontAwesomeIcon icon={faBoxesStacked} />;
         case 'product_create':
             return <FontAwesomeIcon icon={faBoxOpen} />;
         case 'product_list':
-            return <FontAwesomeIcon icon={faDashboard} />;
+            return <FontAwesomeIcon icon={faTableCells} />;
         case 'customers':
             return <FontAwesomeIcon icon={faUsers} />;
         case 'revenue':

@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import styles from './StepTwo.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPalette } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -36,10 +37,25 @@ const COLORS = [
 ];
 
 const Colors = ({ colorId, setColorId }) => {
-    const colors = COLORS;
+    const [colors, setColors] = useState([]);
     const [show, setShow] = useState(false);
     const currentColor = colors.find((color) => color.id === colorId);
     const colorsRef = useRef(null);
+
+    console.log(colors);
+
+    useEffect(() => {
+        const fetchColors = async () => {
+            try {
+                const response = await axios.get('/api/colors');
+                setColors(response.data.colors);
+            } catch (error) {
+                console.log('Không tải được màu', error);
+            }
+        };
+
+        fetchColors();
+    }, []);
 
     const handleColorClick = (color) => {
         // setShow(false);

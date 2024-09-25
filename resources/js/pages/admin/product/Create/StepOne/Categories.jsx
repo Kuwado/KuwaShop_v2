@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import styles from './StepOne.module.scss';
 import Menu from '~/components/Menu';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -46,6 +47,10 @@ const CATEGORIES = [
 ];
 
 const transformCategoriesToMenu = (categories) => {
+    if (!Array.isArray(categories) || categories.length === 0) {
+        return [];
+    }
+
     return categories.map((category) => ({
         id: category.id,
         content: category.name,
@@ -60,7 +65,21 @@ const transformCategoriesToMenu = (categories) => {
 };
 
 const Categories = ({ categoryId, categoryName, setCategoryId, setCategoryName, title = 'Loại sản phẩm' }) => {
-    const categories = transformCategoriesToMenu(CATEGORIES);
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('/api/categories');
+                setCategories(transformCategoriesToMenu(response.data.categories));
+            } catch (error) {
+                console.error('Lỗi lấy dữ liệu categories: ', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
     const handleCategoryClick = (item) => {
         setCategoryId(item.id);
         setCategoryName(item.content);
@@ -75,4 +94,4 @@ const Categories = ({ categoryId, categoryName, setCategoryId, setCategoryName, 
     );
 };
 
-export default memo(Categories);
+export default Categories;

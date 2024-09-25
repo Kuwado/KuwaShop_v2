@@ -110,7 +110,7 @@ const AdminProductCreate = () => {
         const formData = new FormData();
         images.forEach((image) => formData.append('images[]', image));
 
-        const response = await axios.post('/api/upload-images', formData, {
+        const response = await axios.post('/api/upload/images', formData, {
             headers: { 'content-Type': 'multipart/form-data' },
         });
         return response.data.image_paths;
@@ -151,7 +151,7 @@ const AdminProductCreate = () => {
 
     return (
         <Content breadcrumb={BREADCRUMB}>
-            <form className={cx('product-create')}>
+            <form className={cx('admin-product-create')}>
                 <StepHeader step={step} setStep={setStep} />
 
                 <div className={cx('step-content')}>
