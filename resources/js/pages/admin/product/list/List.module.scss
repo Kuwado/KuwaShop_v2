@@ -1,5 +1,8 @@
 .admin-product-list {
     width: 100%;
-    height: 1000px;
-    background-color: aliceblue;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    // background-color: aliceblue;
 }

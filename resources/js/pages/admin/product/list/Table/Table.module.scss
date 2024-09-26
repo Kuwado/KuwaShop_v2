@@ -7,22 +7,43 @@
 .head,
 .row {
     width: 100%;
-    min-height: 30px;
-    max-height: 100px;
+    min-height: 40px;
+    max-height: 110px;
     display: flex;
     align-items: center;
 }
 
-.head {
-    font-weight: var(--font-bold);
+.head > * {
+    font-weight: var(--font-bold) !important;
+}
+
+.row {
+    &:nth-child(even) {
+        background-color: var(--primary-25);
+    }
+
+    & > * {
+        padding: 5px 0;
+        font-weight: var(--font-normal);
+    }
 }
 
 .id {
     width: 5%;
+    display: flex;
+    justify-content: center;
 }
 
 .avatar {
-    width: 120px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+
+    img {
+        width: 75px;
+        height: 100px;
+        object-fit: contain;
+    }
 }
 
 .name {
@@ -37,10 +58,31 @@
     width: 10%;
 }
 
+.created-time {
+    width: 10%;
+}
+
 .view {
     width: 10%;
+    display: flex;
+    justify-content: center;
+
+    .action-btn:hover {
+        color: var(--secondary-75);
+    }
 }
 
 .delete {
     width: 10%;
+    display: flex;
+    justify-content: center;
+
+    .action-btn:hover {
+        color: var(--error-color);
+    }
+}
+
+.action-btn {
+    font-size: 20px;
+    cursor: pointer;
 }

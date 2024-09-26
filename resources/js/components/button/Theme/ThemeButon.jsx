@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 
 import HeadlessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { faMoon, faSun, faUmbrellaBeach } from '@fortawesome/free-solid-svg-icons';
 import styles from './ThemeButton.module.scss';
 import { IconButton } from '..';
 import ThemeItem from './ThemeItem';
@@ -13,11 +13,11 @@ const cx = classNames.bind(styles);
 const THEMES = [
     {
         id: 1,
-        title: 'Sáng',
+        title: 'Mùa hè',
         primary: {
-            red: 0,
-            green: 204,
-            blue: 255,
+            red: 80,
+            green: 200,
+            blue: 237,
         },
         secondary: {
             red: 27,
@@ -25,31 +25,33 @@ const THEMES = [
             blue: 127,
         },
         text: {
-            primary: 'black',
+            primary: 'var(--secondary)',
             secondary: 'white',
         },
+        background: 'white',
     },
     {
         id: 2,
         title: 'Tối',
         primary: {
-            red: 27,
-            green: 51,
-            blue: 127,
+            red: 10,
+            green: 10,
+            blue: 35,
         },
         secondary: {
-            red: 0,
-            green: 204,
+            red: 255,
+            green: 255,
             blue: 255,
         },
         text: {
             primary: 'white',
             secondary: 'black',
         },
+        background: '#1b1b32',
     },
     {
         id: 3,
-        title: 'Trắng',
+        title: 'Sáng',
         primary: {
             red: 255,
             green: 255,
@@ -64,24 +66,7 @@ const THEMES = [
             primary: 'black',
             secondary: 'white',
         },
-    },
-    {
-        id: 4,
-        title: 'Đen',
-        primary: {
-            red: 0,
-            green: 0,
-            blue: 0,
-        },
-        secondary: {
-            red: 255,
-            green: 255,
-            blue: 255,
-        },
-        text: {
-            primary: 'white',
-            secondary: 'black',
-        },
+        background: '#f5f5f5',
     },
 ];
 
@@ -93,17 +78,17 @@ const ThemeButon = ({ themes = THEMES }) => {
     useEffect(() => {
         switch (theme) {
             case 1:
-                setIcon(<FontAwesomeIcon icon={faSun} />);
+                setIcon(<FontAwesomeIcon icon={faUmbrellaBeach} />);
                 break;
             case 2:
-                setIcon(<FontAwesomeIcon icon={faMoon} />);
+                setIcon(<FontAwesomeIcon icon={faSun} />);
                 break;
             case 3:
-                setIcon(<div>W</div>);
+                setIcon(<FontAwesomeIcon icon={faMoon} />);
                 break;
-            case 4:
-                setIcon(<div>B</div>);
-                break;
+            // case 4:
+            //     setIcon(<div>B</div>);
+            //     break;
             default:
                 setIcon(<FontAwesomeIcon icon={faSun} />);
         }

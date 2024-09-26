@@ -76,7 +76,7 @@ const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName,
                     setSaleType={setSaleType}
                 />
 
-                <UploadImage />
+                <UploadImage id="product-image" image={product.image} setImage={setImage} />
             </div>
             <div className={cx('right')}>
                 <Informations

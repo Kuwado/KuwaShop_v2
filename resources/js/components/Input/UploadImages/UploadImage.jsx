@@ -1,18 +1,18 @@
-import classNames from 'classnames/bind';
-
-import styles from './UploadImages.module.scss';
 import { useState } from 'react';
+import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+
+import styles from './UploadImages.module.scss';
 
 const cx = classNames.bind(styles);
 
-const UploadImage = ({ image = '', setImage, submit = false, id = 'image' }) => {
+const UploadImage = ({ image = '', setImage, submit = false, id = 'image', title = 'Ảnh đại diện' }) => {
     const [message, setMessage] = useState('');
 
-    const handleImagesChange = (e) => {
-        const files = Array.from(e.target.files);
-        setImage(files);
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
     };
 
     const uploadImage = async (e) => {
@@ -33,19 +33,19 @@ const UploadImage = ({ image = '', setImage, submit = false, id = 'image' }) => 
     };
 
     return (
-        <div className={cx('upload-images')}>
+        <div className={cx('upload-image')}>
             <div className={cx('actions')}>
                 <label htmlFor={id}>
-                    Hình ảnh: <FontAwesomeIcon icon={faUpload} />
+                    {title}: <FontAwesomeIcon icon={faUpload} />
                 </label>
-                <input type="file" multiple onChange={handleImagesChange} id={id} />
+                <input type="file" onChange={handleImageChange} id={id} />
                 {submit && (
                     <button className={cx('submit-btn')} onClick={uploadImage}>
                         Thêm ảnh
                     </button>
                 )}
             </div>
-            <div className={cx('image')}></div>
+            <div className={cx('image')}>{image && <img src={URL.createObjectURL(image)} alt="image" />} </div>
         </div>
     );
 };

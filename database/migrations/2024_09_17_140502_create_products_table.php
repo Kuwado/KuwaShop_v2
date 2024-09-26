@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('original_price', 10, 2);
             $table->decimal('price', 10, 2);
             $table->integer('sold_quantity')->default(0);
+            $table->string('avatar')->nullable();
             $table->longText('intro')->nullable();
             $table->longText('detail')->nullable();
             $table->longText('preserve')->nullable();

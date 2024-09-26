@@ -29,6 +29,7 @@ class ProductController extends Controller
             $product->category_id = $request->input('category_id');
             $product->original_price = $request->input('original_price');
             $product->price = $request->input('price');
+            $product->avatar = $request->input('avatar');
             $product->intro = $request->input('intro');
             $product->detail = $request->input('detail');
             $product->preserve = $request->input('preserve');
@@ -50,11 +51,43 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::take(20)->get();
-
+        $products = Product::orderBy('created_at', 'asc')->take(20)->get();
+        
         return response()->json([
             'message' => 'Lấy thành công danh sách sản phẩm',
             'products' => $products
         ]);
+    }
+
+    public function indexNew()
+    {
+        $products = Product::orderBy('created_at', 'desc')->take(20)->get();
+        
+        return response()->json([
+            'message' => 'Lấy thành công danh sách sản phẩm',
+            'products' => $products
+        ]);
+    }
+
+    public function indexHot()
+    {
+        $products = Product::orderBy('sold_quantity', 'desc')->take(20)->get();
+        
+        return response()->json([
+            'message' => 'Lấy thành công danh sách sản phẩm',
+            'products' => $products
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+
+        if ($product) {
+            $product->delete();
+            return response()->json(['message' => 'Sản phẩm đã được xóa thành công'], 200);
+        }
+
+        return response()->json(['message' => 'Sản phẩm không tồn tại'], 404);
     }
 }

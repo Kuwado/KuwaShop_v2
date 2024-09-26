@@ -32,6 +32,8 @@ const AdminProductCreate = () => {
         category_id: '',
         original_price: '',
         price: '',
+        image: '',
+        avatar: '',
         intro: '',
         detail: '',
         preserve: '',
@@ -65,6 +67,8 @@ const AdminProductCreate = () => {
             category_id: '',
             original_price: '',
             price: '',
+            image: '',
+            avatar: '',
             intro: '',
             detail: '',
             preserve: '',
@@ -91,9 +95,23 @@ const AdminProductCreate = () => {
         setStep(1);
     }, []);
 
+    const UploadImage = useCallback(async (image) => {
+        const formData = new FormData();
+        formData.append('image', image);
+
+        const response = await axios.post('/api/upload/image', formData, {
+            headers: { 'content-Type': 'multipart/form-data' },
+        });
+        return response.data.image;
+    }, []);
+
     const createProduct = useCallback(async (productData, saleTypeData) => {
         if (saleTypeData === 'percent') {
             productData.sale = `${productData.sale}%`;
+        }
+
+        if (productData.image !== '') {
+            productData.avatar = await UploadImage(productData.image);
         }
 
         const response = await axios.post('/api/product/create', productData);
@@ -179,6 +197,7 @@ const AdminProductCreate = () => {
                     handleSubmit={handleSubmit}
                     setMessages={setMessages}
                     continueCreateProduct={continueCreateProduct}
+                    loading={loading}
                 />
             </form>
         </Content>

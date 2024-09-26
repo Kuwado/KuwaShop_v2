@@ -8,7 +8,7 @@ import config from '~/config';
 
 const cx = classNames.bind(styles);
 
-const ActionsBtns = ({ step, setStep, handleSubmit, continueCreateProduct }) => {
+const ActionsBtns = ({ step, setStep, handleSubmit, continueCreateProduct, loading }) => {
     return (
         <div className={cx('action-btns')}>
             {step === 1 ? (
@@ -32,20 +32,24 @@ const ActionsBtns = ({ step, setStep, handleSubmit, continueCreateProduct }) => 
                 </div>
             ) : (
                 <div className={cx('step-three-btn')}>
-                    <Button
-                        type="button"
-                        onClick={continueCreateProduct}
-                        leftIcon={<FontAwesomeIcon icon={faArrowLeft} />}
-                    >
-                        Tiếp tục tạo
-                    </Button>
-                    <Button
-                        type="button"
-                        to={config.routes.admin.dashboard}
-                        rightIcon={<FontAwesomeIcon icon={faArrowRight} />}
-                    >
-                        Về trang chủ
-                    </Button>
+                    {loading === false && (
+                        <>
+                            <Button
+                                type="button"
+                                onClick={continueCreateProduct}
+                                leftIcon={<FontAwesomeIcon icon={faArrowLeft} />}
+                            >
+                                Tiếp tục tạo
+                            </Button>
+                            <Button
+                                type="button"
+                                to={config.routes.admin.dashboard}
+                                rightIcon={<FontAwesomeIcon icon={faArrowRight} />}
+                            >
+                                Về trang chủ
+                            </Button>
+                        </>
+                    )}
                 </div>
             )}
         </div>

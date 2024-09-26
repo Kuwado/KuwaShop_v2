@@ -37,7 +37,7 @@ class UploadController extends Controller
 
         return response()->json([
             'message' => 'Ảnh đã được thêm thành công',
-            'iamge' => $imageName
+            'image' => $imageName
         ]);
     }
 }

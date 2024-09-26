@@ -15,6 +15,7 @@ const ThemeItem = ({ theme, active, onChangeTheme }) => {
         root.style.setProperty('--secondary-b', theme.secondary.blue);
         root.style.setProperty('--text-primary', theme.text.primary);
         root.style.setProperty('--text-secondary', theme.text.secondary);
+        root.style.setProperty('--background', theme.background);
 
         onChangeTheme();
     };
