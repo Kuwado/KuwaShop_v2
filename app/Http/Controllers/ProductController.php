@@ -51,7 +51,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::orderBy('created_at', 'asc')->take(20)->get();
+        $products = Product::orderBy('created_at', 'asc')->paginate(10);
         
         return response()->json([
             'message' => 'Lấy thành công danh sách sản phẩm',
@@ -61,7 +61,7 @@ class ProductController extends Controller
 
     public function indexNew()
     {
-        $products = Product::orderBy('created_at', 'desc')->take(20)->get();
+        $products = Product::orderBy('created_at', 'desc')->paginate(10);
         
         return response()->json([
             'message' => 'Lấy thành công danh sách sản phẩm',
@@ -71,7 +71,7 @@ class ProductController extends Controller
 
     public function indexHot()
     {
-        $products = Product::orderBy('sold_quantity', 'desc')->take(20)->get();
+        $products = Product::orderBy('sold_quantity', 'desc')->paginate(10);
         
         return response()->json([
             'message' => 'Lấy thành công danh sách sản phẩm',

@@ -98,11 +98,8 @@ const Colors = ({ colorId, setColorId }) => {
                     </div>
                 )}
             </div>
-            {currentColor && (
-                <span className={cx('color-name')} style={{ color: currentColor.code }}>
-                    {currentColor.name}
-                </span>
-            )}
+            {/* style={{ color: currentColor.code }} */}
+            {currentColor && <span className={cx('color-name')}>{currentColor.name}</span>}
         </div>
     );
 };
