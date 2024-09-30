@@ -52,11 +52,18 @@ const AdminProductCreate = () => {
             images: [],
             image_paths: '',
             color_id: '',
+            error: '',
         },
     ]);
 
     const [messages, setMessages] = useState([]);
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState({
+        productName: '',
+        productCategory: '',
+        productPrice: '',
+        fetch: '',
+        variantColor: '',
+    });
     const [loading, setLoading] = useState(false);
 
     console.log(product);
@@ -91,7 +98,13 @@ const AdminProductCreate = () => {
         setSaleType('not');
         setCategoryName('');
         setMessages([]);
-        setErrors([]);
+        setErrors({
+            productName: '',
+            productCategory: '',
+            productPrice: '',
+            fetch: '',
+            variantColor: '',
+        });
         setStep(1);
     }, []);
 
@@ -147,7 +160,7 @@ const AdminProductCreate = () => {
         }
     }, []);
 
-    const handleSubmit = useCallback(
+    const submitProduct = useCallback(
         async (e) => {
             e.preventDefault();
             setStep(3);
@@ -182,22 +195,27 @@ const AdminProductCreate = () => {
                                 setProduct={setProduct}
                                 setCategoryName={setCategoryName}
                                 setSaleType={setSaleType}
+                                errors={errors}
+                                setErrors={setErrors}
                             />
                         ) : step === 2 ? (
                             <StepTwo variants={variants} setVariants={setVariants} />
                         ) : (
-                            <StepThree loading={loading} messages={messages} errors={errors} />
+                            <StepThree loading={loading} messages={messages} />
                         )}
                     </OutInTransition>
                 </div>
 
                 <ActionsBtns
                     step={step}
-                    setStep={setStep}
-                    handleSubmit={handleSubmit}
-                    setMessages={setMessages}
-                    continueCreateProduct={continueCreateProduct}
+                    product={product}
+                    variants={variants}
                     loading={loading}
+                    setStep={setStep}
+                    setErrors={setErrors}
+                    setVariants={setVariants}
+                    onSubmit={submitProduct}
+                    continueCreateProduct={continueCreateProduct}
                 />
             </form>
         </Content>

@@ -8,7 +8,7 @@ import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
 
-const StepThree = ({ messages = [], errors = [], loading }) => {
+const StepThree = ({ messages = [], loading }) => {
     return (
         <div className={cx('step-three')}>
             <div className={cx('loading', { active: loading })}>
@@ -21,11 +21,11 @@ const StepThree = ({ messages = [], errors = [], loading }) => {
                 ))}
             </div>
 
-            <div className={cx('errors')}>
+            {/* <div className={cx('errors')}>
                 {errors.map((error, index) => (
                     <div key={index}>{error}</div>
                 ))}
-            </div>
+            </div> */}
         </div>
     );
 };

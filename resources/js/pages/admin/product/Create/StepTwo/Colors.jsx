@@ -36,13 +36,11 @@ const COLORS = [
     },
 ];
 
-const Colors = ({ colorId, setColorId }) => {
+const Colors = ({ colorId, setColorId, error, clearError }) => {
     const [colors, setColors] = useState([]);
     const [show, setShow] = useState(false);
     const currentColor = colors.find((color) => color.id === colorId);
     const colorsRef = useRef(null);
-
-    console.log(colors);
 
     useEffect(() => {
         const fetchColors = async () => {
@@ -56,6 +54,13 @@ const Colors = ({ colorId, setColorId }) => {
 
         fetchColors();
     }, []);
+
+    const handleClickMenu = () => {
+        if (error !== '') {
+            clearError();
+        }
+        setShow(!show);
+    };
 
     const handleColorClick = (color) => {
         // setShow(false);
@@ -77,30 +82,33 @@ const Colors = ({ colorId, setColorId }) => {
     }, []);
 
     return (
-        <div className={cx('colors')}>
-            <div className={cx('color-btn')} ref={colorsRef} onClick={() => setShow(!show)}>
-                <span>
-                    Màu sắc<span className={cx('required')}>*</span>:
-                </span>
-                <FontAwesomeIcon icon={faPalette} />
-                {show && (
-                    <div className={cx('colors-table')}>
-                        {colors.map((color) => (
-                            <span
-                                key={color.id}
-                                className={cx('color-option')}
-                                style={{ backgroundColor: color.code }}
-                                onClick={() => handleColorClick(color)}
-                            >
-                                {/* {color.name} */}
-                            </span>
-                        ))}
-                    </div>
-                )}
+        <>
+            <div className={cx('colors', { error: error })}>
+                <div className={cx('color-btn')} ref={colorsRef} onClick={handleClickMenu}>
+                    <span>
+                        Màu sắc<span className={cx('required')}>*</span>:
+                    </span>
+                    <FontAwesomeIcon icon={faPalette} />
+                    {show && (
+                        <div className={cx('colors-table')}>
+                            {colors.map((color) => (
+                                <span
+                                    key={color.id}
+                                    className={cx('color-option')}
+                                    style={{ backgroundColor: color.code }}
+                                    onClick={() => handleColorClick(color)}
+                                >
+                                    {/* {color.name} */}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+                </div>
+                {/* style={{ color: currentColor.code }} */}
+                {currentColor && <span className={cx('color-name')}>{currentColor.name}</span>}
             </div>
-            {/* style={{ color: currentColor.code }} */}
-            {currentColor && <span className={cx('color-name')}>{currentColor.name}</span>}
-        </div>
+            {error && <div className={cx('color-error')}>{error}</div>}
+        </>
     );
 };
 

@@ -87,11 +87,15 @@
 .message {
     width: 100%;
     padding-left: 5px;
-    color: yellow;
+    color: var(--secondary-75);
 }
 
 .note-message {
     display: none;
+}
+
+.error-message {
+    color: var(--error-color);
 }
 
 .input:focus-within {

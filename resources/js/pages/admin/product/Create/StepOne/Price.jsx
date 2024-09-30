@@ -7,7 +7,7 @@ import { RadioInput } from '~/components/Radio';
 
 const cx = classNames.bind(styles);
 
-const Price = ({ sale, original_price, price, saleType, setOriginalPrice, setPrice, setSale, setSaleType }) => {
+const Price = ({ sale, original_price, price, saleType, setOriginalPrice, setPrice, setSale, setSaleType, error }) => {
     const handleOriginalPriceChange = useCallback(
         (e) => {
             const value = e.target.value;
@@ -69,6 +69,7 @@ const Price = ({ sale, original_price, price, saleType, setOriginalPrice, setPri
                 type="number"
                 value={original_price}
                 onChange={handleOriginalPriceChange}
+                error={error}
             />
 
             {original_price !== '' && (

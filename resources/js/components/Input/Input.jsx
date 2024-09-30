@@ -16,6 +16,8 @@ const validateEmail = (value) => {
     return '';
 };
 
+const fn = () => {};
+
 const Input = forwardRef(
     (
         {
@@ -30,6 +32,7 @@ const Input = forwardRef(
             disabled = false,
             note,
             error = '',
+            clearError = fn,
             validate,
             time = 3000,
         },
@@ -56,6 +59,10 @@ const Input = forwardRef(
             }
         };
 
+        const handleFocus = () => {
+            clearError();
+        };
+
         return (
             <div className={cx('input')}>
                 <div className={cx('content', { error: errorValue })}>
@@ -71,6 +78,7 @@ const Input = forwardRef(
                         disabled={disabled}
                         value={value}
                         onChange={handleChange}
+                        onFocus={handleFocus}
                     />
                     {label && (
                         <label htmlFor={name}>
@@ -95,6 +103,8 @@ Input.propTypes = {
     required: PropTypes.bool,
     spellCheck: PropTypes.bool,
     note: PropTypes.string,
+    error: PropTypes.string,
+    clearError: PropTypes.func,
     validate: PropTypes.func,
 };
 

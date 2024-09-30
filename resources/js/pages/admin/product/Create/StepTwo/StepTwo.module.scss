@@ -52,6 +52,8 @@
 
     .color {
         width: 25%;
+        display: flex;
+        flex-direction: column;
     }
 
     .images {
@@ -117,4 +119,13 @@
         font-weight: var(--font-normal);
         cursor: default;
     }
+
+    &.error {
+        color: var(--error-color);
+    }
+}
+
+.color-error {
+    color: var(--error-color);
+    font-size: calc(var(--font-size) - 2px);
 }

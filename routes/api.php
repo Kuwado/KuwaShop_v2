@@ -22,6 +22,7 @@ Route::post('/product/variant/create/{product_id}', [ProductVariantController::c
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/colors', [ColorController::class, 'index']);
+Route::get('/product', [ProductController::class, 'getProduct']);
 Route::get('/products/old', [ProductController::class, 'index']);
 Route::get('/products/new', [ProductController::class, 'indexNew']);
 Route::get('/products/hot', [ProductController::class, 'indexHot']);

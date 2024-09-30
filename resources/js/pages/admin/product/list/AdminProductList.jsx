@@ -48,6 +48,7 @@ function AdminProductList() {
     useEffect(() => {
         fetchProducts(type, 1);
         setPage(1);
+        window.scrollTo(0, 0);
     }, [type]);
 
     useEffect(() => {
@@ -61,7 +62,7 @@ function AdminProductList() {
             try {
                 const response = await axios.delete(`/api/product/${id}`);
                 if (response.status === 200) {
-                    fetchProducts();
+                    fetchProducts(type, page);
                 }
             } catch (error) {
                 console.log('Không thể lấy được dữ liệu sản phẩm', error);

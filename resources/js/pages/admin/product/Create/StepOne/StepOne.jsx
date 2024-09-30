@@ -6,11 +6,10 @@ import { useCallback, useEffect } from 'react';
 import Price from './Price';
 import Categories from './Categories';
 import Informations from './Informations';
-import { Button } from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName, setSaleType }) => {
+const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName, setSaleType, errors, setErrors }) => {
     const setField = useCallback((field, value) => {
         setProduct((prev) => ({ ...prev, [field]: value }));
     }, []);
@@ -56,12 +55,22 @@ const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName,
         <div className={cx('step-one')}>
             <div className={cx('left')}>
                 <div className={cx('name-and-category')}>
-                    <Input name="name" label="Tên sản phẩm" required value={product.name} onChange={setName} />
+                    <Input
+                        name="name"
+                        label="Tên sản phẩm"
+                        required
+                        value={product.name}
+                        onChange={setName}
+                        error={errors.productName}
+                        clearError={() => setErrors((prev) => ({ ...prev, productName: '' }))}
+                    />
                     <Categories
                         categoryId={product.category_id}
                         categoryName={categoryName}
                         setCategoryId={setCategoryId}
                         setCategoryName={setCategoryName}
+                        error={errors.productCategory}
+                        clearError={() => setErrors((prev) => ({ ...prev, productCategory: '' }))}
                     />
                 </div>
 
@@ -74,6 +83,8 @@ const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName,
                     setPrice={setPrice}
                     setSale={setSale}
                     setSaleType={setSaleType}
+                    error={errors.productPrice}
+                    clearError={() => setErrors((prev) => ({ ...prev, productPrice: '' }))}
                 />
 
                 <UploadImage id="product-image" image={product.image} setImage={setImage} />

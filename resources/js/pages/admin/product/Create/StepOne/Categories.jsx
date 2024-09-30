@@ -64,7 +64,15 @@ const transformCategoriesToMenu = (categories) => {
     }));
 };
 
-const Categories = ({ categoryId, categoryName, setCategoryId, setCategoryName, title = 'Loại sản phẩm' }) => {
+const Categories = ({
+    categoryId,
+    categoryName,
+    setCategoryId,
+    setCategoryName,
+    error,
+    clearError,
+    title = 'Loại sản phẩm',
+}) => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -85,10 +93,18 @@ const Categories = ({ categoryId, categoryName, setCategoryId, setCategoryName, 
         setCategoryName(item.content);
     };
 
+    const handleResetError = () => {
+        if (error !== '') {
+            clearError();
+        }
+    };
+
     return (
-        <div className={cx('categories')}>
+        <div className={cx('categories', { 'cate-error': error })} onClick={handleResetError}>
             <Menu items={categories} onClick={handleCategoryClick} click offset={[2, 5]}>
-                <div className={cx('category')}>{categoryName === '' ? title : categoryName}</div>
+                <div className={cx('category')}>
+                    {error === '' ? (categoryName === '' ? title : categoryName) : error}
+                </div>
             </Menu>
         </div>
     );

@@ -41,7 +41,7 @@ const Pagination = ({ current, total, setPage }) => {
             <div className={cx('body')}>
                 {pages.map((page) => (
                     <div
-                        key={`pagination-&{page}`}
+                        key={`pagination-${page}`}
                         className={cx('page-item', { active: page === current })}
                         onClick={() => handlePaginate(page)}
                     >

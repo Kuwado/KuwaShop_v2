@@ -16,6 +16,7 @@
 //NameAndType
 .name-and-category {
     width: 100%;
+    min-height: max-content;
     display: flex;
     gap: 10px;
 }
@@ -25,10 +26,17 @@
     min-width: 30%;
     height: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     border-radius: 12px 0;
     border: 2px solid var(--secondary-25);
     overflow: hidden;
+
+    &.cate-error {
+        border-color: var(--error-color);
+        .category {
+            color: var(--error-color);
+        }
+    }
 }
 
 .category {

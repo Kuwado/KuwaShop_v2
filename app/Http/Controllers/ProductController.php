@@ -90,4 +90,20 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Sản phẩm không tồn tại'], 404);
     }
+
+    public function getProduct(Request $request) {
+        $productId = $request->query('id');
+        $product = Product::find($productId);
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        $variants = $product->variants()->get();
+
+        return response()->json(([
+            'product'=>$product,
+            'variants'=>$variants,
+        ]), 200);
+    }
 }

@@ -69,13 +69,22 @@ const StepTwo = ({ variants, setVariants }) => {
         });
     }, []);
 
+    const clearError = useCallback((index) => {
+        setField(index, 'error', '');
+    }, []);
+
     return (
         <div className={cx('step-two')}>
             {variants.map((variant, index) => (
                 <div className={cx('variant')} key={`variant-${index}`}>
                     <div className={cx('color-and-images')}>
                         <div className={cx('color')}>
-                            <Colors colorId={variant.color_id} setColorId={(id) => setColorId(index, id)} />
+                            <Colors
+                                colorId={variant.color_id}
+                                setColorId={(id) => setColorId(index, id)}
+                                error={variant.error}
+                                clearError={() => clearError(index)}
+                            />
                         </div>
                         <div className={cx('images')}>
                             <UploadImages
