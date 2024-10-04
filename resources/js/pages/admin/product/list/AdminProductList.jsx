@@ -26,7 +26,7 @@ const BREADCRUMB = [
 
 function AdminProductList() {
     const [products, setProducts] = useState([]);
-    const [type, setType] = useState('old');
+    const [type, setType] = useState('new');
     const [page, setPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
     const [loading, setLoading] = useState(false);

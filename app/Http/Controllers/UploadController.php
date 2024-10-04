@@ -19,14 +19,14 @@ class UploadController extends Controller
         foreach($request->file('images') as $image) {
             $imageName = time() . '_' . uniqid() . '.' . $image->extension();
             $image->storeAs('images', $imageName, 'public');
-            $imageNames[] = $imageName;
+            $imageNames[] = '/storage/images/' . $imageName;
         }
 
         return response()->json([
             'message' => 'Ảnh đã được thêm thành công',
             'images' => $imageNames,
             'image_paths' => json_encode($imageNames)
-        ]);
+        ], 201);
     }
 
     public function uploadImage(Request $request)
@@ -34,10 +34,11 @@ class UploadController extends Controller
         $image = $request->file('image');
         $imageName = time() . '_' . uniqid() . '.' . $image->extension();
         $image->storeAs('images', $imageName, 'public');
+        $imageName = '/storage/images/' . $imageName;
 
         return response()->json([
             'message' => 'Ảnh đã được thêm thành công',
             'image' => $imageName
-        ]);
+        ], 201);
     }
 }

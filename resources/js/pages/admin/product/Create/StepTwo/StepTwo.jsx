@@ -5,12 +5,12 @@ import { faPlusCircle, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './StepTwo.module.scss';
 import Colors from './Colors';
-import { UploadImages } from '~/components/Input';
 import Size from './Size';
+import { UploadImages } from '~/constants/UploadImages';
 
 const cx = classNames.bind(styles);
 
-const StepTwo = ({ variants, setVariants }) => {
+const StepTwo = ({ variants, setVariants, showImages = false }) => {
     console.log(variants);
 
     const setField = useCallback((index, field, value) => {
@@ -91,6 +91,7 @@ const StepTwo = ({ variants, setVariants }) => {
                                 id={`variant-${index}`}
                                 images={variant.images}
                                 setImages={(images) => setImages(index, images)}
+                                show={showImages}
                             />
                         </div>
                     </div>

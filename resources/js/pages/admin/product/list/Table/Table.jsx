@@ -1,27 +1,12 @@
 import classNames from 'classnames/bind';
-
-import styles from './Table.module.scss';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+
+import styles from './Table.module.scss';
+import { formatDate, formatPrice } from '~/utils/format';
 
 const cx = classNames.bind(styles);
-
-const priceTranform = (priceString) => {
-    return new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND',
-    }).format(priceString);
-};
-
-const dateTranform = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('vi-VN', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    });
-};
 
 const Table = ({ products, handleDeleteProduct }) => {
     return (
@@ -41,12 +26,12 @@ const Table = ({ products, handleDeleteProduct }) => {
                     <div className={cx('row')} key={index}>
                         <div className={cx('id')}>{index + 1}</div>
                         <div className={cx('avatar')}>
-                            <img src={`/storage/images/${product.avatar}`} alt={product.name} />
+                            <img src={product.avatar} alt={product.name} />
                         </div>
                         <div className={cx('name')}>{product.name}</div>
-                        <div className={cx('price')}>{priceTranform(product.price)}</div>
+                        <div className={cx('price')}>{formatPrice(product.price)}</div>
                         <div className={cx('sold-quantity')}>{product.sold_quantity}</div>
-                        <div className={cx('created-time')}>{dateTranform(product.created_at)}</div>
+                        <div className={cx('created-time')}>{formatDate(product.created_at)}</div>
                         <div className={cx('view')}>
                             <Link to={`/admin/product/${product.id}`} className={cx('action-btn')}>
                                 <FontAwesomeIcon icon={faEye} />

@@ -37,4 +37,19 @@ class CategoryController extends Controller
 
         return $branch;
     }
+
+    public function getCategory(Request $request)
+    {
+        $id = $request->query('id');
+        $category = Category::find($id);
+
+        if (!$category) {
+            return response()->json(['message' => "Không tìm thấy loại sản phẩm với id là $id"], 404);
+        }
+
+        return response()->json([
+            'category'=>$category,
+            'message'=>"Đã tìm thấy loại sản phẩm"
+        ], 200);
+    }
 }

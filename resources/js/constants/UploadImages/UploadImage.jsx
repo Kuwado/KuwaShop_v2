@@ -1,15 +1,27 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 import styles from './UploadImages.module.scss';
+import { IconButton } from '~/components/Button';
+import Popup from '~/components/Popup';
 
 const cx = classNames.bind(styles);
 
-const UploadImage = ({ image = '', setImage, submit = false, id = 'image', title = 'Ảnh đại diện' }) => {
+const UploadImage = ({
+    image = '',
+    setImage,
+    submit = false,
+    id = 'image',
+    title = 'Ảnh đại diện',
+    showImage = false,
+}) => {
     const [message, setMessage] = useState('');
+    const [zoom, setZoom] = useState(false);
+
+    console.log(zoom);
 
     const handleImageChange = (e) => {
         setImage(e.target.files[0]);
@@ -45,7 +57,19 @@ const UploadImage = ({ image = '', setImage, submit = false, id = 'image', title
                     </button>
                 )}
             </div>
-            <div className={cx('image')}>{image && <img src={URL.createObjectURL(image)} alt="image" />} </div>
+            {image && (
+                <>
+                    <div className={cx('image')} onClick={() => setZoom(true)}>
+                        <img src={showImage ? image : URL.createObjectURL(image)} alt="image" />
+                    </div>
+
+                    <Popup isOpen={zoom} onClose={() => setZoom(false)}>
+                        <div className={cx('zoom-image')}>
+                            <img src={showImage ? image : URL.createObjectURL(image)} alt="image" />
+                        </div>
+                    </Popup>
+                </>
+            )}
         </div>
     );
 };

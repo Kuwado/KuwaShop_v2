@@ -5,7 +5,7 @@ import styles from './AdminLayout.module.scss';
 import Header from '~/common/Header';
 import Sidebar from '~/common/Sidebar';
 import config from '~/config';
-import Breadcrumb from '~/components/Breadcrumb';
+import Breadcrumb from '~/common/Breadcrumb';
 
 const cx = classNames.bind(styles);
 

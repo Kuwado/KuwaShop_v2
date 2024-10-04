@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 
 import styles from './Content.module.scss';
-import Breadcrumb from '~/components/Breadcrumb';
+import Breadcrumb from '~/common/Breadcrumb';
 
 const cx = classNames.bind(styles);
 

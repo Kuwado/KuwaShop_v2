@@ -34,7 +34,7 @@ const Input = forwardRef(
             error = '',
             clearError = fn,
             validate,
-            time = 3000,
+            // time = 3000,
         },
         ref,
     ) => {

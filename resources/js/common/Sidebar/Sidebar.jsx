@@ -49,7 +49,7 @@ const findItemByPath = (items, path) => {
             }
         }
     }
-    return items[0];
+    return 'other';
 };
 
 const checkChildrenActive = (children, item) => {
@@ -76,13 +76,17 @@ const Sidebar = ({ items }) => {
     };
 
     const checkActive = (item) => {
-        if (item.children) {
-            if (checkChildrenActive(item.children, currentItem)) {
-                return true;
-            } else return false;
-        } else {
-            return item.type === currentItem.type;
+        if (item !== 'other') {
+            if (item.children) {
+                if (checkChildrenActive(item.children, currentItem)) {
+                    return true;
+                } else return false;
+            } else {
+                return item.type === currentItem.type;
+            }
         }
+
+        return false;
     };
 
     return (

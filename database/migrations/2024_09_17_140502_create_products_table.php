@@ -25,7 +25,7 @@ return new class extends Migration
             $table->longText('preserve')->nullable();
             $table->boolean('new')->default(true);
             $table->boolean('hot')->default(false);
-            $table->string('sale')->default("not_sale");
+            $table->string('sale')->default("not");
             $table->timestamps();
         });
     }

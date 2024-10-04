@@ -1,15 +1,16 @@
+import { useCallback } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './StepOne.module.scss';
-import { Input, UploadImage } from '~/components/Input';
-import { useCallback, useEffect } from 'react';
+import { Input } from '~/components/Input';
 import Price from './Price';
-import Categories from './Categories';
 import Informations from './Informations';
+import { UploadImage } from '~/constants/UploadImages';
+import Categories from '~/constants/Categories';
 
 const cx = classNames.bind(styles);
 
-const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName, setSaleType, errors, setErrors }) => {
+const StepOne = ({ product, saleType, errors, setProduct, setSaleType, setErrors }) => {
     const setField = useCallback((field, value) => {
         setProduct((prev) => ({ ...prev, [field]: value }));
     }, []);
@@ -32,6 +33,9 @@ const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName,
     }, []);
 
     const setImage = useCallback((value) => {
+        if (product.avatar) {
+            setField('avatar', '');
+        }
         setField('image', value);
     }, []);
 
@@ -66,9 +70,7 @@ const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName,
                     />
                     <Categories
                         categoryId={product.category_id}
-                        categoryName={categoryName}
                         setCategoryId={setCategoryId}
-                        setCategoryName={setCategoryName}
                         error={errors.productCategory}
                         clearError={() => setErrors((prev) => ({ ...prev, productCategory: '' }))}
                     />
@@ -87,7 +89,12 @@ const StepOne = ({ product, categoryName, saleType, setProduct, setCategoryName,
                     clearError={() => setErrors((prev) => ({ ...prev, productPrice: '' }))}
                 />
 
-                <UploadImage id="product-image" image={product.image} setImage={setImage} />
+                <UploadImage
+                    id="product-image"
+                    image={product.avatar ? product.avatar : product.image}
+                    setImage={setImage}
+                    showImage={!!product.avatar}
+                />
             </div>
             <div className={cx('right')}>
                 <Informations

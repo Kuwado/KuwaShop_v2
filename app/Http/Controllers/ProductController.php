@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Providers\Format;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,7 @@ class ProductController extends Controller
             $product->intro = $request->input('intro');
             $product->detail = $request->input('detail');
             $product->preserve = $request->input('preserve');
-            $product->sale = $request->input('sale') ?? 'not_sale';
+            $product->sale = $request->input('sale') ?? 'not';
             $product->save();
 
             return response()->json([
@@ -99,11 +100,30 @@ class ProductController extends Controller
             return response()->json(['message' => 'Product not found'], 404);
         }
 
-        $variants = $product->variants()->get();
+        if($product->intro === null) $product->intro = '';
+        if($product->detail === null) $product->detail = '';
+        if($product->preserve === null) $product->preserve = '';
+
+        $variants = $product->variants()->get()->map(function ($variant) {
+            $variant->images = json_decode($variant->images, true);
+            return $variant;
+        });
+                $category = $product->category;
+        $sale_type = $product->sale;
+        if ($product->sale !== 'not') {
+            if (substr($product->sale, -1) === "%") {
+                $sale_type = 'percent';
+                $product->sale = rtrim($product->sale, "%");
+            } else {
+                $sale_type = 'value';
+            }
+        }
 
         return response()->json(([
             'product'=>$product,
             'variants'=>$variants,
+            'category'=>$category,
+            'sale_type'=>$sale_type,
         ]), 200);
     }
 }

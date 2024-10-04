@@ -1,0 +1,14 @@
+.product-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.variant-title {
+    padding-top: 10px;
+    border-top: 2px solid var(--secondary-25);
+}
+
+.variants {
+    display: flex;
+}

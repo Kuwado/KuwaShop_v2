@@ -356,7 +356,7 @@ const Header = () => {
     const [currentUser, setCurrentUser] = useState(false);
 
     return (
-        <header className={cx('wrapper')}>
+        <header className={cx('header')}>
             <div className={cx('content')}>
                 <Link to={config.routes.admin.dashboard} className={cx('logo')}>
                     <Image src={images.logo} alt="kuwashop" width="100%" height="100%" />

@@ -9,23 +9,35 @@ import 'tippy.js/dist/tippy.css';
 const cx = classNames.bind(styles);
 
 const IconButton = forwardRef(
-    ({ icon, children, content = '', type = 'button', onClick, classname, small, large, active, number }, ref) => {
+    (
+        { icon, children, content = '', type = 'button', onClick, className, small, large, active, number, circle },
+        ref,
+    ) => {
         const classes = cx('medium', {
-            [classname]: classname,
+            [className]: className,
             small,
             large,
+            circle,
             active,
         });
 
         return (
             <div>
-                <Tippy delay={[0, 50]} content={content} placement="bottom">
+                {content ? (
+                    <Tippy delay={[0, 50]} content={content} placement="bottom">
+                        <button className={classes} ref={ref} type={type} onClick={onClick}>
+                            {icon}
+                            {number && <div className={cx('number')}>{number}</div>}
+                            {children}
+                        </button>
+                    </Tippy>
+                ) : (
                     <button className={classes} ref={ref} type={type} onClick={onClick}>
                         {icon}
                         {number && <div className={cx('number')}>{number}</div>}
                         {children}
                     </button>
-                </Tippy>
+                )}
             </div>
         );
     },
@@ -34,15 +46,15 @@ const IconButton = forwardRef(
 IconButton.propTypes = {
     icon: PropTypes.node.isRequired,
     children: PropTypes.node,
-    content: PropTypes.string.isRequired,
+    content: PropTypes.string,
     type: PropTypes.string,
     onClick: PropTypes.func,
-    classname: PropTypes.string,
+    className: PropTypes.string,
     small: PropTypes.bool,
     large: PropTypes.bool,
     active: PropTypes.bool,
     number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    click: PropTypes.bool,
+    circle: PropTypes.bool,
 };
 
 export default IconButton;

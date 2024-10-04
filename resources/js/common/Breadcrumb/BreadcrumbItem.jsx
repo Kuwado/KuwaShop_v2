@@ -16,7 +16,7 @@ const BreadcrumbItem = ({ title, link, active }) => {
 
 BreadcrumbItem.propTypes = {
     title: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
+    link: PropTypes.string,
 };
 
 export default BreadcrumbItem;
