@@ -4,8 +4,13 @@
     gap: 10px;
 }
 
+.product-title {
+    padding-bottom: 10px;
+}
+
 .variant-title {
-    padding-top: 10px;
+    margin-top: 10px;
+    padding: 10px 0;
     border-top: 2px solid var(--secondary-25);
 }
 

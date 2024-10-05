@@ -33,4 +33,20 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($product) {
+            if (!$product->sku) {    
+                $cat = '';
+                if ($product->category_id) {
+                    $cat = $product->category_id;
+                }     
+                $product->sku = $cat . 'KWS' . str_pad($product->id, 5, '0', STR_PAD_LEFT);
+                $product->save();
+            }
+        });
+    }
 } 

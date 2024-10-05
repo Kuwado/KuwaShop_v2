@@ -64,6 +64,8 @@ function AdminProductDetail() {
         <Content breadcrumb={BREADCRUMB}>
             {!loading ? (
                 <div className={cx('product-detail')}>
+                    <h3 className={cx('product-title')}>Thông tin sản phẩm{product.sku && ` - ${product.sku}`}</h3>
+
                     <div className={cx('product')}>
                         {!loading && (
                             <StepOne
