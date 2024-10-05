@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import classNames from 'classnames/bind';
 
-import styles from './Part.module.scss';
+import styles from './Parts.module.scss';
 
 const cx = classNames.bind(styles);
 

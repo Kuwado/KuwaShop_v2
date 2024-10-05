@@ -37,7 +37,7 @@ class ProductVariantController extends Controller
             $productVariant->l = $request->input('l') ?? 0;
             $productVariant->xl = $request->input('xl') ?? 0;
             $productVariant->xxl = $request->input('xxl') ?? 0;
-            $productVariant->images = $request->input('image_paths');
+            $productVariant->images = $request->input('images');
             $productVariant->color_id = $request->input('color_id');
             $productVariant->product_id = $product_id;
             $productVariant->save();
@@ -52,5 +52,25 @@ class ProductVariantController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         } 
+    }
+
+    public function getVariants (Request $request)
+    {
+        $productId = $request->query('product_id');
+        $variants = ProductVariant::where('product_id', $productId)->get();
+
+        if(!$variants) return response()->json(['message' => 'Không tìm thấy biến thể'], 404);
+
+        $variants = $variants->map(function ($variant) {
+            $variant->images = json_decode($variant->images, true);
+            $variant->color_name = $variant->color->name;
+            return $variant;
+        });
+
+
+        return response()->json([
+            'variants' => $variants,
+            'message' => 'Đã lấy thành công danh sách biến thể'
+        ], 200);
     }
 }

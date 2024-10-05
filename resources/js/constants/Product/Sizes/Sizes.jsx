@@ -1,12 +1,12 @@
 import { memo } from 'react';
 import classNames from 'classnames/bind';
 
-import styles from './StepTwo.module.scss';
+import styles from './Sizes.module.scss';
 import { Input } from '~/components/Input';
 
 const cx = classNames.bind(styles);
 
-const Size = ({ s, m, l, xl, xxl, setS, setM, setL, setXL, setXXL }) => {
+const Sizes = ({ s, m, l, xl, xxl, setS, setM, setL, setXL, setXXL }) => {
     return (
         <div className={cx('size')}>
             <Input name="s" label="Số lượng size S" type="number" value={s} onChange={setS} />
@@ -18,4 +18,4 @@ const Size = ({ s, m, l, xl, xxl, setS, setM, setL, setXL, setXXL }) => {
     );
 };
 
-export default memo(Size);
+export default memo(Sizes);

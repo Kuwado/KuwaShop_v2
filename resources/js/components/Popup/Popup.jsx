@@ -11,15 +11,15 @@ const cx = classNames.bind(styles);
 const Popup = ({ isOpen, onClose, children, title }) => {
     useEffect(() => {
         if (isOpen) {
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflowY = 'hidden';
             document.body.style.marginRight = '8px';
         } else {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflowY = 'overlay';
             document.body.style.marginRight = 'unset';
         }
 
         return () => {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflowY = 'overlay';
             document.body.style.marginRight = 'unset';
         };
     }, [isOpen]);

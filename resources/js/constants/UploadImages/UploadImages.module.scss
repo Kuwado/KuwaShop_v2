@@ -3,9 +3,16 @@
     --image-length: 20px;
     --image-length-zoom: 150px;
 
+    width: fit-content;
     display: flex;
     align-items: center;
     gap: 10px;
+
+    img {
+        width: calc(var(--image-length) * 3);
+        height: calc(var(--image-length) * 4);
+        object-fit: contain;
+    }
 }
 
 .actions {
@@ -20,22 +27,17 @@
     }
 }
 
-.images,
-.image {
+.images {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
-
-    img {
-        width: calc(var(--image-length) * 3);
-        height: calc(var(--image-length) * 4);
-        object-fit: contain;
-        // border: 1px solid var(--secondary);
-    }
 }
 
 .image {
+    display: flex;
+    align-items: center;
+
     img {
         cursor: pointer;
     }

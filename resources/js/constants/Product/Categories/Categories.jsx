@@ -3,48 +3,12 @@ import classNames from 'classnames/bind';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import styles from './StepOne.module.scss';
+import styles from './Categories.module.scss';
 import Menu from '~/components/Menu';
 import axios from 'axios';
+import { getCategories, getCategory } from '~/services/categoryService';
 
 const cx = classNames.bind(styles);
-
-const CATEGORIES = [
-    {
-        id: 1,
-        name: 'Áo',
-        children: [
-            {
-                id: 4,
-                name: 'Áo mùa hè',
-                children: [
-                    {
-                        id: 6,
-                        name: 'Áo polo',
-                    },
-                    {
-                        id: 7,
-                        name: 'Áo phông',
-                    },
-                ],
-            },
-            {
-                id: 5,
-                name: 'Áo mùa đông',
-            },
-        ],
-    },
-    {
-        id: 2,
-        name: 'Quần',
-        children: [
-            {
-                id: 3,
-                name: 'Quần dài',
-            },
-        ],
-    },
-];
 
 const transformCategoriesToMenu = (categories) => {
     if (!Array.isArray(categories) || categories.length === 0) {
@@ -64,33 +28,21 @@ const transformCategoriesToMenu = (categories) => {
     }));
 };
 
-const Categories = ({
-    categoryId,
-    categoryName,
-    setCategoryId,
-    setCategoryName,
-    error,
-    clearError,
-    title = 'Loại sản phẩm',
-}) => {
+const Categories = ({ id, setId, name, setName, error, clearError, title = 'Loại sản phẩm' }) => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         const fetchCategories = async () => {
-            try {
-                const response = await axios.get('/api/categories');
-                setCategories(transformCategoriesToMenu(response.data.categories));
-            } catch (error) {
-                console.error('Lỗi lấy dữ liệu categories: ', error);
-            }
+            const response = await getCategories();
+            setCategories(transformCategoriesToMenu(response.categories));
         };
 
         fetchCategories();
     }, []);
 
     const handleCategoryClick = (item) => {
-        setCategoryId(item.id);
-        setCategoryName(item.content);
+        setName(item.content);
+        setId(item.id);
     };
 
     const handleResetError = () => {
@@ -102,9 +54,7 @@ const Categories = ({
     return (
         <div className={cx('categories', { 'cate-error': error })} onClick={handleResetError}>
             <Menu items={categories} onClick={handleCategoryClick} click offset={[2, 5]}>
-                <div className={cx('category')}>
-                    {error === '' ? (categoryName === '' ? title : categoryName) : error}
-                </div>
+                <div className={cx('category')}>{error === '' ? (name ? name : title) : error}</div>
             </Menu>
         </div>
     );

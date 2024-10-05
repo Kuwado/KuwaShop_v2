@@ -1,39 +1,49 @@
 import { useCallback, useState } from 'react';
 
-const useProduct = () => {
+const useProduct = (initialProduct = {}) => {
     const [product, setProduct] = useState({
         name: '',
         category_id: '',
         original_price: '',
         price: '',
-        image: '',
         avatar: '',
         intro: '',
         detail: '',
         preserve: '',
         sale: '',
+        image_file: '',
+        category_name: '',
+        sale_type: 'not',
+        ...initialProduct,
     });
-    const [categoryName, setCategoryName] = useState('');
-    const [saleType, setSaleType] = useState('not');
 
-    const resetProduct = useCallback(() => {
+    const setProductField = (field, value) => {
+        setProduct((prev) => ({ ...prev, [field]: value }));
+    };
+
+    const resetProduct = () => {
         setProduct({
             name: '',
             category_id: '',
             original_price: '',
             price: '',
-            image: '',
             avatar: '',
             intro: '',
             detail: '',
             preserve: '',
             sale: '',
+            image_file: '',
+            category_name: '',
+            sale_type: 'not',
         });
-        setSaleType('not');
-        setCategoryName('');
-    });
+    };
 
-    return { product, setProduct, categoryName, setCategoryName, saleType, setSaleType, resetProduct };
+    return {
+        product,
+        setProduct,
+        setProductField,
+        resetProduct,
+    };
 };
 
 export default useProduct;

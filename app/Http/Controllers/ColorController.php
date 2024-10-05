@@ -18,4 +18,19 @@ class ColorController extends Controller
             'colors' => $colors
         ], 200);
     } 
+
+    public function getColor(Request $request)
+    {
+        $id = $request->query('id');
+        $color = Color::find($id);
+
+        if (!$color) {
+            return response()->json(['message'=>'Không tìm thấy màu sắc'], 404);
+        }
+
+        return response()->json([
+            'color' => $color,
+            'message' => 'Lấy thành công màu sắc'
+        ], 200);
+    }
 }

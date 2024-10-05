@@ -104,26 +104,20 @@ class ProductController extends Controller
         if($product->detail === null) $product->detail = '';
         if($product->preserve === null) $product->preserve = '';
 
-        $variants = $product->variants()->get()->map(function ($variant) {
-            $variant->images = json_decode($variant->images, true);
-            return $variant;
-        });
-                $category = $product->category;
-        $sale_type = $product->sale;
+        $product->category_name = $product->category->name;
+
+        $product->sale_type = $product->sale;
         if ($product->sale !== 'not') {
             if (substr($product->sale, -1) === "%") {
-                $sale_type = 'percent';
+                $product->sale_type = 'percent';
                 $product->sale = rtrim($product->sale, "%");
             } else {
-                $sale_type = 'value';
+                $product->sale_type = 'value';
             }
         }
 
-        return response()->json(([
+        return response()->json([
             'product'=>$product,
-            'variants'=>$variants,
-            'category'=>$category,
-            'sale_type'=>$sale_type,
-        ]), 200);
+        ], 200);
     }
 }

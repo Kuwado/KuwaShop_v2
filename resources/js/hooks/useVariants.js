@@ -1,20 +1,53 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
-const useVariants = () => {
-    const [variants, setVariants] = useState([
-        {
-            s: '',
-            m: '',
-            l: '',
-            xl: '',
-            xxl: '',
-            images: [],
-            image_paths: '',
-            color_id: '',
-        },
-    ]);
+const useVariants = (initialVariants = []) => {
+    const [variants, setVariants] = useState(
+        initialVariants.length > 0
+            ? initialVariants
+            : [
+                  {
+                      s: '',
+                      m: '',
+                      l: '',
+                      xl: '',
+                      xxl: '',
+                      images: '',
+                      color_id: '',
+                      image_files: [],
+                      color_name: '',
+                  },
+              ],
+    );
 
-    const resetVariants = useCallback(() => {
+    const deleteVariant = (index) => {
+        console.log(index);
+        setVariants((prev) => {
+            console.log(prev);
+            const updatedVars = [...prev];
+            console.log(updatedVars);
+            if (updatedVars.length > 1) {
+                updatedVars.splice(index, 1);
+            }
+            return updatedVars;
+        });
+    };
+
+    const addVariant = () => {
+        setVariants((prev) => [
+            ...prev,
+            { s: '', m: '', l: '', xl: '', xxl: '', images: '', color_id: '', image_files: [], color_name: '' },
+        ]);
+    };
+
+    const updateVariant = (variant, index) => {
+        setVariants((prev) => prev.map((v, i) => (i === index ? variant : v)));
+    };
+
+    const updateVariantField = (field, value, index) => {
+        setVariants((prev) => prev.map((variant, i) => (i === index ? { ...variant, [field]: value } : variant)));
+    };
+
+    const resetVariants = () => {
         setVariants([
             {
                 s: '',
@@ -22,14 +55,23 @@ const useVariants = () => {
                 l: '',
                 xl: '',
                 xxl: '',
-                images: [],
-                image_paths: '',
+                images: '',
                 color_id: '',
+                image_files: [],
+                color_name: '',
             },
         ]);
-    }, []);
+    };
 
-    return { variants, setVariants, resetVariants };
+    return {
+        variants,
+        setVariants,
+        resetVariants,
+        deleteVariant,
+        addVariant,
+        updateVariant,
+        updateVariantField,
+    };
 };
 
 export default useVariants;

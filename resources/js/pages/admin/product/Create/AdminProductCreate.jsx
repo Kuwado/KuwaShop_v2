@@ -1,19 +1,19 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 import config from '~/config';
 import styles from './AdminProductCreate.module.scss';
 import Content from '~/common/Content/Content';
-import StepOne from './StepOne/StepOne';
-import StepTwo from './StepTwo/StepTwo';
-import StepThree from './StepThree/StepThree';
+import StepOne from './Steps/StepOne';
+import StepTwo from './Steps/StepTwo';
+import StepThree from './Steps/StepThree';
 import { OutInTransition } from '~/animations/Transition';
-import StepHeader from './Part/StepHeader';
-import ActionsBtns from './Part/ActionsBtns';
+import StepHeader from './Parts/StepHeader';
+import ActionsBtns from './Parts/ActionsBtns';
 import useProduct from '~/hooks/useProduct';
 import useVariants from '~/hooks/useVariants';
 import { createProduct } from '~/services/productService';
-import { createVariant } from '~/services/variantsService';
+import { createVariant } from '~/services/variantService';
 
 const cx = classNames.bind(styles);
 
@@ -30,60 +30,49 @@ const BREADCRUMB = [
 
 const AdminProductCreate = () => {
     const [step, setStep] = useState(1);
-    const { product, setProduct, saleType, setSaleType, resetProduct } = useProduct();
-    const { variants, setVariants, resetVariants } = useVariants();
-
+    const [next, setNext] = useState(false);
+    const { product, setProduct, resetProduct } = useProduct({});
+    const { variants, setVariants, resetVariants } = useVariants([]);
     const [messages, setMessages] = useState([]);
-    const [errors, setErrors] = useState({
-        productName: '',
-        productCategory: '',
-        productPrice: '',
-        fetch: '',
-        variantColor: '',
-    });
     const [loading, setLoading] = useState(false);
 
-    console.log(product);
+    useEffect(() => {
+        const handleCreate = async () => {
+            setLoading(true);
+
+            const productResponse = await createProduct(product, product.sale_type);
+            setMessages((prev) => [...prev, productResponse.message]);
+            const productId = productResponse.product.id;
+
+            await Promise.all(
+                variants.map(async (variant) => {
+                    const variantResponse = await createVariant(variant, productId);
+                    setMessages((prev) => [...prev, variantResponse.message]);
+                }),
+            );
+
+            setLoading(false);
+        };
+
+        if (step === 3) handleCreate();
+    }, [step]);
+
+    const handleSubmitProduct = useCallback((p) => {
+        setProduct(p);
+        setStep(2);
+    }, []);
+
+    const handleSubmitVariants = useCallback((v) => {
+        setVariants(v);
+        setStep(3);
+    }, []);
 
     const continueCreateProduct = useCallback(() => {
         resetProduct();
         resetVariants();
         setMessages([]);
-        setErrors({
-            productName: '',
-            productCategory: '',
-            productPrice: '',
-            fetch: '',
-            variantColor: '',
-        });
         setStep(1);
     }, []);
-
-    const submitProduct = useCallback(
-        async (e) => {
-            e.preventDefault();
-            setStep(3);
-            setLoading(true);
-
-            try {
-                const productResponse = await createProduct(product, saleType);
-                setMessages((prev) => [...prev, productResponse.message]);
-                const productId = productResponse.product.id;
-
-                await Promise.all(
-                    variants.map(async (variant) => {
-                        const variantResponse = await createVariant(variant, productId);
-                        setMessages((prev) => [...prev, variantResponse.message]);
-                    }),
-                );
-            } catch (error) {
-                console.error('Chưa tạo được sản phẩm', error);
-            } finally {
-                setLoading(false);
-            }
-        },
-        [product, variants],
-    );
 
     return (
         <Content breadcrumb={BREADCRUMB}>
@@ -94,30 +83,29 @@ const AdminProductCreate = () => {
                     <OutInTransition state={step}>
                         {step === 1 ? (
                             <StepOne
-                                product={product}
-                                saleType={saleType}
-                                setProduct={setProduct}
-                                setSaleType={setSaleType}
-                                errors={errors}
-                                setErrors={setErrors}
+                                initialProduct={product}
+                                onSubmit={handleSubmitProduct}
+                                next={next}
+                                setNext={setNext}
                             />
                         ) : step === 2 ? (
-                            <StepTwo variants={variants} setVariants={setVariants} />
+                            <StepTwo
+                                initialVariants={variants}
+                                onSubmit={handleSubmitVariants}
+                                next={next}
+                                setNext={setNext}
+                            />
                         ) : (
-                            <StepThree loading={loading} messages={messages} />
+                            <StepThree messages={messages} loading={loading} />
                         )}
                     </OutInTransition>
                 </div>
 
                 <ActionsBtns
                     step={step}
-                    product={product}
-                    variants={variants}
                     loading={loading}
                     setStep={setStep}
-                    setErrors={setErrors}
-                    setVariants={setVariants}
-                    onSubmit={submitProduct}
+                    setNext={setNext}
                     continueCreateProduct={continueCreateProduct}
                 />
             </form>

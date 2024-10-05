@@ -21,8 +21,6 @@ const UploadImage = ({
     const [message, setMessage] = useState('');
     const [zoom, setZoom] = useState(false);
 
-    console.log(zoom);
-
     const handleImageChange = (e) => {
         setImage(e.target.files[0]);
     };

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, memo } from 'react';
 import classNames from 'classnames/bind';
 
-import styles from './StepOne.module.scss';
+import styles from './Price.module.scss';
 import { Input } from '~/components/Input';
 import { RadioInput } from '~/components/Radio';
 
@@ -101,28 +101,30 @@ const Price = ({ sale, original_price, price, saleType, setOriginalPrice, setPri
                         </div>
                     </div>
 
-                    <div className={cx('price-body')}>
-                        {saleType == 'percent' && (
-                            <Input
-                                name="sale-percent"
-                                label="Phần trăm giảm (%)"
-                                type="number"
-                                value={sale}
-                                onChange={handlePercentChange}
-                                note="Chọn phần trăm giảm giá từ 1 - 99"
-                            />
-                        )}
-                        {saleType == 'value' && (
-                            <Input
-                                name="sale-value"
-                                label="Giá trị giảm (đ)"
-                                type="number"
-                                value={sale}
-                                onChange={handleValueChange}
-                                note="Chọn giá trị được giảm ( < giá gốc )"
-                            />
-                        )}
-                    </div>
+                    {saleType !== 'not' && (
+                        <div className={cx('price-body')}>
+                            {saleType == 'percent' && (
+                                <Input
+                                    name="sale-percent"
+                                    label="Phần trăm giảm (%)"
+                                    type="number"
+                                    value={sale}
+                                    onChange={handlePercentChange}
+                                    note="Chọn phần trăm giảm giá từ 1 - 99"
+                                />
+                            )}
+                            {saleType == 'value' && (
+                                <Input
+                                    name="sale-value"
+                                    label="Giá trị giảm (đ)"
+                                    type="number"
+                                    value={sale}
+                                    onChange={handleValueChange}
+                                    note="Chọn giá trị được giảm ( < giá gốc )"
+                                />
+                            )}
+                        </div>
+                    )}
 
                     <div className={cx('price-last')}>
                         <Input name="price" label="Giá cuối cùng (đ)" type="number" value={price} disabled />

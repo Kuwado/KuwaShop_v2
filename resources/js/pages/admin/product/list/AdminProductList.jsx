@@ -10,6 +10,7 @@ import Pagination from '~/common/Pagination';
 import ListHeader from './Part/ListHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import LoadingPage from '~/pages/other/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -77,16 +78,7 @@ function AdminProductList() {
         <Content breadcrumb={BREADCRUMB}>
             <div className={cx('admin-product-list')}>
                 <ListHeader type={type} setType={setType} />
-                {loading ? (
-                    <div className={cx('waiting')}>
-                        <div className={cx('loading')}>
-                            <FontAwesomeIcon icon={faSpinner} />
-                        </div>
-                        <h4>Vui lòng chờ</h4>
-                    </div>
-                ) : (
-                    <Table products={products} handleDeleteProduct={handleDeleteProduct} />
-                )}
+                {loading ? <LoadingPage /> : <Table products={products} handleDeleteProduct={handleDeleteProduct} />}
                 <Pagination current={page} total={totalPage} setPage={setPage} />
             </div>
         </Content>

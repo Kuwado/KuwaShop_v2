@@ -1,55 +1,24 @@
 import { useEffect, useRef, useState, memo } from 'react';
 import classNames from 'classnames/bind';
 
-import styles from './StepTwo.module.scss';
+import styles from './Colors.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPalette } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import { getColor, getColors } from '~/services/colorService';
 
 const cx = classNames.bind(styles);
 
-const COLORS = [
-    {
-        id: 1,
-        name: 'Đỏ',
-        code: '#123456',
-    },
-    {
-        id: 2,
-        name: 'Xanh',
-        code: '#ad4569',
-    },
-    {
-        id: 3,
-        name: 'Vàng',
-        code: '#aaabcd',
-    },
-    {
-        id: 4,
-        name: 'Lam',
-        code: '#ffddee',
-    },
-    {
-        id: 5,
-        name: 'Cam',
-        code: '#654321',
-    },
-];
+const fn = () => {};
 
-const Colors = ({ colorId, setColorId, error, clearError }) => {
+const Colors = ({ id, setId, name, setName, error, clearError = fn }) => {
     const [colors, setColors] = useState([]);
     const [show, setShow] = useState(false);
-    const currentColor = colors.find((color) => color.id === colorId);
     const colorsRef = useRef(null);
 
     useEffect(() => {
         const fetchColors = async () => {
-            try {
-                const response = await axios.get('/api/colors');
-                setColors(response.data.colors);
-            } catch (error) {
-                console.log('Không tải được màu', error);
-            }
+            const response = await getColors();
+            setColors(response.colors);
         };
 
         fetchColors();
@@ -63,8 +32,8 @@ const Colors = ({ colorId, setColorId, error, clearError }) => {
     };
 
     const handleColorClick = (color) => {
-        // setShow(false);
-        setColorId(color.id);
+        setName(color.name);
+        setId(color.id);
     };
 
     const handleClickOutSide = (e) => {
@@ -91,21 +60,22 @@ const Colors = ({ colorId, setColorId, error, clearError }) => {
                     <FontAwesomeIcon icon={faPalette} />
                     {show && (
                         <div className={cx('colors-table')}>
-                            {colors.map((color) => (
-                                <span
-                                    key={color.id}
-                                    className={cx('color-option')}
-                                    style={{ backgroundColor: color.code }}
-                                    onClick={() => handleColorClick(color)}
-                                >
-                                    {/* {color.name} */}
-                                </span>
-                            ))}
+                            {colors &&
+                                colors.map((color) => (
+                                    <span
+                                        key={color.id}
+                                        className={cx('color-option')}
+                                        style={{ backgroundColor: color.code }}
+                                        onClick={() => handleColorClick(color)}
+                                    >
+                                        {/* {color.name} */}
+                                    </span>
+                                ))}
                         </div>
                     )}
                 </div>
                 {/* style={{ color: currentColor.code }} */}
-                {currentColor && <span className={cx('color-name')}>{currentColor.name}</span>}
+                {name && <span className={cx('color-name')}>{name}</span>}
             </div>
             {error && <div className={cx('color-error')}>{error}</div>}
         </>

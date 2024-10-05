@@ -54,7 +54,7 @@ const UploadImages = ({ images = [], setImages, submit = false, id = 'image', sh
                 )}
             </div>
             <div className={cx('images')}>
-                {images.length > 0 &&
+                {images &&
                     images.map((image, index) => (
                         <img key={index} src={showImages ? image : URL.createObjectURL(image)} alt={`image${index}`} />
                     ))}

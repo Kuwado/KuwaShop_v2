@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { memo, useState } from 'react';
 
-import styles from './StepOne.module.scss';
+import styles from './Informations.module.scss';
 import TextArea from '~/components/TextArea';
 import { OutInTransition } from '~/animations/Transition';
 
