@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
 {
@@ -19,7 +20,7 @@ class UploadController extends Controller
         foreach($request->file('images') as $image) {
             $imageName = time() . '_' . uniqid() . '.' . $image->extension();
             $image->storeAs('images', $imageName, 'public');
-            $imageNames[] = '/storage/images/' . $imageName;
+            $imageNames[] = "/storage/images/$imageName";
         }
 
         return response()->json([
@@ -34,11 +35,17 @@ class UploadController extends Controller
         $image = $request->file('image');
         $imageName = time() . '_' . uniqid() . '.' . $image->extension();
         $image->storeAs('images', $imageName, 'public');
-        $imageName = '/storage/images/' . $imageName;
+        $imageName = "/storage/images/$imageName";
 
         return response()->json([
             'message' => 'Ảnh đã được thêm thành công',
             'image' => $imageName
         ], 201);
+    }
+
+    public static function deleteImage(string $image)
+    {
+        $imageName = basename($image);
+        Storage::delete("public/images/$imageName");
     }
 }

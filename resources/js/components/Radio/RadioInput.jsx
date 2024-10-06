@@ -7,9 +7,9 @@ const cx = classNames.bind(styles);
 
 const RadioInput = ({ name, title, id, checked, onChange }) => {
     return (
-        <div className={cx('radio-input')}>
+        <div className={cx('radio-input', { checked: checked })}>
             <label htmlFor={id}>
-                {title}
+                <span className={cx('title')}>{title}</span>
                 <input type="radio" name={name} id={id} checked={checked} onChange={onChange} />
                 <span className={cx('circle')}></span>
             </label>

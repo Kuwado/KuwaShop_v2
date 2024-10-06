@@ -57,14 +57,19 @@
         top: 0;
         right: 0;
         transform: translate(50%, -50%);
+        width: var(--icon-medium);
         height: var(--icon-medium);
-        font-size: var(--icon-medium);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: var(--icon-small);
+        color: var(--text-secondary);
+        background-color: var(--secondary);
         cursor: pointer;
-        color: var(--secondary);
-        background-color: var(--background);
 
         &:hover {
-            color: var(--error-color);
+            background-color: var(--error-color);
         }
     }
 }
@@ -73,6 +78,7 @@
     width: 100%;
     display: flex;
     align-items: center;
+    gap: var(--gap);
 
     .color {
         width: 25%;
@@ -81,9 +87,11 @@
     }
 
     .images {
-        width: 75%;
-        max-width: 75%;
-        overflow: hidden;
+        flex: 1;
+    }
+
+    .sold-quantity {
+        width: calc(20% - var(--gap) * 4 / 5);
     }
 }
 

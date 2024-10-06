@@ -25,7 +25,7 @@ const BREADCRUMB = [
     },
 ];
 
-function AdminProductList() {
+const AdminProductList = () => {
     const [products, setProducts] = useState([]);
     const [type, setType] = useState('new');
     const [page, setPage] = useState(1);
@@ -36,7 +36,7 @@ function AdminProductList() {
     const fetchProducts = async (typeP, pageP) => {
         setLoading(true);
         try {
-            const response = await axios.get(`/api/products/${typeP}?page=${pageP}`);
+            const response = await axios.get('/api/products', { params: { type: typeP, page: pageP } });
             setProducts(response.data.products.data);
             setTotalPage(response.data.products.last_page);
         } catch (error) {
@@ -83,6 +83,6 @@ function AdminProductList() {
             </div>
         </Content>
     );
-}
+};
 
 export default AdminProductList;

@@ -29,7 +29,7 @@ const BREADCRUMB = [
     },
 ];
 
-function AdminProductDetail() {
+const AdminProductDetail = () => {
     const { id } = useParams();
     const { product, setProduct } = useProduct({});
     const { variants, setVariants } = useVariants([]);
@@ -81,7 +81,7 @@ function AdminProductDetail() {
 
                     <div className={cx('variants')}>
                         {/* onSubmit={handleSubmitVariants} next={next} setNext={setNext} */}
-                        <StepTwo initialVariants={variants} />
+                        <StepTwo initialVariants={variants} sold />
                     </div>
                 </div>
             ) : (
@@ -89,6 +89,6 @@ function AdminProductDetail() {
             )}
         </Content>
     );
-}
+};
 
 export default AdminProductDetail;

@@ -8,7 +8,7 @@ export const createVariant = async (variant, productId) => {
             variant.images = imagesResponse.image_paths;
         }
 
-        const response = await axios.post(`/api/product/variant/create/${productId}`, variant);
+        const response = await axios.post('/api/variant/create', { product_id: productId, ...variant });
         if (response.status === 201) {
             return response.data;
         } else {

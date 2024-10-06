@@ -1,18 +1,26 @@
-import { useCallback, memo, useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './Steps.module.scss';
 import useVariants from '~/hooks/useVariants';
 import { UploadImages } from '~/constants/UploadImages';
 import { Colors, Sizes } from '~/constants/Product';
+import { Input } from '~/components/Input';
 
 const cx = classNames.bind(styles);
 
 const fn = () => {};
 
-const StepTwo = ({ initialVariants, onSubmit = fn, next = false, setNext = fn, onDeleteVariant = fn }) => {
+const StepTwo = ({
+    initialVariants,
+    onSubmit = fn,
+    next = false,
+    setNext = fn,
+    onDeleteVariant = fn,
+    sold = false,
+}) => {
     const { variants, setVariants, deleteVariant, addVariant, updateVariantField } = useVariants(initialVariants);
 
     console.log(variants);
@@ -72,6 +80,18 @@ const StepTwo = ({ initialVariants, onSubmit = fn, next = false, setNext = fn, o
                                 show={variants.images !== ''}
                             />
                         </div>
+                        {sold && (
+                            <div className={cx('sold-quantity')}>
+                                <Input
+                                    name="sold-quantity"
+                                    label="Số lượng đã bán"
+                                    type="number"
+                                    value={variant.sold_quantity}
+                                    onChange={(value) => updateVariantField('sold_quantity', value, index)}
+                                    disabled
+                                />
+                            </div>
+                        )}
                     </div>
                     <Sizes
                         s={variant.s}
@@ -86,7 +106,7 @@ const StepTwo = ({ initialVariants, onSubmit = fn, next = false, setNext = fn, o
                         setXXL={(e) => updateVariantField('xxl', e.target.value, index)}
                     />
                     <div className={cx('delete-btn')} onClick={() => handleDeleteVariant(index)}>
-                        <FontAwesomeIcon icon={faXmarkCircle} />
+                        <FontAwesomeIcon icon={faXmark} />
                     </div>
                 </div>
             ))}

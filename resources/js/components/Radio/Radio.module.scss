@@ -34,6 +34,8 @@
 // RadioInput
 .radio-input {
     --circle-width: 15px;
+    width: fit-content;
+
     label {
         position: relative;
         padding-left: calc(var(--circle-width) + 5px);
@@ -41,10 +43,15 @@
         user-select: none;
         display: flex;
         align-items: center;
+        font-weight: var(--font-normal);
     }
 
-    &:hover label {
-        font-weight: var(--font-normal);
+    .title {
+        opacity: 0.8;
+    }
+
+    &:hover .title {
+        opacity: 1;
     }
 
     input {
@@ -92,5 +99,13 @@
 
     input:checked + .circle::after {
         display: block;
+    }
+
+    &.checked {
+        pointer-events: none;
+
+        .title {
+            opacity: 1;
+        }
     }
 }

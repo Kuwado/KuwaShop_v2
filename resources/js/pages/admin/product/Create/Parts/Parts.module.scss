@@ -76,6 +76,10 @@
             opacity: 1;
         }
     }
+
+    .current {
+        pointer-events: none;
+    }
 }
 
 .action-btns {
