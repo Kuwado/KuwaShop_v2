@@ -47,6 +47,16 @@ const useVariants = (initialVariants = []) => {
         setVariants((prev) => prev.map((variant, i) => (i === index ? { ...variant, [field]: value } : variant)));
     };
 
+    const deleteVariantField = (field, index) => {
+        setVariants((prevVariants) => {
+            const newVariants = [...prevVariants];
+            const variant = { ...newVariants[index] };
+            delete variant[field];
+            newVariants[index] = variant;
+            return newVariants;
+        });
+    };
+
     const resetVariants = () => {
         setVariants([
             {
@@ -71,6 +81,7 @@ const useVariants = (initialVariants = []) => {
         addVariant,
         updateVariant,
         updateVariantField,
+        deleteVariantField,
     };
 };
 

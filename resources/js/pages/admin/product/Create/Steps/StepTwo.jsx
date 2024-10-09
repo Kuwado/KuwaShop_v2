@@ -26,7 +26,7 @@ const StepTwo = ({
     console.log(variants);
 
     useEffect(() => {
-        if (initialVariants) setVariants(initialVariants);
+        setVariants(initialVariants);
     }, [initialVariants]);
 
     useEffect(() => {
@@ -75,9 +75,12 @@ const StepTwo = ({
                         <div className={cx('images')}>
                             <UploadImages
                                 id={`variant-${index}`}
-                                images={variant.images ? variant.images : variant.image_files}
+                                images={
+                                    variant.images && Array.isArray(variant.images) && !variant.image_files
+                                        ? variant.images
+                                        : variant.image_files
+                                }
                                 setImages={(value) => updateVariantField('image_files', value, index)}
-                                show={variants.images !== ''}
                             />
                         </div>
                         {sold && (

@@ -10,14 +10,7 @@ import Popup from '~/components/Popup';
 
 const cx = classNames.bind(styles);
 
-const UploadImage = ({
-    image = '',
-    setImage,
-    submit = false,
-    id = 'image',
-    title = 'Ảnh đại diện',
-    showImage = false,
-}) => {
+const UploadImage = ({ image = '', setImage, submit = false, id = 'image', title = 'Ảnh đại diện' }) => {
     const [message, setMessage] = useState('');
     const [zoom, setZoom] = useState(false);
 
@@ -58,12 +51,12 @@ const UploadImage = ({
             {image && (
                 <>
                     <div className={cx('image')} onClick={() => setZoom(true)}>
-                        <img src={showImage ? image : URL.createObjectURL(image)} alt="image" />
+                        <img src={image instanceof File ? URL.createObjectURL(image) : image} alt="image" />
                     </div>
 
                     <Popup isOpen={zoom} onClose={() => setZoom(false)}>
                         <div className={cx('zoom-image')}>
-                            <img src={showImage ? image : URL.createObjectURL(image)} alt="image" />
+                            <img src={image instanceof File ? URL.createObjectURL(image) : image} alt="image" />
                         </div>
                     </Popup>
                 </>

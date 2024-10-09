@@ -17,7 +17,7 @@ class VariantService
             $variant->l = $data['l'] ?? 0;
             $variant->xl = $data['xl'] ?? 0;
             $variant->xxl = $data['xxl'] ?? 0;
-            $variant->images = $data['images'] ?? null;
+            $variant->images = json_encode($data['images']) ?? null;
             $variant->color_id = $data['color_id'];
             $variant->product_id = $data['product_id'];
             $variant->save();
@@ -31,11 +31,11 @@ class VariantService
 
     public function updateVariant(Variant $variant, array $data) 
     {
-        if ($variant->images !== null && $variant->images !== $data['images']) {
+        if ($variant->images !== null && $variant->images !== json_encode($data['images'])) {
             $images = json_decode($variant->images, true);
-            $images->map(function ($image) {
+            foreach ($images as $image) {
                 UploadController::deleteImage($image);
-            });
+            };
         }
 
         try {
@@ -44,11 +44,12 @@ class VariantService
             $variant->l = $data['l'] ?? $variant->l;
             $variant->xl = $data['xl'] ?? $variant->xl;
             $variant->xxl = $data['xxl'] ?? $variant->xxl;
-            $variant->images = $data['images'] ?? $variant->images;
+            $variant->images = json_encode($data['images']) ?? $variant->images;
             $variant->color_id = $data['color_id'] ?? $variant->color_id;
             $variant->product_id = $data['product_id'] ?? $variant->product_id;
             $variant->save();
 
+            $variant->images = json_decode($variant->images, true);
             return $variant;
         } catch (QueryException $e) {
             throw new \Exception('Lỗi update biến thể: ' . $e->getMessage());

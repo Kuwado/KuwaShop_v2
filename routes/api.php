@@ -19,7 +19,7 @@ Route::post('/upload/image', [UploadController::class, 'uploadImage']);
 Route::get('/product', [ProductController::class, 'getProduct']);
 Route::get('/products', [ProductController::class,'getProducts']);
 Route::post('/product/create', [ProductController::class, 'createProduct']);
-Route::delete('/product/{id}', [ProductController::class, 'deleteProduct']);
+Route::delete('/product/delete/{id}', [ProductController::class, 'deleteProduct']);
 Route::put('/product/update/{id}', [ProductController::class,'updateProduct']);
 
 //Variant

@@ -36,11 +36,13 @@ const AdminProductCreate = () => {
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    console.log(product);
+
     useEffect(() => {
         const handleCreate = async () => {
             setLoading(true);
 
-            const productResponse = await createProduct(product, product.sale_type);
+            const productResponse = await createProduct(product);
             setMessages((prev) => [...prev, productResponse.message]);
             const productId = productResponse.product.id;
 

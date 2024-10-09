@@ -6,7 +6,7 @@ use App\Http\Controllers\UploadController;
 use App\Models\Product;
 use Illuminate\Database\QueryException;
 
-class ProductService
+class UploadService
 {
     public function createProduct(array $data)
     {

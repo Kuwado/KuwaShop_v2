@@ -22,7 +22,9 @@ class ProductRequest extends FormRequest
             'intro' => 'nullable|string',
             'detail' => 'nullable|string',
             'preserve' => 'nullable|string',
-            'sale' => 'nullable|string'
+            'sale' => 'nullable|string',
+            'sale_type' => 'nullable|string',
+            'image_file' => 'nullable|file'
         ];
     }
 

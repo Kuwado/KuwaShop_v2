@@ -19,6 +19,8 @@ const StepOne = ({ initialProduct, onSubmit = fn, next = false, setNext = fn }) 
         productPrice: '',
     });
 
+    console.log(product);
+
     useEffect(() => {
         setProduct(initialProduct);
     }, [initialProduct]);
@@ -76,9 +78,8 @@ const StepOne = ({ initialProduct, onSubmit = fn, next = false, setNext = fn }) 
 
                 <UploadImage
                     id="product-image"
-                    image={product.avatar ? product.avatar : product.image_file}
+                    image={product.avatar && !product.image_file ? product.avatar : product.image_file}
                     setImage={(value) => setProductField('image_file', value)}
-                    showImage={!!product.avatar}
                 />
             </div>
             <div className={cx('right')}>

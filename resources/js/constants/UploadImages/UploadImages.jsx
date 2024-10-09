@@ -8,14 +8,10 @@ import { faUpload } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-const UploadImages = ({ images = [], setImages, submit = false, id = 'image', show = false }) => {
+const UploadImages = ({ images = [], setImages, submit = false, id = 'image' }) => {
     const [message, setMessage] = useState('');
-    const [showImages, setShowImages] = useState(show);
 
     const handleImagesChange = (e) => {
-        if (showImages === true) {
-            setShowImages(false);
-        }
         const files = Array.from(e.target.files);
         setImages(files);
     };
@@ -55,8 +51,13 @@ const UploadImages = ({ images = [], setImages, submit = false, id = 'image', sh
             </div>
             <div className={cx('images')}>
                 {images &&
+                    images.length > 0 &&
                     images.map((image, index) => (
-                        <img key={index} src={showImages ? image : URL.createObjectURL(image)} alt={`image${index}`} />
+                        <img
+                            key={index}
+                            src={image instanceof File ? URL.createObjectURL(image) : image}
+                            alt={`image${index}`}
+                        />
                     ))}
             </div>
             {message && <div className={cx('message')}>{message}</div>}

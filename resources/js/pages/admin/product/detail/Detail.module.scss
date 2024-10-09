@@ -1,19 +1,27 @@
 .product-detail {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
 .product-title {
-    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 25px;
 }
 
 .variant-title {
     margin-top: 10px;
-    padding: 10px 0;
+    padding-top: 10px;
     border-top: 2px solid var(--secondary-25);
 }
 
 .variants {
     display: flex;
+}
+
+.action-btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }

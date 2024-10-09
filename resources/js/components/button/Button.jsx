@@ -12,6 +12,7 @@ const Button = ({
     // css type, defult = text
     primary = false,
     secondary = false,
+    danger = false,
     primaryBorder = false,
     secondaryBorder = false,
     outline = false,
@@ -59,6 +60,7 @@ const Button = ({
         [classname]: classname,
         primary,
         secondary,
+        danger,
         primaryBorder,
         secondaryBorder,
         outline,
@@ -85,6 +87,7 @@ Button.propTypes = {
     // css type
     primary: PropTypes.bool,
     secondary: PropTypes.bool,
+    danger: PropTypes.bool,
     primaryBorder: PropTypes.bool,
     secondaryBorder: PropTypes.bool,
     outline: PropTypes.bool,

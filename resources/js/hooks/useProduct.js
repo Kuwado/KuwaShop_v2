@@ -32,9 +32,9 @@ const useProduct = (initialProduct = {}) => {
             detail: '',
             preserve: '',
             sale: '',
+            sale_type: 'not',
             image_file: '',
             category_name: '',
-            sale_type: 'not',
         });
     };
 

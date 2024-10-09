@@ -79,6 +79,17 @@
     }
 }
 
+.danger {
+    background-color: var(--error-color);
+    color: var(--text-error);
+
+    &:hover,
+    &.active {
+        background-color: var(--text-error);
+        color: var(--error-color);
+    }
+}
+
 .primaryBorder {
     @extend .primary;
     border-color: var(--text-primary);

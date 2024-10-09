@@ -40,14 +40,17 @@ class VariantController extends Controller
 
     public function updateVariant(VariantRequest $request, $id)
     {
-        $variant = Variant::find($id);
+        $variant = Variant::find($id);    
+        
         $validatedData = $request->validated();
 
-        $updatedVariant = $this->variantService->updateVariant($validatedData, $variant);
+        $updatedVariant = $this->variantService->updateVariant($variant, $validatedData);
 
         return response()->json([
             'message' => 'Update biến thể thành công',
-            'variant' => $updatedVariant
+            'variant' => $updatedVariant,
+            'old' => $variant->images,
+            'new' => $validatedData['images']
         ], 200);
     }
 
