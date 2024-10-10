@@ -1,15 +1,24 @@
 import axios from 'axios';
-import { UploadImages } from './uploadService';
-import images from '~/assets/images';
 
 export const createVariant = async (variant, productId) => {
     try {
-        if (variant.image_files.length > 0) {
-            const imagesResponse = await UploadImages(variant.image_files);
-            variant.images = imagesResponse.images;
-        }
+        const formData = new FormData();
+        Object.entries(variant).forEach(([key, value]) => {
+            if (value !== null && value !== undefined) {
+                if (key !== 'image_files') {
+                    formData.append(key, value);
+                } else if (Array.isArray(value)) {
+                    value.forEach((image) => formData.append('image_files[]', image));
+                }
+            }
+        });
+        formData.append('product_id', productId);
 
-        const response = await axios.post('/api/variant/create', { product_id: productId, ...variant });
+        const response = await axios.post('/api/variant/create', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
         if (response.status === 201) {
             return response.data;
         } else {
@@ -17,6 +26,58 @@ export const createVariant = async (variant, productId) => {
         }
     } catch (error) {
         console.log('Lỗi tạo các biến thể: ', error);
+    }
+};
+
+export const updateVariant = async (variant, productId = variant.product_id) => {
+    try {
+        if (!variant.id) {
+            const response = await createVariant(variant, productId);
+            return response;
+        }
+
+        const formData = new FormData();
+        Object.entries(variant).forEach(([key, value]) => {
+            if (value !== null && value !== undefined) {
+                if (key === 'image_files' && Array.isArray(value)) {
+                    value.forEach((image) => formData.append('image_files[]', image));
+                } else if (key === 'images' && Array.isArray(value) && value) {
+                    value.forEach((image) => formData.append('images[]', image));
+                } else {
+                    formData.append(key, value);
+                }
+            }
+        });
+
+        const response = await axios.post(`/api/variant/update/${variant.id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(`Lỗi update biến thể: ${response.statusText}`);
+        }
+    } catch (error) {
+        console.log('Lỗi update biến thể: ', error);
+    }
+};
+
+export const deleteVariant = async (id) => {
+    try {
+        const response = await axios.delete(`/api/variant/delete/${id}`);
+        return response.data;
+    } catch (error) {
+        console.log('Lỗi xóa biến thể: ', error);
+    }
+};
+
+export const deleteVariants = async (ids) => {
+    if (ids.length > 0) {
+        for (const id of ids) {
+            await deleteVariant(id);
+        }
     }
 };
 
@@ -30,23 +91,5 @@ export const getVariants = async (productId) => {
         }
     } catch (error) {
         console.log('Lỗi tìm các biến thể: ', error);
-    }
-};
-
-export const updateVariant = async (variant) => {
-    try {
-        if (variant.image_files && variant.image_files.length > 0) {
-            const imagesResponse = await UploadImages(variant.image_files);
-            variant.images = imagesResponse.images;
-        }
-
-        const response = await axios.put(`/api/variant/update/${variant.id}`, variant);
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            throw new Error(`Lỗi update biến thể: ${response.statusText}`);
-        }
-    } catch (error) {
-        console.log('Lỗi update biến thể: ', error);
     }
 };

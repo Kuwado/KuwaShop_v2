@@ -8,23 +8,39 @@ use Illuminate\Database\QueryException;
 
 class ProductService
 {
-    public function createProduct(array $data)
+    private $uploadService;
+
+    public function __construct(UploadService $uploadService) 
     {
+        $this->uploadService = $uploadService;
+    }
+
+    public function createProduct(array $data)
+    {   
+        $image = null;
+        if (isset($data['image_file']) && $data['image_file']) {       
+            $image = $this->uploadService->uploadImage($data['image_file']);
+        }
+
+        $saleType = null;
+        $sale = null;
+        if (!$data['sale']) {
+            $saleType = 'not';
+        } else {
+            if ($data['sale_type'] === 'percent') {
+                $sale = $data['sale'] . '%';
+            } else if ($data['sale_type'] === 'value') {
+                $sale = $data['sale'] . 'đ';
+            }
+        }
+
         try {
             $product = new Product();
-            $product->name = $data['name'];
-            $product->category_id = $data['category_id'] ?? null;
-            $product->original_price = $data['original_price'];
-            $product->price = $data['price'];
-            $product->avatar = $data['avatar'] ?? null;
-            $product->intro = $data['intro'] ?? null;
-            $product->detail = $data['detail'] ?? null;
-            $product->preserve = $data['preserve'] ?? null;
-            $product->sale = $data['sale'] ?? null;
-            $product->sale_type = $data['sale_type'] ?? 'not';
-
+            $product->fill($data);
+            $product->avatar = $image ?? $product->avatar;
+            $product->sale_type = $saleType ?? $product->sale_type;
+            $product->sale = $sale ?? $product->sale;
             $product->save();   
-
             return $product;
         } catch (QueryException $e) {
             throw new \Exception('Lỗi tạo sản phẩm: ' . $e->getMessage());
@@ -33,26 +49,32 @@ class ProductService
 
     public function updateProduct(Product $product, array $data)
     {
-        if ($product->avatar !== null && $product->avatar !== $data['avatar']) {
-            UploadController::deleteImage($product->avatar);
+        $image = null;
+        if (isset($data['image_file']) && $data['image_file']) {       
+            $image = $this->uploadService->uploadImage($data['image_file']);
+            if ($product->avatar !== null) {
+                $this->uploadService->deleteImage($product->avatar);
+            }
         }
 
         try {
-            $product->name = $data['name'] ?? $product->name;
-            $product->category_id = $data['category_id'] ?? $product->category_id;
-            $product->original_price = $data['original_price'] ?? $product->original_price;
-            $product->price = $data['price'] ?? $product->price;
-            $product->avatar = $data['avatar'] ?? $product->avatar;
-            $product->intro = $data['intro'] ?? $product->intro;
-            $product->detail = $data['detail'] ?? $product->detail;
-            $product->preserve = $data['preserve'] ?? $product->preserve;
-            $product->sale = $data['sale'] ?? $product->sale;
-            $product->sale_type = $data['sale_type'] ?? $product->sale_type;
-            $product->save();   
-
+            $product->fill($data);
+            $product->avatar = $image ?? $product->avatar;
+            $product->save(); 
             return $product;        
         } catch (QueryException $e) {
             throw new \Exception('Lỗi update sản phẩm: ' . $e->getMessage());
+        }
+    }
+
+    public function deleteProduct(int $id)
+    {
+        $product = Product::find($id);
+        if ($product) {
+            if ($product->avatar !== null) {
+                $this->uploadService->deleteImage($product->avatar);
+            }
+            $product->delete();
         }
     }
 
@@ -84,12 +106,6 @@ class ProductService
         };
     }
 
-    public function deleteProduct(int $id)
-    {
-        $product = Product::find($id);
-        if ($product) {
-            $product->delete();
-        }
-    }
+
 
 }

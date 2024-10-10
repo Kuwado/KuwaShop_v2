@@ -2,93 +2,47 @@
 
 namespace App\Services;
 
-use App\Http\Controllers\UploadController;
-use App\Models\Product;
-use Illuminate\Database\QueryException;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class UploadService
 {
-    public function createProduct(array $data)
+    public function uploadImage($image)
     {
-        try {
-            $product = new Product();
-            $product->name = $data['name'];
-            $product->category_id = $data['category_id'] ?? null;
-            $product->original_price = $data['original_price'];
-            $product->price = $data['price'];
-            $product->avatar = $data['avatar'] ?? null;
-            $product->intro = $data['intro'] ?? null;
-            $product->detail = $data['detail'] ?? null;
-            $product->preserve = $data['preserve'] ?? null;
-            $product->sale = $data['sale'] ?? null;
-            $product->sale_type = $data['sale_type'] ?? 'not';
-
-            $product->save();   
-
-            return $product;
-        } catch (QueryException $e) {
-            throw new \Exception('Lỗi tạo sản phẩm: ' . $e->getMessage());
+        if ($image instanceof UploadedFile) { 
+            $imageName = time() . '_' . uniqid() . '.' . $image->extension();
+            $image->storeAs('images', $imageName, 'public');
+            $imageName = "/storage/images/$imageName";
+            return $imageName;
+        } else {
+            return null;
         }
     }
 
-    public function updateProduct(Product $product, array $data)
+    public function uploadImages($images)
     {
-        if ($product->avatar !== null && $product->avatar !== $data['avatar']) {
-            UploadController::deleteImage($product->avatar);
+        $imageNames = [];
+        foreach ($images as $image) {
+            if ($image instanceof UploadedFile) { 
+                $imageName = time() . '_' . uniqid() . '.' . $image->extension();
+                $image->storeAs('images', $imageName, 'public');
+                $imageNames[] = "/storage/images/$imageName";
+            }
         }
-
-        try {
-            $product->name = $data['name'] ?? $product->name;
-            $product->category_id = $data['category_id'] ?? $product->category_id;
-            $product->original_price = $data['original_price'] ?? $product->original_price;
-            $product->price = $data['price'] ?? $product->price;
-            $product->avatar = $data['avatar'] ?? $product->avatar;
-            $product->intro = $data['intro'] ?? $product->intro;
-            $product->detail = $data['detail'] ?? $product->detail;
-            $product->preserve = $data['preserve'] ?? $product->preserve;
-            $product->sale = $data['sale'] ?? $product->sale;
-            $product->sale_type = $data['sale_type'] ?? $product->sale_type;
-            $product->save();   
-
-            return $product;        
-        } catch (QueryException $e) {
-            throw new \Exception('Lỗi update sản phẩm: ' . $e->getMessage());
-        }
+        return $imageNames;
     }
 
-    public function getProduct($id)
+    public function deleteImage($image)
     {
-        $product = Product::find($id);
-        if($product->intro === null) $product->intro = '';
-        if($product->detail === null) $product->detail = '';
-        if($product->preserve === null) $product->preserve = '';
-
-        if ($product->sale_type === 'percent') {
-            $product->sale = rtrim($product->sale, "%");
-        } else if ($product->sale_type === "value") {
-            $product->sale = rtrim($product->sale, "đ");
-        }
-
-        $product->category_name = $product->category->name;
-
-        return $product;
+        $imageName = basename($image);
+        Storage::delete("public/images/$imageName");
     }
 
-    public function getProducts(string $type, int $limit = 10)
+    public function deleteImages($images)
     {
-        return match ($type) {
-            'old' => Product::orderBy('created_at', 'asc')->paginate($limit),
-            'new' => Product::orderBy('created_at', 'desc')->paginate($limit),
-            'hot' => Product::orderBy('sold_quantity', 'desc')->paginate($limit),
-            default => Product::all(),
-        };
-    }
-
-    public function deleteProduct(int $id)
-    {
-        $product = Product::find($id);
-        if ($product) {
-            $product->delete();
+        foreach ($images as $image) {
+            $imageName = basename($image);
+            Storage::delete("public/images/$imageName");
         }
     }
 

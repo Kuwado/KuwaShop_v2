@@ -15,27 +15,39 @@ const useVariants = (initialVariants = []) => {
                       color_id: '',
                       image_files: [],
                       color_name: '',
+                      sold_quantity: 0,
                   },
               ],
     );
+    const [deleteVariantList, setDeleteVariantList] = useState([]);
 
     const deleteVariant = (index) => {
-        console.log(index);
         setVariants((prev) => {
-            console.log(prev);
-            const updatedVars = [...prev];
-            console.log(updatedVars);
-            if (updatedVars.length > 1) {
-                updatedVars.splice(index, 1);
+            if (prev.length > 1) {
+                const updatedVars = prev.filter((_, i) => i !== index);
+                console.log(updatedVars);
+                return updatedVars;
+            } else {
+                return prev;
             }
-            return updatedVars;
         });
     };
 
     const addVariant = () => {
         setVariants((prev) => [
             ...prev,
-            { s: '', m: '', l: '', xl: '', xxl: '', images: '', color_id: '', image_files: [], color_name: '' },
+            {
+                s: '',
+                m: '',
+                l: '',
+                xl: '',
+                xxl: '',
+                images: '',
+                color_id: '',
+                image_files: [],
+                color_name: '',
+                sold_quantity: 0,
+            },
         ]);
     };
 
@@ -69,13 +81,16 @@ const useVariants = (initialVariants = []) => {
                 color_id: '',
                 image_files: [],
                 color_name: '',
+                sold_quantity: 0,
             },
         ]);
     };
 
     return {
         variants,
+        deleteVariantList,
         setVariants,
+        setDeleteVariantList,
         resetVariants,
         deleteVariant,
         addVariant,

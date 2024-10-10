@@ -29,7 +29,8 @@ class VariantRequest extends FormRequest
             'xxl' => 'nullable|numeric',
             'images' => 'nullable|array',
             'color_id' => 'nullable|exists:colors,id',
-            'product_id' => 'nullable|exists:products,id'
+            'product_id' => 'nullable|exists:products,id',
+            'image_files' => 'nullable|array',
         ];
     }
 }

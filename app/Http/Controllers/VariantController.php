@@ -49,8 +49,6 @@ class VariantController extends Controller
         return response()->json([
             'message' => 'Update biến thể thành công',
             'variant' => $updatedVariant,
-            'old' => $variant->images,
-            'new' => $validatedData['images']
         ], 200);
     }
 

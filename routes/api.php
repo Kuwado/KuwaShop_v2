@@ -16,15 +16,15 @@ Route::post('/upload/images', [UploadController::class, 'uploadImages']);
 Route::post('/upload/image', [UploadController::class, 'uploadImage']);
 
 // Product
+Route::post('/product/create', [ProductController::class, 'createProduct']);
+Route::post('/product/update/{id}', [ProductController::class,'updateProduct']);
 Route::get('/product', [ProductController::class, 'getProduct']);
 Route::get('/products', [ProductController::class,'getProducts']);
-Route::post('/product/create', [ProductController::class, 'createProduct']);
 Route::delete('/product/delete/{id}', [ProductController::class, 'deleteProduct']);
-Route::put('/product/update/{id}', [ProductController::class,'updateProduct']);
 
 //Variant
 Route::post('/variant/create', [VariantController::class, 'createVariant']);
-Route::put('variant/update/{id}', [VariantController::class,'updateVariant']);
+Route::post('variant/update/{id}', [VariantController::class,'updateVariant']);
 Route::delete('/variant/delete/{id}', [VariantController::class,'deleteVariant']);
 Route::get('/variants', [VariantController::class, 'getVariants']);
 Route::get('/variant', [VariantController::class,'getVariant']);

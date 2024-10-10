@@ -9,6 +9,7 @@ use App\Providers\Format;
 use App\Services\ProductService;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
@@ -30,6 +31,24 @@ class ProductController extends Controller
             'product' => $product,
             'data' => $validatedData
         ], 201);
+    }
+
+    public function updateProduct(ProductRequest $request, $id)
+    {
+        $product = Product::find($id);
+        try {
+            $validatedData = $request->validated();
+        } catch (ValidationException $e) {
+            return response()->json(['message' => $e->errors()], 422);
+        }
+        
+
+        $updatedProduct = $this->productService->updateProduct( $product, $validatedData );
+        
+        return response()->json([
+            'message' => 'Đã cập nhật thành công sản phẩm',
+            'product' => $updatedProduct
+        ], 200);
     }
 
     public function deleteProduct($id)
@@ -65,18 +84,7 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function updateProduct(ProductRequest $request, $id)
-    {
-        $product = Product::find($id);
-        $validatedData = $request->validated();
 
-        $updatedProduct = $this->productService->updateProduct( $product, $validatedData );
-        
-        return response()->json([
-            'message' => 'Đã cập nhật thành công sản phẩm',
-            'product' => $updatedProduct
-        ], 200);
-    }
 
     public function test($id)
     {

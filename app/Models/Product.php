@@ -22,6 +22,7 @@ class Product extends Model
         'hot',
         'new',
         'sale',
+        'sale_type'
     ];    
 
     public function variants() 

@@ -1,22 +1,21 @@
 import axios from 'axios';
-import { UploadImage } from './uploadService';
 
 export const createProduct = async (product) => {
     try {
-        if (product.sale === '') product.sale_type = 'not';
+        const formData = new FormData();
+        Object.entries(product).forEach(([key, value]) => {
+            if (value !== null && value !== undefined) {
+                formData.append(key, value);
+            }
+        });
 
-        if (product.sale_type === 'percent') {
-            product.sale = `${product.sale}%`;
-        } else if (product.sale_type === 'value') {
-            product.sale = `${product.sale}đ`;
-        }
+        console.log('FormData:', Array.from(formData.entries()));
 
-        if (product.image_file !== '') {
-            const imageResponse = await UploadImage(product.image_file);
-            product.avatar = imageResponse.image;
-        }
-
-        const response = await axios.post('/api/product/create', product);
+        const response = await axios.post('/api/product/create', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
         if (response.status === 201) {
             return response.data;
         } else {
@@ -24,6 +23,40 @@ export const createProduct = async (product) => {
         }
     } catch (error) {
         console.log('Lỗi tạo sản phẩm: ', error);
+    }
+};
+
+export const updateProduct = async (product) => {
+    try {
+        const formData = new FormData();
+        Object.entries(product).forEach(([key, value]) => {
+            if (value !== null && value !== undefined) {
+                formData.append(key, value);
+            }
+        });
+
+        const response = await axios.post(`/api/product/update/${product.id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(`Lỗi cập nhật sản phẩm: ${response.statusText}`);
+        }
+    } catch (error) {
+        console.log('Lỗi cập nhật sản phẩm: ', error);
+    }
+};
+
+export const deleteProduct = async (id) => {
+    try {
+        const response = await axios.delete(`/api/product/delete/${id}`);
+        return response.data;
+    } catch (error) {
+        console.log('Lỗi xóa sản phẩm: ', error);
     }
 };
 
@@ -40,29 +73,15 @@ export const getProduct = async (id) => {
     }
 };
 
-export const updateProduct = async (product) => {
+export const getProducts = async (type, page) => {
     try {
-        if (product.image_file && product.image_file !== '') {
-            console.log('upload image');
-            const imageResponse = await UploadImage(product.image_file);
-            product.avatar = imageResponse.image;
-        }
-
-        const response = await axios.put(`/api/product/update/${product.id}`, product);
+        const response = await axios.get('/api/products', { params: { type: type, page: page } });
         if (response.status === 200) {
             return response.data;
         } else {
-            throw new Error(`Lỗi cập nhật sản phẩm: ${response.statusText}`);
+            throw new Error(`Lỗi lấy ds sản phẩm: ${response.statusText}`);
         }
     } catch (error) {
-        console.log('Lỗi cập nhật sản phẩm: ', error);
-    }
-};
-
-export const deleteProduct = async (id) => {
-    try {
-        await axios.delete(`/api/product/delete/${id}`);
-    } catch (error) {
-        console.log('Lỗi xóa sản phẩm: ', error);
+        console.log('Lỗi lấy ds sản phẩm: ', error);
     }
 };

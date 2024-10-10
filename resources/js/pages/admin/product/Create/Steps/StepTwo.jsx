@@ -23,8 +23,6 @@ const StepTwo = ({
 }) => {
     const { variants, setVariants, deleteVariant, addVariant, updateVariantField } = useVariants(initialVariants);
 
-    console.log(variants);
-
     useEffect(() => {
         setVariants(initialVariants);
     }, [initialVariants]);
@@ -49,11 +47,15 @@ const StepTwo = ({
     }, [next]);
 
     const handleDeleteVariant = (index) => {
-        const confirmed = window.confirm('Bạn có chắc muốn xóa mẫu sản phẩm này không');
+        if (variants.length > 1) {
+            const confirmed = window.confirm('Bạn có chắc muốn xóa mẫu sản phẩm này không');
 
-        if (confirmed) {
-            onDeleteVariant();
-            deleteVariant(index);
+            if (confirmed) {
+                onDeleteVariant(variants[index].id);
+                deleteVariant(index);
+            }
+        } else {
+            window.alert('Phải có ít nhất một biến thể');
         }
     };
 
@@ -86,7 +88,7 @@ const StepTwo = ({
                         {sold && (
                             <div className={cx('sold-quantity')}>
                                 <Input
-                                    name="sold-quantity"
+                                    name={`sold-quantity-${index}`}
                                     label="Số lượng đã bán"
                                     type="number"
                                     value={variant.sold_quantity}
@@ -107,6 +109,7 @@ const StepTwo = ({
                         setL={(e) => updateVariantField('l', e.target.value, index)}
                         setXL={(e) => updateVariantField('xl', e.target.value, index)}
                         setXXL={(e) => updateVariantField('xxl', e.target.value, index)}
+                        index={index}
                     />
                     <div className={cx('delete-btn')} onClick={() => handleDeleteVariant(index)}>
                         <FontAwesomeIcon icon={faXmark} />

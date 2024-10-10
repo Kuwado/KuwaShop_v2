@@ -1,16 +1,17 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import styles from './Detail.module.scss';
+import { useNavigate, useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import StepOne from '../Create/Steps/StepOne';
-import Content from '~/common/Content';
+
+import styles from './Detail.module.scss';
 import config from '~/config';
-import StepTwo from '../Create/Steps/StepTwo';
 import useProduct from '~/hooks/useProduct';
 import useVariants from '~/hooks/useVariants';
 import { deleteProduct, getProduct, updateProduct } from '~/services/productService';
-import { getVariants, updateVariant } from '~/services/variantService';
+import { deleteVariants, getVariants, updateVariant } from '~/services/variantService';
+
+import StepOne from '../Create/Steps/StepOne';
+import StepTwo from '../Create/Steps/StepTwo';
+import Content from '~/common/Content';
 import LoadingPage from '~/pages/other/Loading';
 import { Button } from '~/components/Button';
 import { Notification } from '~/components/Notification';
@@ -32,9 +33,18 @@ const BREADCRUMB = [
 ];
 
 const AdminProductDetail = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const { product, setProduct, setProductField } = useProduct({});
-    const { variants, setVariants, deleteVariantField } = useVariants([]);
+    const {
+        variants,
+        setVariants,
+        deleteVariantField,
+        updateVariantField,
+        deleteVariant,
+        deleteVariantList,
+        setDeleteVariantList,
+    } = useVariants([]);
     const [next, setNext] = useState({
         product: '',
         variants: '',
@@ -63,14 +73,17 @@ const AdminProductDetail = () => {
     }, [id]);
 
     const updateProductAndVariants = async () => {
-        await updateProduct(product);
+        const productRes = await updateProduct(product);
+        setProductField('avatar', productRes.product.avatar);
         setProductField('image_file', '');
         await Promise.all(
             variants.map(async (variant, index) => {
-                await updateVariant(variant);
+                const variantRes = await updateVariant(variant, product.id);
+                updateVariantField('images', variantRes.variant.images, index);
                 deleteVariantField('image_files', index);
             }),
         );
+        await deleteVariants(deleteVariantList);
 
         handleShowNotification('update', reset);
     };
@@ -113,9 +126,13 @@ const AdminProductDetail = () => {
             } catch (error) {
                 console.log('Lỗi xóa sản phẩm: ', error);
             } finally {
-                handleShowNotification('delete', reset);
+                handleShowNotification('delete', () => navigate(-1));
             }
         }
+    };
+
+    const handleDeleteVariant = (id) => {
+        setDeleteVariantList((prev) => [...prev, id]);
     };
 
     return (
@@ -152,6 +169,7 @@ const AdminProductDetail = () => {
                             onSubmit={setVariants}
                             next={next.variants}
                             setNext={(value) => setNext((prev) => ({ ...prev, variants: value }))}
+                            onDeleteVariant={handleDeleteVariant}
                             sold
                         />
                     </div>

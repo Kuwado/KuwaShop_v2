@@ -8,20 +8,35 @@ use Illuminate\Database\QueryException;
 
 class VariantService
 {
+    private $uploadService;
+
+    public function __construct(UploadService $uploadService)
+    {
+        $this->uploadService = $uploadService;
+    }
+
     public function createVariant(array $data) 
     {
+        $images = null;
+        if (isset($data['image_files']) && $data['image_files']) {
+            $images = $this->uploadService->uploadImages($data['image_files']);
+        }
+
         try {
             $variant = new Variant();
-            $variant->s = $data['s'] ?? 0;
-            $variant->m = $data['m'] ?? 0;
-            $variant->l = $data['l'] ?? 0;
-            $variant->xl = $data['xl'] ?? 0;
-            $variant->xxl = $data['xxl'] ?? 0;
-            $variant->images = json_encode($data['images']) ?? null;
-            $variant->color_id = $data['color_id'];
-            $variant->product_id = $data['product_id'];
+            $variant->fill([
+                's' => $data['s'] ?? 0,
+                'm' => $data['m'] ?? 0,
+                'l' => $data['l'] ?? 0,
+                'xl' => $data['xl'] ?? 0,
+                'xxl' => $data['xxl'] ?? 0,
+                'images' => $images !== null ? json_encode($images) : null,
+                'color_id' => $data['color_id'],
+                'product_id' => $data['product_id']
+            ]);
             $variant->save();
 
+            $variant->images = json_decode($variant->images, true);
             return $variant;
         } catch (QueryException $e) {
             throw new \Exception('Lỗi tạo biến thể: ' . $e->getMessage());
@@ -31,22 +46,25 @@ class VariantService
 
     public function updateVariant(Variant $variant, array $data) 
     {
-        if ($variant->images !== null && $variant->images !== json_encode($data['images'])) {
-            $images = json_decode($variant->images, true);
-            foreach ($images as $image) {
-                UploadController::deleteImage($image);
-            };
+        $images = null;
+        if (isset($data['image_files']) && $data['image_files']) {
+            $images = $this->uploadService->uploadImages($data['image_files']);
+            if ($variant->images !== null) {
+                $this->uploadService->deleteImages(json_decode($variant->images));
+            }
         }
 
         try {
-            $variant->s = $data['s'] ?? $variant->s;
-            $variant->m = $data['m'] ?? $variant->m;
-            $variant->l = $data['l'] ?? $variant->l;
-            $variant->xl = $data['xl'] ?? $variant->xl;
-            $variant->xxl = $data['xxl'] ?? $variant->xxl;
-            $variant->images = json_encode($data['images']) ?? $variant->images;
-            $variant->color_id = $data['color_id'] ?? $variant->color_id;
-            $variant->product_id = $data['product_id'] ?? $variant->product_id;
+            $variant->fill([
+                's' => $data['s'] ?? $variant->s,
+                'm' => $data['m'] ?? $variant->m,
+                'l' => $data['l'] ?? $variant->l,
+                'xl' => $data['xl'] ?? $variant->xl,
+                'xxl' => $data['xxl'] ?? $variant->xxl,
+                'images' => $images !== null ? json_encode($images) : $variant->images,
+                'color_id' => $data['color_id'] ?? $variant->color_id,
+                'product_id' => $data['product_id'] ?? $variant->product_id
+            ]);
             $variant->save();
 
             $variant->images = json_decode($variant->images, true);
@@ -54,7 +72,17 @@ class VariantService
         } catch (QueryException $e) {
             throw new \Exception('Lỗi update biến thể: ' . $e->getMessage());
         }
+    }
 
+    public function deleteVariant($id)
+    {
+        $variant = Variant::find($id);
+        if ($variant) {
+            if ($variant->images !== null) {
+                $this->uploadService->deleteImages(json_decode($variant->images));
+            }
+            $variant->delete();
+        }
     }
 
     public function getVariant($id) {
@@ -77,11 +105,5 @@ class VariantService
         return $variants;
     }
 
-    public function deleteVariant($id)
-    {
-        $variant = Variant::find($id);
-        if ($variant) {
-            $variant->delete();
-        }
-    }
+
 }

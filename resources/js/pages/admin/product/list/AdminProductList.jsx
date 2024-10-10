@@ -1,16 +1,16 @@
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import styles from './List.module.scss';
 import Content from '~/common/Content';
 import config from '~/config';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import Table from './Table/Table';
 import Pagination from '~/common/Pagination';
 import ListHeader from './Part/ListHeader';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import LoadingPage from '~/pages/other/Loading';
+import { deleteProduct, getProducts } from '~/services/productService';
+import { Notification } from '~/components/Notification';
 
 const cx = classNames.bind(styles);
 
@@ -26,19 +26,20 @@ const BREADCRUMB = [
 ];
 
 const AdminProductList = () => {
-    const [products, setProducts] = useState([]);
-    const [type, setType] = useState('new');
-    const [page, setPage] = useState(1);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const type = searchParams.get('type') || 'new';
+    const page = parseInt(searchParams.get('page')) || 1;
     const [totalPage, setTotalPage] = useState(1);
+    const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
-    console.log(products);
+    const [notification, setNotification] = useState(false);
 
     const fetchProducts = async (typeP, pageP) => {
         setLoading(true);
         try {
-            const response = await axios.get('/api/products', { params: { type: typeP, page: pageP } });
-            setProducts(response.data.products.data);
-            setTotalPage(response.data.products.last_page);
+            const response = await getProducts(typeP, pageP);
+            setProducts(response.products.data);
+            setTotalPage(response.products.last_page);
         } catch (error) {
             console.log('Không thể lấy được dữ liệu sản phẩm', error);
         } finally {
@@ -47,39 +48,37 @@ const AdminProductList = () => {
     };
 
     useEffect(() => {
-        fetchProducts(type, 1);
-        setPage(1);
-        window.scrollTo(0, 0);
-    }, [type]);
-
-    useEffect(() => {
         fetchProducts(type, page);
         window.scrollTo(0, 0);
-    }, [page]);
+    }, [type, page]);
 
     const handleDeleteProduct = async (id) => {
         const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');
         if (confirmDelete) {
-            try {
-                const response = await axios.delete(`/api/product/${id}`);
-                if (response.status === 200) {
-                    fetchProducts(type, page);
-                }
-            } catch (error) {
-                console.log('Không thể lấy được dữ liệu sản phẩm', error);
-            }
-        } else {
-            console.log('huy');
-            return;
+            await deleteProduct(id);
+            setNotification(true);
+            setTimeout(() => {
+                setNotification(false);
+                fetchProducts(type, page);
+            }, 2000);
         }
+    };
+
+    const handleTypeChange = (newType) => {
+        setSearchParams({ type: newType, page: 1 });
+    };
+
+    const handlePageChange = (newPage) => {
+        setSearchParams({ type: type, page: newPage });
     };
 
     return (
         <Content breadcrumb={BREADCRUMB}>
             <div className={cx('admin-product-list')}>
-                <ListHeader type={type} setType={setType} />
+                {notification && <Notification content="Xóa thành công sản phẩm" />}{' '}
+                <ListHeader type={type} setType={handleTypeChange} />
                 {loading ? <LoadingPage /> : <Table products={products} handleDeleteProduct={handleDeleteProduct} />}
-                <Pagination current={page} total={totalPage} setPage={setPage} />
+                <Pagination current={page} total={totalPage} setPage={handlePageChange} />
             </div>
         </Content>
     );
