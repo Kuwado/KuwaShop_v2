@@ -1,0 +1,153 @@
+.preview-cart {
+    position: relative;
+}
+
+.content {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: -450px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background);
+    box-shadow: var(--shadow-menu);
+    z-index: 15;
+
+    &.active {
+        animation: showCart 0.75s forwards;
+    }
+
+    &.inactive {
+        animation: hideCart 0.75s forwards;
+    }
+}
+
+@keyframes showCart {
+    from {
+        right: -450px;
+    }
+
+    to {
+        right: 0;
+    }
+}
+
+@keyframes hideCart {
+    from {
+        right: 0;
+    }
+
+    to {
+        right: -450px;
+    }
+}
+
+.header {
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--secondary-25);
+
+    .title {
+        position: relative;
+        width: fit-content;
+    }
+
+    .number {
+        position: absolute;
+        top: 2px;
+        right: -10px;
+        transform: translate(50%, -50%);
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: var(--font-bold);
+        background-color: var(--primary);
+    }
+}
+
+.body {
+    height: calc(100vh - var(--header-height) - 100px);
+    width: 100%;
+    padding: 10px 20px;
+    overflow-y: overlay;
+}
+
+.footer {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: var(--primary);
+
+    .total-price {
+        width: 100%;
+        display: flex;
+        justify-content: right;
+        padding-right: 20px;
+        font-weight: var(--font-bold);
+        font-size: calc(var(--font-size) + 1px);
+    }
+}
+
+// Item
+.preview-cart-item {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--secondary-25);
+}
+
+.avatar {
+    width: 75px;
+    height: 100px;
+    img {
+        object-fit: contain;
+    }
+}
+
+.item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.text {
+    max-width: 280px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.name {
+    @extend .text;
+    font-weight: var(--font-bold);
+}
+
+.color {
+    @extend .text;
+}
+
+.size span {
+    text-transform: uppercase;
+}
+
+.price {
+    font-weight: var(--font-bold);
+    color: var(--error-color);
+}

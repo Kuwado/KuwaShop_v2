@@ -10,7 +10,20 @@ const cx = classNames.bind(styles);
 
 const IconButton = forwardRef(
     (
-        { icon, children, content = '', type = 'button', onClick, className, small, large, active, number, circle },
+        {
+            icon,
+            children,
+            content = '',
+            type = 'button',
+            onClick,
+            className,
+            small,
+            large,
+            active,
+            number,
+            circle,
+            border,
+        },
         ref,
     ) => {
         const classes = cx('medium', {
@@ -18,6 +31,7 @@ const IconButton = forwardRef(
             small,
             large,
             circle,
+            border,
             active,
         });
 

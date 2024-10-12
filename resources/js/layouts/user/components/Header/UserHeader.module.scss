@@ -1,0 +1,38 @@
+.header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: var(--header-height);
+    display: flex;
+    justify-content: center;
+    background-color: var(--primary);
+    z-index: 10;
+}
+
+.content {
+    width: var(--content-width);
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content-left,
+.content-right {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+}
+
+.actions {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}

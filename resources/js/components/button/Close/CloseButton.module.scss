@@ -1,0 +1,14 @@
+.close-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--icon-medium);
+    color: var(--text-primary);
+    cursor: pointer;
+
+    &:hover {
+        color: var(--error-color);
+    }
+}
