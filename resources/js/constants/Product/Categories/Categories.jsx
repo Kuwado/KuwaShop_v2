@@ -18,18 +18,20 @@ const transformCategoriesToMenu = (categories) => {
     return categories.map((category) => ({
         id: category.id,
         content: category.name,
-        rightIcon: category.children ? <FontAwesomeIcon icon={faChevronDown} /> : undefined,
-        children: category.children
-            ? {
-                  title: category.name,
-                  data: transformCategoriesToMenu(category.children),
-              }
-            : undefined,
+        rightIcon: category.children.length > 0 ? <FontAwesomeIcon icon={faChevronDown} /> : undefined,
+        children:
+            category.children && category.children.length > 0
+                ? {
+                      title: category.name,
+                      data: transformCategoriesToMenu(category.children),
+                  }
+                : undefined,
     }));
 };
 
 const Categories = ({ id, setId, name, setName, error, clearError, title = 'Loại sản phẩm' }) => {
     const [categories, setCategories] = useState([]);
+    console.log(categories);
 
     useEffect(() => {
         const fetchCategories = async () => {

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Controllers\UploadController;
+use App\Http\Resources\VariantResource;
 use App\Models\Variant;
 use Illuminate\Database\QueryException;
 
@@ -87,22 +88,13 @@ class VariantService
 
     public function getVariant($id) {
         $variant = Variant::find($id);
-        $variant->images = json_decode($variant->images, true);
-        $variant->color_name = $variant->color->name;
-        return $variant;
+        return new VariantResource($variant);
     }
 
     public function getVariants($productId)
     {
         $variants = Variant::where('product_id', $productId)->get();
-
-        $variants = $variants->map(function ($variant) {
-            $variant->images = json_decode($variant->images, true);
-            $variant->color_name = $variant->color->name;
-            return $variant;
-        });
-
-        return $variants;
+        return VariantResource::collection($variants);
     }
 
 

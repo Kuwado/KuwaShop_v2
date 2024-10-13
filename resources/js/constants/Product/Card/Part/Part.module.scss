@@ -1,0 +1,121 @@
+//Color bar
+.color-bar {
+    display: flex;
+}
+
+.favorite {
+    width: calc(var(--color-circle-width) + 10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+
+    &.active {
+        color: var(--error-color);
+    }
+}
+
+.colors {
+    flex: 1;
+    max-width: calc(var(--card-width) - var(--color-circle-width) - 10px);
+    max-height: calc((var(--color-circle-width) + 10px));
+    display: grid;
+    grid-template-columns: repeat(auto-fill, calc(var(--color-circle-width) + 10px));
+    grid-template-rows: repeat(1, calc(var(--color-circle-width) + 10px));
+    align-items: center;
+    justify-items: center;
+    overflow: hidden;
+}
+
+.color {
+    position: relative;
+    width: var(--color-circle-width);
+    height: var(--color-circle-width);
+    border-radius: 50%;
+    cursor: pointer;
+
+    &.active {
+        box-shadow: var(--shadow-circle);
+        border: 2px solid var(--error-color);
+    }
+
+    &.active::before {
+        content: '';
+        position: absolute;
+        top: calc((var(--color-circle-width) - 13px) / 2);
+        left: calc((var(--color-circle-width) - 14px) / 2);
+        width: 8px;
+        height: 5px;
+        border: solid var(--secondary);
+        border-width: 0 0 2px 2px;
+        transform: rotate(-45deg);
+    }
+}
+
+// Size picker
+.size-picker {
+    position: relative;
+}
+
+.size-btn {
+    padding: 4px 8px;
+    font-size: var(--icon-medium);
+    border-radius: var(--card-radius) 0;
+    border: 2px solid var(--text-secondary);
+    color: var(--text-secondary);
+    background-color: var(--secondary);
+    cursor: pointer;
+
+    &:hover {
+        border-color: var(--secondary);
+        color: var(--secondary);
+        background-color: transparent;
+    }
+}
+
+.size-menu {
+    position: absolute;
+    right: 0;
+    width: calc(var(--card-width) / 2);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background);
+    border: 2px solid var(--secondary);
+    animation: showMenu 0.2s forwards;
+    z-index: 3;
+}
+
+@keyframes showMenu {
+    from {
+        bottom: -200%;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 105%;
+        opacity: 1;
+    }
+}
+
+.size-option {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-bolder);
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--hover-item);
+    }
+}
+
+.size-picker.active {
+    .size-btn {
+        border-color: var(--secondary);
+        color: var(--secondary);
+        background-color: transparent;
+    }
+}

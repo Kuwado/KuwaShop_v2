@@ -22,12 +22,14 @@
     --text-hightlight: var(--secondary);
     --background: white;
 
+    --hover-color: #fafafa;
     --error-color: #ea4c89;
     --text-error: white;
 
     //shadow
     --shadow: 5px 5px 10px var(--text-primary-50);
     --shadow-menu: rgba(var(--secondary-r) var(--secondary-g) var(--secondary-b) / 12%) 0px 2px 12px;
+    --shadow-circle: 3px 3px 3px var(--text-primary-50);
 
     --hover-item: var(--secondary-25);
     --active-item: var(--secondary-75);

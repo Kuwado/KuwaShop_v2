@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Http\Controllers\UploadController;
+use App\Http\Resources\ProductResource;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\QueryException;
 
@@ -78,32 +80,46 @@ class ProductService
         }
     }
 
-    public function getProduct($id)
+    public function getProduct($id, $variants)
     {
-        $product = Product::find($id);
-        if($product->intro === null) $product->intro = '';
-        if($product->detail === null) $product->detail = '';
-        if($product->preserve === null) $product->preserve = '';
-
-        if ($product->sale_type === 'percent') {
-            $product->sale = rtrim($product->sale, "%");
-        } else if ($product->sale_type === "value") {
-            $product->sale = rtrim($product->sale, "đ");
-        }
-
-        $product->category_name = $product->category->name;
-
-        return $product;
+        $product = $variants === 'true' ? Product::with('variants')->find($id) : Product::find( $id );
+        return new ProductResource($product);
     }
 
-    public function getProducts(string $type, int $limit = 10)
+    public function getProducts($categoryId, $type, $variants, $perPage)
     {
-        return match ($type) {
-            'old' => Product::orderBy('created_at', 'asc')->paginate($limit),
-            'new' => Product::orderBy('created_at', 'desc')->paginate($limit),
-            'hot' => Product::orderBy('sold_quantity', 'desc')->paginate($limit),
-            default => Product::all(),
-        };
+        $products = Product::query();
+        if ($variants) {
+            $products = $products->with('variants');
+        }
+        if ($categoryId) {
+            $category = Category::find($categoryId);
+            $categoryIds = $category->childrenId();
+            if ($categoryIds) {
+                $products->whereIn('category_id', $categoryIds);
+            } else {
+                $products->where('category_id', $categoryId);
+            }
+        }
+        if ($type) {
+            $products = match ($type) {
+                'old' => $products->orderBy('created_at', 'asc'),
+                'new' => $products->orderBy('created_at', 'desc'),
+                'hot' => $products->orderBy('sold_quantity', 'desc'),
+                default => $products,
+            }; 
+        }
+
+        $products = $products->paginate($perPage);
+        return [
+            'data' => ProductResource::collection($products),
+            'meta' => [
+                'current_page' => $products->currentPage(),
+                'last_page' => $products->lastPage(),
+                'total' => $products->total(),
+                'per_page' => $products->perPage(),
+            ],
+        ];
     }
 
 

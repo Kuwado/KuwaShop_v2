@@ -7,3 +7,82 @@
     cursor: pointer;
     margin-left: 5px;
 }
+
+//Categories
+.categories {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.category {
+    position: relative;
+    font-weight: var(--font-bold);
+
+    &:hover .menu {
+        display: flex;
+    }
+
+    & > .title {
+        text-transform: uppercase;
+    }
+}
+
+.title {
+    padding: 10px 5px;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--hover-color);
+    }
+
+    &.active {
+        color: var(--hover-color);
+        pointer-events: none;
+    }
+}
+
+@keyframes showMenu {
+    from {
+        top: 200%;
+        opacity: 0;
+    }
+
+    to {
+        top: 100%;
+        opacity: 1;
+    }
+}
+
+.menu {
+    position: absolute;
+    left: -10px;
+    min-width: 200px;
+    width: max-content;
+    max-width: 600px;
+    min-height: 100px;
+    max-height: 400px;
+    gap: 10px;
+    padding: 5px 10px;
+    border: 2px solid var(--secondary);
+    border-radius: 20px 0;
+    background-color: var(--background);
+    box-shadow: var(--shadow-menu);
+    animation: showMenu 0.3s forwards;
+    display: none;
+}
+
+.menu .title {
+    &:hover {
+        color: var(--primary);
+    }
+
+    &.active {
+        color: var(--primary);
+    }
+}
+
+.sub-menu .menu-item > .title {
+    font-weight: var(--font-normal);
+}

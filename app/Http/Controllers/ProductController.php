@@ -61,18 +61,22 @@ class ProductController extends Controller
     }
 
     public function getProducts(Request $request) {
-        $type = $request->query('type');
-        $products = $this->productService->getProducts( $type );
+        $categoryId = $request->query('category_id') ?? null;
+        $type = $request->query('type') ?? 'new';
+        $variants = $request->query('variants') ?? false;
+        $perPage = $request->query('per_page') ?? 10;
+        $products = $this->productService->getProducts( $categoryId, $type, $variants, $perPage);
 
         return response()->json([
             'message' => 'Lấy thành công danh sách sản phẩm',
             'products' => $products
-        ]);
+        ], 200);
     }
 
     public function getProduct(Request $request) {
-        $productId = $request->query('id');
-        $product = $this->productService->getProduct( $productId );
+        $id = $request->query('id');
+        $variants = $request->query('variants') ?? false;
+        $product = $this->productService->getProduct( $id, $variants );
 
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);

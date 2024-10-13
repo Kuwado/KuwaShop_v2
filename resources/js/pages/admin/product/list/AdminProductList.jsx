@@ -39,7 +39,7 @@ const AdminProductList = () => {
         try {
             const response = await getProducts(typeP, pageP);
             setProducts(response.products.data);
-            setTotalPage(response.products.last_page);
+            setTotalPage(response.products.meta.last_page);
         } catch (error) {
             console.log('Không thể lấy được dữ liệu sản phẩm', error);
         } finally {

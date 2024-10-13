@@ -142,7 +142,7 @@ const UserMenu = () => {
     return (
         <div className={cx('avatar')}>
             <Menu items={USER_MENU} onClick={handleMenuChange} click>
-                <Image classname={cx('avatar-image')} src={images.avatar} alt="avatar" width="100%" height="100%" />
+                <Image className={cx('avatar-image')} src={images.avatar} alt="avatar" width="100%" height="100%" />
             </Menu>
         </div>
     );

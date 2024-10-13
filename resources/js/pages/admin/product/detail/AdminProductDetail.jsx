@@ -58,9 +58,9 @@ const AdminProductDetail = () => {
 
     const fetchProductData = async () => {
         try {
-            const [productRes, variantsRes] = await Promise.all([getProduct(id), getVariants(id)]);
+            const productRes = await getProduct(id);
             setProduct(productRes.product);
-            setVariants(variantsRes.variants);
+            setVariants(productRes.product.variants);
         } catch (error) {
             console.log('Lỗi fetch dữ liệu sản phẩm: ', error);
         } finally {
