@@ -18,8 +18,6 @@ const Categories = () => {
     const navigate = useNavigate();
     const [current, setCurrent] = useState(parseInt(searchParams.get('category_id')) ?? '0');
 
-    console.log(categories);
-
     useEffect(() => {
         const fetchCategories = async () => {
             const response = await getCategories();

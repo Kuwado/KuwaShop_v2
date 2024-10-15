@@ -18,7 +18,6 @@ const Card = ({ product }) => {
     ]);
     const sale = product.sale_type !== 'not';
 
-    console.log(images[0]);
     return (
         <div className={cx('card')}>
             <div className={cx('image')}>
@@ -27,7 +26,9 @@ const Card = ({ product }) => {
             </div>
             <div className={cx('body')}>
                 <ColorBar variants={product.variants} setImages={setImages} />
-                <h3 className={cx('name')}>{product.name}</h3>
+                <div className={cx('name-box')}>
+                    <h3 className={cx('name')}>{product.name}</h3>
+                </div>
                 <div className={cx('bottom')}>
                     <div className={cx('price')}>
                         <div className={cx('discount')}>{formatPrice(product.price)}</div>

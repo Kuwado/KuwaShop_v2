@@ -36,3 +36,9 @@
     height: 50px;
     cursor: pointer;
 }
+
+@media (max-width: 480px) {
+    .content {
+        display: none;
+    }
+}

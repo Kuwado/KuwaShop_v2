@@ -1,0 +1,64 @@
+.react-multi-carousel-list {
+    --button-space: 2%;
+}
+
+//Button
+.react-multiple-carousel__arrow {
+    color: var(--text-secondary);
+    background-color: var(--secondary);
+    opacity: 0.25;
+    z-index: 4;
+
+    &:hover {
+        color: var(--text-secondary);
+        background-color: var(--secondary);
+        opacity: 1;
+    }
+
+    &::before {
+        color: var(--text-secondary);
+    }
+}
+
+.react-multiple-carousel__arrow--left {
+    left: var(--button-space);
+}
+
+.react-multiple-carousel__arrow--right {
+    right: var(--button-space);
+}
+
+// Dots
+.react-multi-carousel-dot-list {
+    bottom: 3%;
+
+    .react-multi-carousel-dot {
+        display: flex;
+        align-items: center;
+        justify-items: center;
+    }
+
+    .react-multi-carousel-dot button {
+        width: 16px;
+        height: 16px;
+        border-color: var(--secondary);
+        background-color: transparent;
+    }
+
+    .react-multi-carousel-dot--active button {
+        background-color: var(--primary);
+    }
+}
+
+@media (min-width: 768px) {
+    .react-multi-carousel-list {
+        --button-space: 4%;
+    }
+}
+
+@media (max-width: 768px) {
+    .react-multi-carousel-dot button {
+        width: 14px !important;
+        height: 14px !important;
+    }
+}

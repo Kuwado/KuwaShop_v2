@@ -4,17 +4,24 @@ import styles from './Home.module.scss';
 import { CardCollection } from '~/constants/Product';
 import { useEffect, useState } from 'react';
 import { getProducts } from '~/services/productService';
+import Banner from './Banner';
 
 const cx = classNames.bind(styles);
 
 const Home = () => {
     const [newProducts, setNewProducts] = useState([]);
-    console.log(newProducts);
+    const [newCollections, setNewCollections] = useState([]);
+
+    console.log(newCollections);
 
     useEffect(() => {
         const fetchNewProducts = async () => {
             const response = await getProducts('new', 1, null, true, 10);
-            setNewProducts(response.products.data);
+            const response2 = await getProducts('new', 2, null, true, 10);
+            setNewCollections([
+                { name: 'Áo mới', products: response.products.data },
+                { name: 'Quần mới', products: response2.products.data },
+            ]);
         };
 
         fetchNewProducts();
@@ -22,7 +29,8 @@ const Home = () => {
 
     return (
         <div className={cx('home')}>
-            <CardCollection id="new" products={newProducts} />
+            <Banner />
+            <CardCollection id="new" title="Sản phẩm mới" collections={newCollections} url="products?type=new" />
         </div>
     );
 };

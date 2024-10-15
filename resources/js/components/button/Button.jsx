@@ -30,6 +30,7 @@ const Button = ({
     active,
     children,
     classname,
+    className,
     onClick,
     ...passProps
 }) => {
@@ -58,6 +59,7 @@ const Button = ({
 
     const classes = cx('text', {
         [classname]: classname,
+        [className]: className,
         primary,
         secondary,
         danger,
