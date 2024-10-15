@@ -9,10 +9,8 @@ import Banner from './Banner';
 const cx = classNames.bind(styles);
 
 const Home = () => {
-    const [newProducts, setNewProducts] = useState([]);
     const [newCollections, setNewCollections] = useState([]);
-
-    console.log(newCollections);
+    const [hotCollections, setHotCollections] = useState([]);
 
     useEffect(() => {
         const fetchNewProducts = async () => {
@@ -24,13 +22,24 @@ const Home = () => {
             ]);
         };
 
+        const fetchHotProducts = async () => {
+            const response = await getProducts('hot', 1, null, true, 10);
+            const response2 = await getProducts('hot', 2, null, true, 10);
+            setHotCollections([
+                { name: 'Áo bán chạy', products: response.products.data },
+                { name: 'Quần bán chạy', products: response2.products.data },
+            ]);
+        };
+
         fetchNewProducts();
+        fetchHotProducts();
     }, []);
 
     return (
         <div className={cx('home')}>
             <Banner />
             <CardCollection id="new" title="Sản phẩm mới" collections={newCollections} url="products?type=new" />
+            <CardCollection id="hot" title="Sản phẩm bán chạy" collections={hotCollections} url="products?type=hot" />
         </div>
     );
 };

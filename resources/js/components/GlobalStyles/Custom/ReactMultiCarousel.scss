@@ -57,8 +57,23 @@
 }
 
 @media (max-width: 768px) {
+    .react-multi-carousel-dot-list {
+        bottom: 4.5%;
+    }
+
     .react-multi-carousel-dot button {
         width: 14px !important;
         height: 14px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .react-multi-carousel-dot-list {
+        bottom: 6%;
+    }
+
+    .react-multi-carousel-dot button {
+        width: 12px !important;
+        height: 12px !important;
     }
 }

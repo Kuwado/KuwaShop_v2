@@ -5,6 +5,8 @@ import 'react-multi-carousel/lib/styles.css';
 import styles from './Home.module.scss';
 import Image from '~/components/Image';
 import banner from '~/assets/banner';
+import { useState } from 'react';
+import { Button } from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
@@ -31,7 +33,37 @@ const responsive = {
     },
 };
 
+const ITEMS = [
+    {
+        title: 'Phong cách cool ngầu - Tự tin cá tính',
+        des: 'Cùng mua ngay những trang phục hiphop với mức giảm giá lên tới 299K, còn chờ gì nữa',
+        url: '/products?category_id=1&&type=new',
+    },
+    {
+        title: 'Phong cách cool ngầu - Tự tin cá tính',
+        des: 'Cùng mua ngay những trang phục hiphop với mức giảm giá lên tới 299K, còn chờ gì nữa',
+        url: '/products?category_id=1&&type=new',
+    },
+    {
+        title: 'Phong cách cool ngầu - Tự tin cá tính',
+        des: 'Cùng mua ngay những trang phục hiphop với mức giảm giá lên tới 299K, còn chờ gì nữa',
+        url: '/products?category_id=1&&type=new',
+    },
+    {
+        title: 'Phong cách cool ngầu - Tự tin cá tính',
+        des: 'Cùng mua ngay những trang phục hiphop với mức giảm giá lên tới 299K, còn chờ gì nữa',
+        url: '/products?category_id=1&&type=new',
+    },
+    {
+        title: 'Phong cách cool ngầu - Tự tin cá tính',
+        des: 'Cùng mua ngay những trang phục hiphop với mức giảm giá lên tới 299K, còn chờ gì nữa',
+        url: '/products?category_id=1&&type=new',
+    },
+];
+
 const Banner = () => {
+    const [contents, setContents] = useState(ITEMS);
+
     return (
         <div className={cx('banner')}>
             <Carousel
@@ -44,10 +76,16 @@ const Banner = () => {
                 removeArrowOnDeviceType={['minitablet', 'mobile']}
             >
                 {banner.length > 0 &&
-                    banner.map((item) => (
-                        <div className={cx('banner-item')}>
+                    banner.map((item, index) => (
+                        <div key={`banner-${index}`} className={cx('banner-item')}>
                             <Image className={cx('banner-image')} src={item} width="100%" height="100%" />
-                            <div className={cx('content')}></div>
+                            <div className={cx('banner-content')}>
+                                <span className={cx('banner-title')}>{contents[index].title}</span>
+                                <span className={cx('banner-des')}>{contents[index].des}</span>
+                                <Button secondaryBorder large>
+                                    Mua ngay
+                                </Button>
+                            </div>
                         </div>
                     ))}
             </Carousel>
