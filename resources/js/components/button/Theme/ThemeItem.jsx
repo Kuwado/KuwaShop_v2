@@ -1,10 +1,14 @@
 import classNames from 'classnames/bind';
 
 import styles from './ThemeButton.module.scss';
+import { useContext } from 'react';
+import { EffectContext } from '~/context/EffectContext';
 
 const cx = classNames.bind(styles);
 
 const ThemeItem = ({ theme, active, onChangeTheme }) => {
+    const { changeEffect } = useContext(EffectContext);
+
     const handleChangeTheme = () => {
         const root = document.documentElement;
         root.style.setProperty('--primary-r', theme.primary.red);
@@ -18,6 +22,11 @@ const ThemeItem = ({ theme, active, onChangeTheme }) => {
         root.style.setProperty('--background', theme.background);
 
         onChangeTheme();
+        if (theme.effect) {
+            changeEffect(theme.effect);
+        } else {
+            changeEffect('');
+        }
     };
 
     const classes = cx('item', {
@@ -26,7 +35,7 @@ const ThemeItem = ({ theme, active, onChangeTheme }) => {
 
     return (
         <div className={classes} onClick={handleChangeTheme}>
-            {theme.title}
+            <span>{theme.title}</span>
         </div>
     );
 };

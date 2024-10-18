@@ -1,5 +1,19 @@
 .footer {
-    height: 500px;
     width: 100%;
-    background-color: aliceblue;
+    display: flex;
+    border-top: 2px solid var(--text-primary);
+}
+
+.left,
+.right {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-bolder);
+}
+
+.logo {
+    width: 200px;
+    aspect-ratio: 1 / 1;
 }

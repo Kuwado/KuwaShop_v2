@@ -3,11 +3,11 @@ import classNames from 'classnames/bind';
 
 import HeadlessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon, faSun, faUmbrellaBeach } from '@fortawesome/free-solid-svg-icons';
+import { faGifts, faMoon, faSun, faUmbrellaBeach } from '@fortawesome/free-solid-svg-icons';
 import styles from './ThemeButton.module.scss';
 import { IconButton } from '..';
 import ThemeItem from './ThemeItem';
-
+import effect from '~/effect';
 const cx = classNames.bind(styles);
 
 const THEMES = [
@@ -67,6 +67,29 @@ const THEMES = [
             secondary: 'white',
         },
         background: '#f5f5f5',
+        effect: effect.hello,
+    },
+    {
+        id: 4,
+        title: 'Giáng sinh',
+        primary: {
+            //#c4424a
+            red: 196,
+            green: 66,
+            blue: 74,
+        },
+        secondary: {
+            //#69212d
+            red: 105,
+            green: 33,
+            blue: 45,
+        },
+        text: {
+            primary: '#fafafa',
+            secondary: '#cfcdda',
+        },
+        background: '#151a20',
+        effect: effect.snow,
     },
 ];
 
@@ -86,9 +109,9 @@ const ThemeButon = ({ themes = THEMES }) => {
             case 3:
                 setIcon(<FontAwesomeIcon icon={faMoon} />);
                 break;
-            // case 4:
-            //     setIcon(<div>B</div>);
-            //     break;
+            case 4:
+                setIcon(<FontAwesomeIcon icon={faGifts} />);
+                break;
             default:
                 setIcon(<FontAwesomeIcon icon={faSun} />);
         }

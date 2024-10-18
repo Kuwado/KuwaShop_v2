@@ -3,10 +3,14 @@ import { Fragment } from 'react';
 
 import { publicRoutes, privateRoutes } from '../routes';
 import layouts from '../layouts';
+import Effects from './Effects';
+import { EffectProvider } from '~/context/EffectContext';
 
-function App() {
+const App = () => {
     return (
         <Router>
+            <Effects />
+
             <div className="App">
                 <Routes>
                     {publicRoutes.map((route, index) => {
@@ -36,6 +40,6 @@ function App() {
             </div>
         </Router>
     );
-}
+};
 
 export default App;

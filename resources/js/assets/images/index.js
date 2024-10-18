@@ -4,6 +4,7 @@ import NoImage from './noimage.png';
 import AvartarTest from './meo.jpg';
 import ProductTest from './productTest.jpg';
 import Done from './done.png';
+import SnowMan from './snow-man.png';
 
 const images = {
     logo: Logo,
@@ -12,6 +13,7 @@ const images = {
     avatarTest: AvartarTest,
     productTest: ProductTest,
     done: Done,
+    snowMan: SnowMan,
 };
 
 export default images;
