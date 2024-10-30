@@ -93,3 +93,16 @@ export const getVariants = async (productId) => {
         console.log('Lỗi tìm các biến thể: ', error);
     }
 };
+
+export const getVariant = async (id) => {
+    try {
+        const response = await axios.get('/api/variant', { params: { id: id } });
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(`Lỗi tìm các biến thể: ${response.statusText}`);
+        }
+    } catch (error) {
+        console.log('Lỗi tìm các biến thể: ', error);
+    }
+};

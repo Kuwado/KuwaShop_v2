@@ -1,0 +1,50 @@
+.product-detail {
+    width: 100%;
+    display: flex;
+}
+
+.content-left,
+.content-right {
+    width: 50%;
+}
+
+.content-left {
+    display: flex;
+
+    background-color: aliceblue;
+}
+
+.content-right {
+    height: 500px;
+    background: #000;
+}
+
+// Responsive
+// Mobile and Minitablet
+@media (max-width: 768px) {
+    .product-detail {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .content-left,
+    .content-right {
+        width: 100%;
+    }
+}
+
+// Mobile
+@media (max-width: 480px) {
+}
+
+// Minitablet
+@media (min-width: 480px) and (max-width: 768px) {
+}
+
+// Tablet
+@media (min-width: 768px) and (max-width: 1024px) {
+}
+
+// Laptop
+@media (min-width: 1024px) and (max-width: 1280px) {
+}

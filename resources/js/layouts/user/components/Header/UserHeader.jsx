@@ -4,7 +4,7 @@ import styles from './UserHeader.module.scss';
 import { Link } from 'react-router-dom';
 import config from '~/config';
 import images from '~/assets/images';
-import Image from '~/components/Image';
+import { Image } from '~/components/Image';
 import Categories from './Part/Categories';
 import Search from './Part/Search';
 import UserMenu from './Part/UserMenu';

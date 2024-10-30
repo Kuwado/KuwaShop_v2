@@ -56,19 +56,19 @@ const AdminProductDetail = () => {
     });
     const [loading, setLoading] = useState(true);
 
-    const fetchProductData = async () => {
-        try {
-            const productRes = await getProduct(id);
-            setProduct(productRes.product);
-            setVariants(productRes.product.variants);
-        } catch (error) {
-            console.log('Lỗi fetch dữ liệu sản phẩm: ', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
+        const fetchProductData = async () => {
+            try {
+                const productRes = await getProduct(id);
+                setProduct(productRes.product);
+                setVariants(productRes.product.variants);
+            } catch (error) {
+                console.log('Lỗi fetch dữ liệu sản phẩm: ', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchProductData();
     }, [id]);
 

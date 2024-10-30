@@ -3,7 +3,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 import styles from './Home.module.scss';
-import Image from '~/components/Image';
+import { Image } from '~/components/Image';
 import banner from '~/assets/banner';
 import { useState } from 'react';
 import { Button } from '~/components/Button';

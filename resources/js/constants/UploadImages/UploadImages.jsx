@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 
 import styles from './UploadImages.module.scss';
-import Image from '~/components/Image';
+import { Image } from '~/components/Image';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';

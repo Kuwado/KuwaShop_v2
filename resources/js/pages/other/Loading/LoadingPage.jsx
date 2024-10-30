@@ -7,9 +7,9 @@ import styles from './LoadingPage.module.scss';
 
 const cx = classNames.bind(styles);
 
-const LoadingPage = ({ className }) => {
+const LoadingPage = ({ className, height = '75vh' }) => {
     return (
-        <div className={cx('loading', { [className]: className })}>
+        <div className={cx('loading', { [className]: className })} style={{ height: height }}>
             <div className={cx('loading-icon')}>
                 <FontAwesomeIcon icon={faSpinner} />
             </div>

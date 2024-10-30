@@ -5,7 +5,7 @@ import { faEarthAsia, faCircleQuestion, faKeyboard } from '@fortawesome/free-sol
 
 import styles from './Part.module.scss';
 import images from '~/assets/images';
-import Image from '~/components/Image';
+import { Image } from '~/components/Image';
 import Menu from '~/components/Menu';
 
 const cx = classNames.bind(styles);

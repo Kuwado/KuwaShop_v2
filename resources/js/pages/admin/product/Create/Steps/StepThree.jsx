@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 
 import styles from './Steps.module.scss';
-import Image from '~/components/Image';
+import { Image } from '~/components/Image';
 import images from '~/assets/images';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';

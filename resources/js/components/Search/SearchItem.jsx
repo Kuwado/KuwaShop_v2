@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 
 import styles from './Search.module.scss';
-import Image from '../Image';
+import { Image } from '../Image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClipboard } from '@fortawesome/free-solid-svg-icons';
 

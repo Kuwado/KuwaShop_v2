@@ -8,13 +8,14 @@ import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
 
-const ColorBar = ({ variants = [], setImages }) => {
+const ColorBar = ({ variants = [], setImages, setVariantId }) => {
     const [current, setCurrent] = useState(0);
     const [favorite, setFavorite] = useState(false);
 
     const handleChangeColor = (variant, index) => {
         console.log(variant);
         setImages([variant.images[0] ?? images.noImage, variant.images[1] ?? images.noImage]);
+        setVariantId(variant.id ?? '');
         setCurrent(index);
     };
 

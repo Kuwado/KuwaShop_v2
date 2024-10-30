@@ -1,5 +1,6 @@
 import AdminLayout from './admin/default/AdminLayout';
 import UserLayout from './user/default/UserLayout';
+import HomeLayout from './user/default/HomeLayout';
 
 const layouts = {
     admin: {
@@ -7,6 +8,7 @@ const layouts = {
     },
     user: {
         default: UserLayout,
+        home: HomeLayout,
     },
 };
 

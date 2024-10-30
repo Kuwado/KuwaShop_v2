@@ -8,6 +8,11 @@
 
 .body {
     width: var(--content-width);
+    padding: 15px 0;
+}
+
+.body.home {
+    padding-top: 0;
 }
 
 .test {

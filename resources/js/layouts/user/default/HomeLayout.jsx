@@ -6,14 +6,14 @@ import Footer from '../components/Footer';
 
 const cx = classNames.bind(styles);
 
-const UserLayout = ({ children }) => {
+const HomeLayout = ({ children }) => {
     return (
         <div className={cx('user-layout')}>
             <UserHeader />
-            <div className={cx('body')}>{children}</div>
+            <div className={cx('body', 'home')}>{children}</div>
             <Footer />
         </div>
     );
 };
 
-export default UserLayout;
+export default HomeLayout;

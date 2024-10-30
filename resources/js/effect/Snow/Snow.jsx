@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Snow.module.scss';
 
 import classNames from 'classnames/bind';
-import Image from '~/components/Image';
+import { Image } from '~/components/Image';
 import images from '~/assets/images';
 import { useContext, useEffect } from 'react';
 import { EffectContext } from '~/context/EffectContext';

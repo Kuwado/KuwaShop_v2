@@ -8,7 +8,7 @@ import { faEarthAsia, faCircleQuestion, faKeyboard } from '@fortawesome/free-sol
 import styles from './Header.module.scss';
 import config from '~/config';
 import images from '~/assets/images';
-import Image from '~/components/Image';
+import { Image } from '~/components/Image';
 import Menu from '~/components/Menu';
 import { NotificationWithIcon } from '~/components/Notification';
 import { MessageWithIcon } from '~/components/Messages';

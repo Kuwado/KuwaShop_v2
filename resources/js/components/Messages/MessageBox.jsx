@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import styles from './Messages.module.scss';
 import MessageItem from './MessageItem';
 import images from '~/assets/images';
-import Image from '../Image';
+import { Image } from '../Image';
 import { Button } from '../Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';

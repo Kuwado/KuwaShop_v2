@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './Messages.module.scss';
 import { useState } from 'react';
-import Image from '../Image';
+import { Image } from '../Image';
 
 const cx = classNames.bind(styles);
 

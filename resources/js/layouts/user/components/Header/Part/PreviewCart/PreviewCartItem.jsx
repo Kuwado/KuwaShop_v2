@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 
 import styles from './PreviewCart.module.scss';
-import Image from '~/components/Image';
+import { Image } from '~/components/Image';
 import { formatPrice } from '~/utils/format';
 import { QuantityButton } from '~/components/Button';
 

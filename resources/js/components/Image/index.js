@@ -1,3 +1,4 @@
 import Image from './Image';
+import ImageZoom from './ImageZoom';
 
-export default Image;
+export { Image, ImageZoom };
