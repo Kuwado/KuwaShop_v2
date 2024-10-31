@@ -9,11 +9,13 @@ const cx = classNames.bind(styles);
 const QuantityButton = ({ quantity = 1, large = false, setQuantity, max = 5 }) => {
     const handleMoreQuantity = () => {
         if (quantity < max) {
+            setQuantity(quantity + 1);
         }
     };
 
     const handleLessQuantity = () => {
         if (quantity > 1) {
+            setQuantity(quantity - 1);
         }
     };
 

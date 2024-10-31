@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 
 import styles from './Home.module.scss';
-import { CardCollection } from '~/constants/Product';
+import { CardCollections } from '~/constants/Product';
 import { useEffect, useState } from 'react';
 import { getProducts } from '~/services/productService';
 import Banner from './Banner';
@@ -38,8 +38,8 @@ const Home = () => {
     return (
         <div className={cx('home')}>
             <Banner />
-            <CardCollection id="new" title="Sản phẩm mới" collections={newCollections} url="products?type=new" />
-            <CardCollection id="hot" title="Sản phẩm bán chạy" collections={hotCollections} url="products?type=hot" />
+            <CardCollections id="new" title="Sản phẩm mới" collections={newCollections} url="products?type=new" />
+            <CardCollections id="hot" title="Sản phẩm bán chạy" collections={hotCollections} url="products?type=hot" />
         </div>
     );
 };

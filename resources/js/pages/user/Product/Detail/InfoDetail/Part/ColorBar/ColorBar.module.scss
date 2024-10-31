@@ -1,0 +1,39 @@
+.color-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    --color-circle-width: 24px;
+
+    .color-dot {
+        position: relative;
+        width: var(--color-circle-width);
+        height: var(--color-circle-width);
+        border-radius: 50%;
+        cursor: pointer;
+
+        &.active {
+            box-shadow: var(--shadow-circle);
+            border: 2px solid var(--error-color);
+        }
+
+        &.active::before {
+            content: '';
+            position: absolute;
+            top: calc((var(--color-circle-width) - 13px) / 2);
+            left: calc((var(--color-circle-width) - 14px) / 2);
+            width: 8px;
+            height: 5px;
+            border: solid var(--secondary);
+            border-width: 0 0 2px 2px;
+            transform: rotate(-45deg);
+        }
+    }
+}
+
+// Responsive
+// <= Tablet
+@media (max-width: 1024px) {
+    .color-bar {
+        --color-circle-width: 20px;
+    }
+}

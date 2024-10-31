@@ -34,9 +34,27 @@ const responsive = {
     },
 };
 
-const CardCollection = ({ id = '', title = 'Collection', collection = [], url }) => {
+const CardCollections = ({ id = '', title = 'Collection', collections = [], url }) => {
+    const [items, setItems] = useState([]);
+    const [current, setCurrent] = useState(0);
+    const [loading, setLoading] = useState(false);
     const sliderRef = useRef(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (collections.length > 0 && collections[current].products) {
+            setItems(collections[current].products);
+        }
+    }, [collections, current]);
+
+    const handleChangeItems = (index) => {
+        setLoading(true);
+        setCurrent(index);
+        sliderRef.current.goToSlide(0);
+        setTimeout(() => {
+            setLoading(false);
+        }, 500);
+    };
 
     const handleGoToAll = () => {
         navigate(url);
@@ -46,6 +64,19 @@ const CardCollection = ({ id = '', title = 'Collection', collection = [], url })
         <div className={cx('card-collection')}>
             <h2>{title}</h2>
 
+            <div className={cx('options')}>
+                {collections.length > 0 &&
+                    collections.map((item, index) => (
+                        <div
+                            key={`card-${id}-option-${index}`}
+                            className={cx('option-btn', { active: index === current })}
+                            onClick={() => handleChangeItems(index)}
+                        >
+                            {item.name}
+                        </div>
+                    ))}
+            </div>
+
             <div className={cx('slider')}>
                 <Carousel
                     ref={sliderRef}
@@ -53,9 +84,10 @@ const CardCollection = ({ id = '', title = 'Collection', collection = [], url })
                     infinite={false}
                     removeArrowOnDeviceType={['minitablet', 'mobile']}
                 >
-                    {collection.length > 0 &&
-                        collection.map((product) => <Card key={`card-${id}-${product.id}`} product={product} />)}
+                    {items.length > 0 &&
+                        items.map((product) => <Card key={`card-${id}-${product.id}`} product={product} />)}
                 </Carousel>
+                {loading && <LoadingSlider />}
             </div>
 
             {url && (
@@ -67,4 +99,4 @@ const CardCollection = ({ id = '', title = 'Collection', collection = [], url })
     );
 };
 
-export default CardCollection;
+export default CardCollections;

@@ -6,8 +6,9 @@ import TextArea from '~/components/TextArea';
 import { OutInTransition } from '~/animations/Transition';
 
 const cx = classNames.bind(styles);
+const fn = () => {};
 
-const Informations = ({ intro, detail, preserve, setIntro, setDetail, setPreserve }) => {
+const Informations = ({ intro, detail, preserve, setIntro = fn, setDetail = fn, setPreserve = fn }) => {
     const [current, setCurrent] = useState('intro');
 
     return (
