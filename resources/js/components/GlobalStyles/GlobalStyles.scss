@@ -141,16 +141,28 @@ html *::-webkit-scrollbar-track {
 // Responsive
 // Mobile
 @media (max-width: 480px) {
+    .mobile-hidden {
+        display: none;
+    }
 }
 
 // Minitablet
 @media (min-width: 480px) and (max-width: 768px) {
+    .minitablet-hidden {
+        display: none;
+    }
 }
 
 // Tablet
 @media (min-width: 768px) and (max-width: 1024px) {
+    .tablet-hidden {
+        display: none;
+    }
 }
 
 // Laptop
 @media (min-width: 1024px) and (max-width: 1280px) {
+    .laptop-hidden {
+        display: none;
+    }
 }

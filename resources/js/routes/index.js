@@ -12,6 +12,9 @@ const publicRoutes = [
     { path: config.routes.user.home, component: pages.user.home, layout: layouts.user.home },
     { path: config.routes.user.productDetail, component: pages.user.productDetail, layout: layouts.user.default },
     { path: config.routes.user.productList, component: pages.user.productList, layout: layouts.user.default },
+
+    { path: config.routes.other.login, component: pages.other.login, layout: layouts.other.default },
+    { path: config.routes.other.register, component: pages.other.register, layout: layouts.other.default },
 ];
 
 const privateRoutes = [];

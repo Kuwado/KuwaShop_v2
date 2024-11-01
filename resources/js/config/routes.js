@@ -12,6 +12,11 @@ const routes = {
         productList: '/products',
         productDetail: '/product/:productId/:variantId',
     },
+
+    other: {
+        login: '/login',
+        register: '/register',
+    },
 };
 
 export default routes;

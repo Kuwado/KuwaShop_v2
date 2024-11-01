@@ -27,6 +27,8 @@ const Button = ({
     leftIcon,
     rightIcon,
     // others
+    width = 'fit-content',
+    contentCenter = false,
     active,
     children,
     classname,
@@ -75,9 +77,9 @@ const Button = ({
     });
 
     return (
-        <Comp className={classes} {...props}>
+        <Comp className={classes} {...props} style={{ width: width }}>
             {leftIcon && <span className={cx('icon')}>{leftIcon}</span>}
-            <span className={cx('content')}>{children}</span>
+            <span className={cx('content', { center: contentCenter })}>{children}</span>
             {rightIcon && <span className={cx('icon')}>{rightIcon}</span>}{' '}
         </Comp>
     );
