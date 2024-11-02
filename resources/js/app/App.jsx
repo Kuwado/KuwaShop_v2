@@ -1,12 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 
 import { publicRoutes, privateRoutes } from '../routes';
 import layouts from '../layouts';
 import Effects from './Effects';
-import { EffectProvider } from '~/context/EffectContext';
+import ProtectedRoute from '~/routes/ProtectedRoute';
+import { AuthContext } from '~/context/AuthContext';
 
 const App = () => {
+    const { isAuthenticated, role, handleLogout } = useContext(AuthContext);
+    // handleLogout();
+
     return (
         <Router>
             <Effects />
@@ -32,6 +36,32 @@ const App = () => {
                                     <Layout>
                                         <Page />
                                     </Layout>
+                                }
+                            />
+                        );
+                    })}
+
+                    {privateRoutes.map((route, index) => {
+                        const Page = route.component;
+
+                        let Layout = layouts.admin.default;
+
+                        if (route.layout === null) {
+                            Layout = Fragment; // No layout
+                        } else if (route.layout) {
+                            Layout = route.layout; // Custom layout if provided
+                        }
+
+                        return (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    <ProtectedRoute isAuthenticated={isAuthenticated} nextUrl={route.path}>
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    </ProtectedRoute>
                                 }
                             />
                         );

@@ -2,35 +2,64 @@ import classNames from 'classnames/bind';
 
 import styles from './Login.module.scss';
 import { Input } from '~/components/Input';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button } from '~/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Image } from '~/components/Image';
 import images from '~/assets/images';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import config from '~/config';
 import { CheckboxInput } from '~/components/Checkbox';
+import { AuthContext } from '~/context/AuthContext';
 
 const cx = classNames.bind(styles);
 
 const Login = () => {
-    const [login, setLogin] = useState({ email: '', password: '' });
+    const { handleLogin } = useContext(AuthContext);
+    const [account, setAccount] = useState({ email: '', password: '' });
     const [show, setShow] = useState(false);
     const [save, setSave] = useState(false);
+    const [error, setError] = useState({ email: '', password: '' });
 
-    console.log(login);
+    console.log(account);
+    console.log(error);
 
     const setEmail = (e) => {
-        setLogin((prev) => ({ ...prev, email: e.target.value }));
+        setAccount((prev) => ({ ...prev, email: e.target.value }));
     };
 
     const setPassword = (e) => {
-        setLogin((prev) => ({ ...prev, password: e.target.value }));
+        setAccount((prev) => ({ ...prev, password: e.target.value }));
+    };
+
+    const setEmailError = (error) => {
+        setError((prev) => ({ ...prev, email: error }));
+    };
+
+    const setPasswordError = (error) => {
+        setError((prev) => ({ ...prev, password: error }));
     };
 
     const validateEmail = (email) => {
         if (email > 0) return 'loi';
+    };
+
+    const onLogin = async () => {
+        try {
+            const response = await axios.post('/api/login', { email: account.email, password: account.password });
+            if (response.status === 200) {
+                handleLogin(response.data.token, response.data.role);
+            } else {
+                if (response.data.type === 'email') {
+                    setEmailError(response.data.message);
+                } else if (response.data.type === 'password') {
+                    setPasswordError(response.data.message);
+                }
+            }
+        } catch (error) {
+            console.log('Lỗi đăng nhập: ', error);
+        }
     };
 
     return (
@@ -44,23 +73,28 @@ const Login = () => {
                     <div className={cx('title')}>Đăng nhập</div>
 
                     <Input
-                        value={login.email}
+                        value={account.email}
                         name="email"
                         type="email"
                         onChange={setEmail}
                         label="Tên đăng nhập"
                         required
+                        error={error.email}
+                        clearError={() => setEmailError('')}
                     />
 
                     <div className={cx('password-container')}>
                         <Input
-                            value={login.password}
+                            value={account.password}
                             name="password"
                             type={show ? 'text' : 'password'}
                             onChange={setPassword}
                             label="Mật khẩu"
                             required
+                            error={error.password}
+                            clearError={() => setPasswordError('')}
                         />
+
                         <button type="button" className={cx('show-btn')} onClick={() => setShow((prev) => !prev)}>
                             <FontAwesomeIcon icon={show ? faEye : faEyeSlash} />
                         </button>
@@ -72,14 +106,14 @@ const Login = () => {
                             name="save-login"
                             id="save-login"
                             checked={save}
-                            onClick={() => setSave((prev) => !prev)}
+                            onChange={() => setSave((prev) => !prev)}
                         />
                         <a className={cx('forgot')} href="/">
                             Quên mật khẩu
                         </a>
                     </div>
 
-                    <Button primaryBorder width="100%" contentCenter large>
+                    <Button primaryBorder width="100%" contentCenter large onClick={onLogin}>
                         Đăng nhập
                     </Button>
 

@@ -127,3 +127,7 @@ npm install ckeditor5 ckeditor5-premium-features
 ** Transition
 npm install react-transition-group
 
+** Sanctum
+composer require laravel/sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+php artisan migrate
