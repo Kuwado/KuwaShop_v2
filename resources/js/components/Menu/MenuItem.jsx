@@ -25,6 +25,7 @@ const MenuItem = ({ data, onClick }) => {
             to={data.to}
             onClick={onClick}
             type="button"
+            width="100%"
         >
             {formatContent(data.content)}
         </Button>

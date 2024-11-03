@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
-use App\Providers\Format;
 use App\Services\ProductService;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -29,7 +27,6 @@ class ProductController extends Controller
         return response()->json([
             'message' => 'Sản phẩm đã được tạo thành công!',
             'product' => $product,
-            'data' => $validatedData
         ], 201);
     }
 

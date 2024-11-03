@@ -1,11 +1,9 @@
 import classNames from 'classnames/bind';
 
 import styles from './Login.module.scss';
-import { Input } from '~/components/Input';
-import { useContext, useState } from 'react';
+import { Input, PasswordInput } from '~/components/Input';
+import { useContext, useEffect, useState } from 'react';
 import { Button } from '~/components/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Image } from '~/components/Image';
 import images from '~/assets/images';
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,13 +15,15 @@ const cx = classNames.bind(styles);
 
 const Login = () => {
     const { handleLogin } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [account, setAccount] = useState({ email: '', password: '' });
-    const [show, setShow] = useState(false);
     const [save, setSave] = useState(false);
     const [error, setError] = useState({ email: '', password: '' });
+    const { handleLogout } = useContext(AuthContext);
 
-    console.log(account);
-    console.log(error);
+    useEffect(() => {
+        handleLogout();
+    }, []);
 
     const setEmail = (e) => {
         setAccount((prev) => ({ ...prev, email: e.target.value }));
@@ -49,7 +49,17 @@ const Login = () => {
         try {
             const response = await axios.post('/api/login', { email: account.email, password: account.password });
             if (response.status === 200) {
-                handleLogin(response.data.token, response.data.role);
+                handleLogin(response.data.token, response.data.role, response.data.user_id);
+                const nextUrl = localStorage.getItem('nextUrl');
+                if (nextUrl) {
+                    navigate(nextUrl);
+                } else {
+                    if (response.data.role === 'user') {
+                        navigate(config.routes.user.home);
+                    } else if (response.data.role === 'admin') {
+                        navigate(config.routes.admin.dashboard);
+                    }
+                }
             } else {
                 if (response.data.type === 'email') {
                     setEmailError(response.data.message);
@@ -83,22 +93,15 @@ const Login = () => {
                         clearError={() => setEmailError('')}
                     />
 
-                    <div className={cx('password-container')}>
-                        <Input
-                            value={account.password}
-                            name="password"
-                            type={show ? 'text' : 'password'}
-                            onChange={setPassword}
-                            label="Mật khẩu"
-                            required
-                            error={error.password}
-                            clearError={() => setPasswordError('')}
-                        />
-
-                        <button type="button" className={cx('show-btn')} onClick={() => setShow((prev) => !prev)}>
-                            <FontAwesomeIcon icon={show ? faEye : faEyeSlash} />
-                        </button>
-                    </div>
+                    <PasswordInput
+                        value={account.password}
+                        name="password"
+                        onChange={setPassword}
+                        label="Mật khẩu"
+                        required
+                        error={error.password}
+                        clearError={() => setPasswordError('')}
+                    />
 
                     <div className={cx('options')}>
                         <CheckboxInput

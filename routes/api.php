@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VariantController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Http\Request;
@@ -16,11 +17,13 @@ Route::get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
+Route::post('/user/create', [ProfileController::class, 'createUser']);
+Route::post('/profile/create', [ProfileController::class, 'createProfile']);
+Route::get('/profile', [ProfileController::class, 'getProfile']);
+
 //Upload
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/upload/images', [UploadController::class, 'uploadImages']);
-    Route::post('/upload/image', [UploadController::class, 'uploadImage']);
-});
+Route::post('/upload/images', [UploadController::class, 'uploadImages']);
+Route::post('/upload/image', [UploadController::class, 'uploadImage']);
 
 // Product
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {

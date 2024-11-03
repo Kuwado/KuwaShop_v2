@@ -6,16 +6,12 @@ const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
     const [role, setRole] = useState(localStorage.getItem('role') || '');
 
-    const handleLogin = (token, userRole) => {
+    const handleLogin = (token, userRole, userId) => {
         localStorage.setItem('token', token);
         localStorage.setItem('role', userRole);
+        localStorage.setItem('userId', userId);
         setIsAuthenticated(true);
         setRole(userRole);
-        const nextUrl = localStorage.getItem('nextUrl');
-        if (nextUrl) {
-            window.location.href = nextUrl;
-            localStorage.removeItem('nextUrl');
-        }
     };
 
     const handleLogout = () => {

@@ -52,12 +52,21 @@ const App = () => {
                             Layout = route.layout; // Custom layout if provided
                         }
 
+                        const currentRole = route.role || null;
+                        let forbidden = false;
+                        if (currentRole !== null && currentRole !== role) {
+                            forbidden = true;
+                        }
                         return (
                             <Route
                                 key={index}
                                 path={route.path}
                                 element={
-                                    <ProtectedRoute isAuthenticated={isAuthenticated} nextUrl={route.path}>
+                                    <ProtectedRoute
+                                        isAuthenticated={isAuthenticated}
+                                        nextUrl={route.path}
+                                        forbidden={forbidden}
+                                    >
                                         <Layout>
                                             <Page />
                                         </Layout>

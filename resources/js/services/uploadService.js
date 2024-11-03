@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const UploadImage = async (image) => {
+export const uploadImage = async (image) => {
     const formData = new FormData();
     formData.append('image', image);
 
@@ -19,7 +19,7 @@ export const UploadImage = async (image) => {
     }
 };
 
-export const UploadImages = async (images) => {
+export const uploadImages = async (images) => {
     const formData = new FormData();
     images.forEach((image) => formData.append('images[]', image));
 

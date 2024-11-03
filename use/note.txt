@@ -131,3 +131,6 @@ npm install react-transition-group
 composer require laravel/sanctum
 php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 php artisan migrate
+
+** middleware proxy
+npm install http-proxy-middleware

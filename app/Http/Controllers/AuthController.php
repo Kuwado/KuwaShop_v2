@@ -14,27 +14,28 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $email = $request->input("email");
-        $password = $request->input("password");
+        $user = User::where( 'email', $email)->first();
+        $credentials = $request->only('email', 'password');
 
-        $user = User::where('email', $email)->first();
-        if (!$user) {
-            return response()->json([
-                'type' => 'email',
-                'message' => 'Email không chính xác!',
-            ], 201);
-        }
-
-        if ($password !== $user->password) { 
-            return response()->json([
-                'type' => 'password',
-                'message' => 'Mật khẩu không chính xác!'
-            ], 201);
+        if (!Auth::attempt($credentials)) {
+            if (!$user) {
+                return response()->json([
+                    'type' => 'email',
+                    'message' => 'Email không chính xác!',
+                ], 201);
+            } else {
+                return response()->json([
+                    'type' => 'password',
+                    'message' => 'Mật khẩu không chính xác!',
+                ], 201);
+            }
         }
 
         $token = $user->createToken('token_name')->plainTextToken;
         return response()->json([
             'token' => $token, 
             'role' => $user->role,
+            'user_id' => $user->id
         ], 200);
     }
 

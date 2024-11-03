@@ -16,6 +16,7 @@ const routes = {
     other: {
         login: '/login',
         register: '/register',
+        forbidden: '/forbidden',
     },
 };
 

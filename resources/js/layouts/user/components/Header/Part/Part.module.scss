@@ -6,6 +6,10 @@
     overflow: hidden;
     cursor: pointer;
     margin-left: 5px;
+
+    .avatar-image {
+        object-fit: cover;
+    }
 }
 
 //Categories

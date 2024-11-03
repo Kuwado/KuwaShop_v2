@@ -5,7 +5,6 @@ import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 import styles from './UploadImages.module.scss';
-import { IconButton } from '~/components/Button';
 import Popup from '~/components/Popup';
 
 const cx = classNames.bind(styles);
