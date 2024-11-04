@@ -18,6 +18,7 @@ const Button = ({
     outline = false,
     shadow = false,
     disabled = false,
+    noClick = false,
     // border type, default = cheo canh
     curved = false,
     noRadius = false,
@@ -71,6 +72,7 @@ const Button = ({
         outline,
         shadow,
         disabled,
+        'no-click': noClick,
         curved,
         'no-radius': noRadius,
         small,

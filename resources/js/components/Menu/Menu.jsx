@@ -6,6 +6,7 @@ import Tippy from '@tippyjs/react/headless';
 import styles from './Menu.module.scss';
 import MenuItem from './MenuItem';
 import Header from './Header';
+import { Button } from '../Button';
 
 const cx = classNames.bind(styles);
 
@@ -69,7 +70,13 @@ const Menu = ({
 
     const renderResults = (attrs) => (
         <div className={cx('menu')} tabIndex="-1" {...attrs}>
-            {h && <header>{h}</header>}
+            {h && !current.title && (
+                <header className={cx('first-header')}>
+                    <Button width="100%" type="button" noRadius>
+                        {h}
+                    </Button>
+                </header>
+            )}
             {current.title && <Header title={current.title} icon={current.icon} onClick={handleBack} />}
             <div className={cx('menu-body')}>{renderItems()}</div>
         </div>

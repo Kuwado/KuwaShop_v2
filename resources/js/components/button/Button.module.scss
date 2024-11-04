@@ -150,3 +150,7 @@
 .no-radius {
     border-radius: 0;
 }
+
+.no-click {
+    pointer-events: none;
+}

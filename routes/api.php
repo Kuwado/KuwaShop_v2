@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
@@ -51,5 +52,12 @@ Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/color', [ColorController::class, 'getColor']);
 Route::get('/colors', [ColorController::class, 'index']);
 
+//Cart
+Route::middleware(['auth:sanctum', 'role:user'])->group(function () { 
+    Route::post('/cart/create', [CartController::class, 'createCart']);
+    Route::post('cart/update/{id}', [CartController::class,'updateCart']);
+    Route::delete('/cart/delete/{id}', [CartController::class,'deleteCart']);
+});
 
-Route::get('/test/product/{id}', [ProductController::class,'test']);
+Route::get('/carts', [CartController::class,'getCarts']);
+Route::get('/cart', [CartController::class,'getCart']);

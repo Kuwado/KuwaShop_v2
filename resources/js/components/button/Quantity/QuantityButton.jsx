@@ -6,16 +6,22 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-const QuantityButton = ({ quantity = 1, large = false, setQuantity, max = 5 }) => {
+const fn = () => {};
+
+const QuantityButton = ({ quantity = 1, large = false, onMore = fn, onLess = fn, setQuantity, max = 5 }) => {
     const handleMoreQuantity = () => {
         if (quantity < max) {
+            onMore();
             setQuantity(quantity + 1);
         }
     };
 
     const handleLessQuantity = () => {
         if (quantity > 1) {
+            onLess();
             setQuantity(quantity - 1);
+        } else {
+            const confirmed = window.confirm('Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng?');
         }
     };
 

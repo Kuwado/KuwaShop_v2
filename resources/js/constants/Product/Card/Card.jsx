@@ -12,29 +12,33 @@ import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 const Card = ({ product }) => {
+    const [variant, setVariant] = useState(product?.variants?.[0] || {});
     const navigate = useNavigate();
-    const variantImages = product?.variants?.[0]?.images || [];
-    const [currentImages, setImages] = useState([
-        variantImages[0] ?? images.noImage,
-        variantImages[1] ?? images.noImage,
-    ]);
-    const [variantId, setVariantId] = useState(
-        product.variants[0] && product.variants[0].id ? product.variants[0].id : '',
-    );
+
     const sale = product.sale_type !== 'not';
 
     const handleClickCard = () => {
-        navigate(`/product/${product.id}/${variantId}`);
+        navigate(`/product/${product.id}/${variant.id}`);
     };
 
     return (
         <div className={cx('card')}>
             <div className={cx('image')} onClick={handleClickCard}>
-                <Image className={cx('image-1')} src={currentImages[0]} width="100%" height="100%" />
-                <Image className={cx('image-2')} src={currentImages[1]} width="100%" height="100%" />
+                <Image
+                    className={cx('image-1')}
+                    src={variant.images && variant.images.length > 0 ? variant.images[0] : images.noImage}
+                    width="100%"
+                    height="100%"
+                />
+                <Image
+                    className={cx('image-2')}
+                    src={variant.images && variant.images.length > 1 ? variant.images[1] : images.noImage}
+                    width="100%"
+                    height="100%"
+                />
             </div>
             <div className={cx('body')}>
-                <ColorBar variants={product.variants} setImages={setImages} setVariantId={setVariantId} />
+                <ColorBar variants={product.variants} setVariant={setVariant} />
                 <div className={cx('name-box')}>
                     <h3 className={cx('name')} onClick={handleClickCard}>
                         {product.name}
@@ -45,7 +49,7 @@ const Card = ({ product }) => {
                         <div className={cx('discount')}>{formatPrice(product.price)}</div>
                         {sale && <div className={cx('original')}>{formatPrice(product.original_price)}</div>}
                     </div>
-                    <SizePicker />
+                    <SizePicker variant={variant} />
                 </div>
             </div>
         </div>

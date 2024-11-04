@@ -7,11 +7,8 @@ import styles from './Part.module.scss';
 import images from '~/assets/images';
 import { Image } from '~/components/Image';
 import Menu from '~/components/Menu';
-import config from '~/config';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '~/context/AuthContext';
-import useProfile from '~/hooks/useProfile';
-import { getProfile } from '~/services/profileService';
 
 const cx = classNames.bind(styles);
 
@@ -141,18 +138,7 @@ const USER_MENU = [
 ];
 
 const UserMenu = () => {
-    const { handleLogout } = useContext(AuthContext);
-    const { profile, setProfile } = useProfile();
-
-    useEffect(() => {
-        const fetchProfile = async (userId) => {
-            const response = await getProfile(userId);
-            setProfile(response.profile);
-        };
-
-        const userId = localStorage.getItem('userId');
-        if (userId) fetchProfile(userId);
-    });
+    const { handleLogout, profile } = useContext(AuthContext);
 
     const handleMenuChange = (menuItem) => {
         switch (menuItem.type) {
@@ -165,9 +151,20 @@ const UserMenu = () => {
         }
     };
 
+    const header = () => {
+        return (
+            <div>
+                <span>Xin chào, </span>
+                <span>
+                    {profile.first_name} {profile.last_name}
+                </span>
+            </div>
+        );
+    };
+
     return (
         <div className={cx('avatar')}>
-            <Menu items={USER_MENU} onClick={handleMenuChange} click>
+            <Menu items={USER_MENU} onClick={handleMenuChange} header={header()} click>
                 <Image
                     className={cx('avatar-image')}
                     src={profile.avatar ?? images.noImage}

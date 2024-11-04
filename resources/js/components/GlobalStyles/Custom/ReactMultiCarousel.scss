@@ -7,7 +7,7 @@
     color: var(--text-secondary);
     background-color: var(--secondary);
     opacity: 0.25;
-    z-index: 4;
+    z-index: 1;
 
     &:hover {
         color: var(--text-secondary);
@@ -50,7 +50,7 @@
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 1024px) {
     .react-multi-carousel-list {
         --button-space: 4%;
     }

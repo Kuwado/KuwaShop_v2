@@ -123,6 +123,11 @@
     &:hover {
         background-color: var(--hover-item);
     }
+
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
 }
 
 .size-picker.active {

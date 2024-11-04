@@ -14,9 +14,12 @@ export const createVariant = async (variant, productId) => {
         });
         formData.append('product_id', productId);
 
+        const token = localStorage.getItem('token');
+
         const response = await axios.post('/api/variant/create', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
             },
         });
         if (response.status === 201) {
@@ -49,9 +52,12 @@ export const updateVariant = async (variant, productId = variant.product_id) => 
             }
         });
 
+        const token = localStorage.getItem('token');
+
         const response = await axios.post(`/api/variant/update/${variant.id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
             },
         });
         if (response.status === 200) {
@@ -66,7 +72,10 @@ export const updateVariant = async (variant, productId = variant.product_id) => 
 
 export const deleteVariant = async (id) => {
     try {
-        const response = await axios.delete(`/api/variant/delete/${id}`);
+        const token = localStorage.getItem('token');
+        const response = await axios.delete(`/api/variant/delete/${id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
         return response.data;
     } catch (error) {
         console.log('Lỗi xóa biến thể: ', error);

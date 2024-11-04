@@ -28,6 +28,7 @@ class VariantResource extends JsonResource
             'created_at' => $this->created_at,
             'color_name' => $this->color->name ?? null,
             'color_code' => $this->color->code ?? null,
+            'product' => $this->product
         ];
     }
 }

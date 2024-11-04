@@ -9,11 +9,12 @@ export const createProduct = async (product) => {
             }
         });
 
-        console.log('FormData:', Array.from(formData.entries()));
+        const token = localStorage.getItem('token');
 
         const response = await axios.post('/api/product/create', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
             },
         });
         if (response.status === 201) {
@@ -35,9 +36,12 @@ export const updateProduct = async (product) => {
             }
         });
 
+        const token = localStorage.getItem('token');
+
         const response = await axios.post(`/api/product/update/${product.id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
             },
         });
 
@@ -53,7 +57,12 @@ export const updateProduct = async (product) => {
 
 export const deleteProduct = async (id) => {
     try {
-        const response = await axios.delete(`/api/product/delete/${id}`);
+        const token = localStorage.getItem('token');
+        const response = await axios.delete(`/api/product/delete/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
         return response.data;
     } catch (error) {
         console.log('Lỗi xóa sản phẩm: ', error);

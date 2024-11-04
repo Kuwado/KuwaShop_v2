@@ -30,23 +30,22 @@ const SizePicker = ({ variant }) => {
             </div>
             {/* {show && ( */}
             <div className={cx('size-menu')}>
-                <div className={cx('size-option')} onClick={handleAddToCart}>
+                <div className={cx('size-option', { disabled: variant.s === 0 })} onClick={handleAddToCart}>
                     S
                 </div>
-                <div className={cx('size-option')} onClick={handleAddToCart}>
+                <div className={cx('size-option', { disabled: variant.m === 0 })} onClick={handleAddToCart}>
                     M
                 </div>
-                <div className={cx('size-option')} onClick={handleAddToCart}>
+                <div className={cx('size-option', { disabled: variant.l === 0 })} onClick={handleAddToCart}>
                     L
                 </div>
-                <div className={cx('size-option')} onClick={handleAddToCart}>
+                <div className={cx('size-option', { disabled: variant.xl === 0 })} onClick={handleAddToCart}>
                     XL
                 </div>
-                <div className={cx('size-option')} onClick={handleAddToCart}>
+                <div className={cx('size-option', { disabled: variant.xxl === 0 })} onClick={handleAddToCart}>
                     XXL
                 </div>
             </div>
-            {/* )} */}
         </div>
     );
 };

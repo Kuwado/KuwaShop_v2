@@ -11,11 +11,11 @@ const PreviewCartItem = ({ item }) => {
     return (
         <div className={cx('preview-cart-item')}>
             <div className={cx('avatar')}>
-                <Image src={item.avatar} width="100%" height="100%" />
+                <Image src={item.variant.product.avatar} width="100%" height="100%" />
             </div>
             <div className={cx('item-content')}>
-                <div className={cx('name')}>{item.name}</div>
-                <div className={cx('color')}>Màu sắc: {item.color_name}</div>
+                <div className={cx('name')}>{item.variant.product.name}</div>
+                <div className={cx('color')}>Màu sắc: {item.variant.color_name}</div>
                 <div className={cx('size')}>
                     Size: <span>{item.size}</span>
                 </div>
@@ -23,7 +23,7 @@ const PreviewCartItem = ({ item }) => {
                     <div className={cx('quantity')}>
                         <QuantityButton quantity={item.quantity} />
                     </div>
-                    <div className={cx('price')}>{formatPrice(item.price)}</div>
+                    <div className={cx('price')}>{formatPrice(item.variant.product.price)}</div>
                 </div>
             </div>
         </div>
