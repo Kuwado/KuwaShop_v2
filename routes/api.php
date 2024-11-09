@@ -53,11 +53,13 @@ Route::get('/color', [ColorController::class, 'getColor']);
 Route::get('/colors', [ColorController::class, 'index']);
 
 //Cart
-Route::middleware(['auth:sanctum', 'role:user'])->group(function () { 
-    Route::post('/cart/create', [CartController::class, 'createCart']);
-    Route::post('cart/update/{id}', [CartController::class,'updateCart']);
-    Route::delete('/cart/delete/{id}', [CartController::class,'deleteCart']);
-});
+// Route::middleware(['auth:sanctum', 'role:user'])->group(function () { 
+// });
 
 Route::get('/carts', [CartController::class,'getCarts']);
 Route::get('/cart', [CartController::class,'getCart']);
+Route::post('/cart/add', [CartController::class, 'addToCart']);
+Route::post('cart/update/{id}', [CartController::class,'updateCart']);
+Route::delete('/cart/delete/{id}', [CartController::class,'deleteCart']);
+
+

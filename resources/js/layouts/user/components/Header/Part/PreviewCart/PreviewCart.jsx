@@ -10,6 +10,7 @@ import images from '~/assets/images';
 import PreviewCartItem from './PreviewCartItem';
 import { getCarts } from '~/services/cartService';
 import { AuthContext } from '~/context/AuthContext';
+import { useCart } from '~/hooks/useCart';
 
 const cx = classNames.bind(styles);
 
@@ -48,18 +49,8 @@ const CART = {
 };
 
 const PreviewCart = () => {
-    const { userId } = useContext(AuthContext);
+    const { cartData } = useCart();
     const [show, setShow] = useState('show');
-    const [data, setData] = useState({});
-
-    useEffect(() => {
-        const fetchCart = async () => {
-            const response = await getCarts(userId);
-            setData(response);
-        };
-
-        fetchCart();
-    }, []);
 
     const handleOpenCart = () => {
         setShow('open');
@@ -75,23 +66,23 @@ const PreviewCart = () => {
                 icon={<FontAwesomeIcon icon={faCartShopping} />}
                 content="Giỏ hàng"
                 onClick={handleOpenCart}
-                number={data.count && data.count}
+                number={cartData.count && cartData.count}
             />
             <div className={cx('content', { active: show === 'open', inactive: show === 'close' })}>
                 <div className={cx('header')}>
                     <div className={cx('title')}>
                         <h2>Giỏ hàng</h2>
-                        {data.count > 0 && <div className={cx('number')}>{data.count}</div>}{' '}
+                        {cartData.count > 0 && <div className={cx('number')}>{cartData.count}</div>}{' '}
                     </div>
                     <CloseButton className={cx('close-btn')} onClick={handleCloseCart} />
                 </div>
                 <div className={cx('body')}>
-                    {data.carts &&
-                        data.carts.length > 0 &&
-                        data.carts.map((item, index) => <PreviewCartItem key={`cart-item-${index}`} item={item} />)}
+                    {cartData.carts &&
+                        cartData.carts.length > 0 &&
+                        cartData.carts.map((item, index) => <PreviewCartItem key={`cart-item-${index}`} item={item} />)}
                 </div>
                 <div className={cx('footer')}>
-                    <div className={cx('total-price')}>Tổng tiền: {formatPrice(data.total)}</div>
+                    <div className={cx('total-price')}>Tổng tiền: {formatPrice(cartData.total)}</div>
                     <Button secondaryBorder large>
                         Xem giỏ hàng
                     </Button>

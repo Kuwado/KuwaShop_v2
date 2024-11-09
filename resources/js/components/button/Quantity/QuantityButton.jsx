@@ -3,23 +3,26 @@ import classNames from 'classnames/bind';
 import styles from './QuantityButton.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { udpateCart } from '~/services/cartService';
+import { useCart } from '~/hooks/useCart';
 
 const cx = classNames.bind(styles);
 
 const fn = () => {};
 
-const QuantityButton = ({ quantity = 1, large = false, onMore = fn, onLess = fn, setQuantity, max = 5 }) => {
-    const handleMoreQuantity = () => {
+const QuantityButton = ({ cartId, quantity = 1, large = false, onMore = fn, onLess = fn, setQuantity, max = 5 }) => {
+    const { handleUpdateCart } = useCart();
+    const handleMoreQuantity = async () => {
         if (quantity < max) {
             onMore();
-            setQuantity(quantity + 1);
+            await handleUpdateCart(cartId, quantity + 1);
         }
     };
 
-    const handleLessQuantity = () => {
+    const handleLessQuantity = async () => {
         if (quantity > 1) {
             onLess();
-            setQuantity(quantity - 1);
+            await handleUpdateCart(cartId, quantity - 1);
         } else {
             const confirmed = window.confirm('Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng?');
         }

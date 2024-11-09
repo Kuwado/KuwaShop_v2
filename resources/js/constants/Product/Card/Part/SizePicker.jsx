@@ -4,9 +4,12 @@ import styles from './Part.module.scss';
 import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
+import { useCart } from '~/hooks/useCart';
 
 const cx = classNames.bind(styles);
+
 const SizePicker = ({ variant }) => {
+    const { handleAddToCart } = useCart();
     const pickerRef = useRef(null);
 
     const handleShowMenu = () => {
@@ -21,7 +24,9 @@ const SizePicker = ({ variant }) => {
         }
     };
 
-    const handleAddToCart = () => {};
+    const addItemToCart = async (size) => {
+        await handleAddToCart(variant.id, size, 1);
+    };
 
     return (
         <div className={cx('size-picker')} ref={pickerRef}>
@@ -30,19 +35,22 @@ const SizePicker = ({ variant }) => {
             </div>
             {/* {show && ( */}
             <div className={cx('size-menu')}>
-                <div className={cx('size-option', { disabled: variant.s === 0 })} onClick={handleAddToCart}>
+                <div className={cx('size-option', { disabled: variant.s === 0 })} onClick={() => addItemToCart('s')}>
                     S
                 </div>
-                <div className={cx('size-option', { disabled: variant.m === 0 })} onClick={handleAddToCart}>
+                <div className={cx('size-option', { disabled: variant.m === 0 })} onClick={() => addItemToCart('m')}>
                     M
                 </div>
-                <div className={cx('size-option', { disabled: variant.l === 0 })} onClick={handleAddToCart}>
+                <div className={cx('size-option', { disabled: variant.l === 0 })} onClick={() => addItemToCart('l')}>
                     L
                 </div>
-                <div className={cx('size-option', { disabled: variant.xl === 0 })} onClick={handleAddToCart}>
+                <div className={cx('size-option', { disabled: variant.xl === 0 })} onClick={() => addItemToCart('xl')}>
                     XL
                 </div>
-                <div className={cx('size-option', { disabled: variant.xxl === 0 })} onClick={handleAddToCart}>
+                <div
+                    className={cx('size-option', { disabled: variant.xxl === 0 })}
+                    onClick={() => addItemToCart('xxl')}
+                >
                     XXL
                 </div>
             </div>
