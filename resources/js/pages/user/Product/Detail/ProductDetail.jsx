@@ -15,19 +15,21 @@ import { CardCollection } from '~/constants/Product';
 
 const cx = classNames.bind(styles);
 
-const BREADCRUMB = [
-    {
-        title: 'Trang chủ',
-        link: config.routes.admin.dashboard,
-    },
-    {
-        title: 'Sản phẩm - Danh sách',
-        link: config.routes.admin.productList,
-    },
-    {
-        title: 'Chi tiết',
-    },
-];
+const getBreadcrumb = (title, categoryId, categoryName) => {
+    return [
+        {
+            title: 'Trang chủ',
+            link: config.routes.user.home,
+        },
+        {
+            title: categoryName,
+            link: `${config.routes.user.productList}?category_id=${categoryId}`,
+        },
+        {
+            title: title,
+        },
+    ];
+};
 
 const ProductDetail = () => {
     const { productId, variantId } = useParams();
@@ -35,13 +37,7 @@ const ProductDetail = () => {
     const [variant, setVariant] = useState({});
     const [similar, setSimilar] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    console.log(product);
-    console.log(similar);
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+    const [breadcrumb, setBreadcrumb] = useState([]);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -49,6 +45,9 @@ const ProductDetail = () => {
                 setLoading(true);
                 const response = await getProduct(productId);
                 setProduct(response.product);
+                setBreadcrumb(
+                    getBreadcrumb(response.product.name, response.product.category_id, response.product.category_name),
+                );
             } catch (error) {
                 console.log('Lỗi fetch dữ liệu sản phẩm: ', error);
             } finally {
@@ -70,6 +69,7 @@ const ProductDetail = () => {
 
         fetchProduct();
         fetchSimilarProduct();
+        window.scrollTo(0, 0);
     }, [productId]);
 
     useEffect(() => {
@@ -89,7 +89,7 @@ const ProductDetail = () => {
     }, [variantId]);
 
     return (
-        <Content breadcrumb={BREADCRUMB}>
+        <Content breadcrumb={breadcrumb}>
             {loading && <LoadingPage height="100vh" />}
             {!loading && (
                 <div className={cx('product-detail')}>

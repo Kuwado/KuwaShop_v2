@@ -11,6 +11,7 @@ const routes = {
         home: '/',
         productList: '/products',
         productDetail: '/product/:productId/:variantId',
+        cart: '/cart',
     },
 
     other: {

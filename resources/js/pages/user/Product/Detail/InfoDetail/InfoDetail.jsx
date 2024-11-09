@@ -4,7 +4,7 @@ import styles from './InfoDetail.module.scss';
 import { formatPrice } from '~/utils/format';
 import ColorBar from './Part/ColorBar';
 import SizeOptions from './Part/SizeOptions';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SizeTable } from '~/constants/Product';
 import { QuantityButton } from '~/components/Button';
 import ActionButtons from './Part/ActionButtons';
@@ -14,6 +14,15 @@ const cx = classNames.bind(styles);
 
 const InfoDetail = ({ product, variant }) => {
     const [selected, setSelected] = useState({ size: '', quantity: 1 });
+    const [disabled, setDisabled] = useState(false);
+
+    useEffect(() => {
+        if (variant.s === 0 && variant.m === 0 && variant.l === 0 && variant.xl === 0 && variant.xxl === 0) {
+            setDisabled(true);
+        } else {
+            setDisabled(false);
+        }
+    }, [variant]);
 
     const handleChooseSize = (size) => {
         setSelected((prev) => ({ ...prev, size }));
@@ -23,7 +32,6 @@ const InfoDetail = ({ product, variant }) => {
         setSelected((prev) => ({ ...prev, quantity }));
     };
 
-    console.log(selected.size);
     return (
         <div className={cx('info-detail')}>
             <div className={cx('name')}>{product.name}</div>
@@ -46,7 +54,7 @@ const InfoDetail = ({ product, variant }) => {
                 <span>Số lượng: </span>
                 <QuantityButton quantity={selected.quantity} setQuantity={handleChangeQuantity} large />
             </div>
-            <ActionButtons selected={selected} productId={product.id} variantId={variant.id} />
+            <ActionButtons selected={selected} productId={product.id} variantId={variant.id} disabled={disabled} />
             <InformationBox intro={product.intro} detail={product.detail} preserve={product.preserve} />
         </div>
     );

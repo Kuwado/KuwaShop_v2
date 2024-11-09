@@ -5,7 +5,6 @@ import styles from './SizeOptions.module.scss';
 const cx = classNames.bind(styles);
 
 const SizeOptions = ({ variant, selectedSize, handleChooseSize }) => {
-    console.log(variant);
     return (
         <div className={cx('size-options')}>
             <button

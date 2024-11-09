@@ -11,7 +11,6 @@ const cx = classNames.bind(styles);
 const InformationBox = ({ intro, detail, preserve }) => {
     const [current, setCurrent] = useState('intro');
     const [show, setShow] = useState(false);
-    console.log(intro);
 
     return (
         <div className={cx('information-box')}>

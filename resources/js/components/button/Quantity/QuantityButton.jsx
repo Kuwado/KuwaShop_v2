@@ -10,21 +10,33 @@ const cx = classNames.bind(styles);
 
 const fn = () => {};
 
-const QuantityButton = ({ cartId, quantity = 1, large = false, onMore = fn, onLess = fn, setQuantity, max = 5 }) => {
+const QuantityButton = ({ cartId, quantity = 1, large = false, setQuantity = fn, max = 5 }) => {
     const { handleUpdateCart } = useCart();
+
     const handleMoreQuantity = async () => {
         if (quantity < max) {
-            onMore();
-            await handleUpdateCart(cartId, quantity + 1);
+            if (cartId) {
+                await handleUpdateCart(cartId, quantity + 1);
+            } else {
+                setQuantity(quantity + 1);
+            }
         }
     };
 
     const handleLessQuantity = async () => {
         if (quantity > 1) {
-            onLess();
-            await handleUpdateCart(cartId, quantity - 1);
-        } else {
+            if (cartId) {
+                await handleUpdateCart(cartId, quantity - 1);
+            } else {
+                setQuantity(quantity - 1);
+            }
+        }
+
+        if (cartId && quantity === 1) {
             const confirmed = window.confirm('Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng?');
+            if (confirmed) {
+                await handleUpdateCart(cartId, quantity - 1);
+            }
         }
     };
 
