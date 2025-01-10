@@ -11,6 +11,8 @@ import PreviewCartItem from './PreviewCartItem';
 import { getCarts } from '~/services/cartService';
 import { AuthContext } from '~/context/AuthContext';
 import { useCart } from '~/hooks/useCart';
+import { useNavigate } from 'react-router-dom';
+import config from '~/config';
 
 const cx = classNames.bind(styles);
 
@@ -51,6 +53,7 @@ const CART = {
 const PreviewCart = () => {
     const { cartData } = useCart();
     const [show, setShow] = useState('show');
+    const navigate = useNavigate();
 
     const handleOpenCart = () => {
         setShow('open');
@@ -66,7 +69,7 @@ const PreviewCart = () => {
                 icon={<FontAwesomeIcon icon={faCartShopping} />}
                 content="Giỏ hàng"
                 onClick={handleOpenCart}
-                number={cartData.count && cartData.count}
+                number={cartData.count > 0 && cartData.count}
             />
             <div className={cx('content', { active: show === 'open', inactive: show === 'close' })}>
                 <div className={cx('header')}>
@@ -79,11 +82,13 @@ const PreviewCart = () => {
                 <div className={cx('body')}>
                     {cartData.carts &&
                         cartData.carts.length > 0 &&
-                        cartData.carts.map((item, index) => <PreviewCartItem key={`cart-item-${index}`} item={item} />)}
+                        cartData.carts.map((item, index) => (
+                            <PreviewCartItem key={`preview-cart-item-${index}`} item={item} />
+                        ))}
                 </div>
                 <div className={cx('footer')}>
                     <div className={cx('total-price')}>Tổng tiền: {formatPrice(cartData.total)}</div>
-                    <Button secondaryBorder large>
+                    <Button secondaryBorder large onClick={() => navigate(config.routes.user.cart)}>
                         Xem giỏ hàng
                     </Button>
                 </div>

@@ -31,7 +31,7 @@ class CartService
         }
     }
 
-    public function updateCart(Cart $cart, $quantity)
+    public function updateCart($cart, $quantity)
     {
         try {
             if ($quantity === 0) {

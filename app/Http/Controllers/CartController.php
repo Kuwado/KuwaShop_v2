@@ -44,7 +44,7 @@ class CartController extends Controller
         if ($updatedCart === null) {
             return response()->json([
                 'message' => 'Giỏ hàng đã bị xóa',
-            ], 410);  
+            ], 200);  
         }
 
         return response()->json([

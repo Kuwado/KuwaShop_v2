@@ -17,6 +17,8 @@ npm install --save-dev @vitejs/plugin-react
 npm install
 npm run dev
 
+** Create api in Laravel 11
+php artisan install:api
 
 *** Prettier *** ( for Css and React )
 - Download extension Prettier - Code formatter
@@ -55,6 +57,18 @@ npm i classnames
 
 *** React router ***
 npm install react-router-dom
+
+*** web.php ->
+<?php
+
+use App\Http\Controllers\UploadController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/{any}', function () {
+    return view('welcome'); // Render file welcome.blade.php
+})->where('any', '.*');
+
+
 
 // Chua dung duoc trong nay
 *** Customize-cra + Babel-plugin ***
