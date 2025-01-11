@@ -64,16 +64,20 @@ class CartService
     public function getCarts($userId)
     {
         $carts = Cart::where('user_id', $userId)->get();
-        $total = $carts->sum(function ($cart) {
+        $totalVariant = $carts->sum(function($cart) {
+            return $cart->quantity;
+        });
+        $totalPrice = $carts->sum(function ($cart) {
             $price = floatval($cart->variant->product->price);
             return $cart->quantity * $price;
         });
-        $total = strval($total);
+        $totalPrice = strval($totalPrice);
 
         return [
             'carts' => CartResource::collection($carts),
             'count' => $carts->count(),
-            'total' => $total
+            'total_price' => $totalPrice,
+            'total_variant' => $totalVariant
         ];
     }
 

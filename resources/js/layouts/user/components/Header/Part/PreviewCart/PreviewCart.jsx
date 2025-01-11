@@ -87,7 +87,7 @@ const PreviewCart = () => {
                         ))}
                 </div>
                 <div className={cx('footer')}>
-                    <div className={cx('total-price')}>Tổng tiền: {formatPrice(cartData.total)}</div>
+                    <div className={cx('total-price')}>Tổng tiền: {formatPrice(cartData.total_price)}</div>
                     <Button secondaryBorder large onClick={() => navigate(config.routes.user.cart)}>
                         Xem giỏ hàng
                     </Button>

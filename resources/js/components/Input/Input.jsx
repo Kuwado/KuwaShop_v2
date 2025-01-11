@@ -34,6 +34,7 @@ const Input = forwardRef(
             error = '',
             clearError = fn,
             validate,
+            width,
             // time = 3000,
         },
         ref,
@@ -64,7 +65,7 @@ const Input = forwardRef(
         };
 
         return (
-            <div className={cx('input')}>
+            <div className={cx('input')} style={width && { width: width }}>
                 <div className={cx('content', { error: errorValue })}>
                     <input
                         ref={ref}

@@ -1,39 +1,39 @@
 import classNames from 'classnames/bind';
 
-import styles from './Cart.module.scss';
-import CartStep from '../Components/CartStep/CartStep';
+import styles from './CartStep3.module.scss';
+import CartStep from '../../Components/CartStep/CartStep';
 import { useCart } from '~/hooks/useCart';
 import { formatPrice } from '~/utils/format';
-import CartItem from '../Components/CartItem/CartItem';
 import { Button } from '~/components/Button';
 import { useNavigate } from 'react-router-dom';
 import config from '~/config';
+import { Input } from '~/components/Input';
+import useProfile from '~/hooks/useProfile';
+import Address from '~/constants/Address';
+import Dropdown from '~/components/Dropdown';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '~/context/AuthContext';
 
 const cx = classNames.bind(styles);
 
-const Cart = () => {
+const CartStep3 = () => {
+    const { profile: loginedProfile } = useContext(AuthContext);
+    const { profile, setProfileField, setProfile } = useProfile();
     const { cartData } = useCart();
     const navigate = useNavigate();
+
+    console.log(profile);
+    console.log(loginedProfile);
+
+    useEffect(() => {
+        setProfile(loginedProfile);
+    }, [loginedProfile]);
 
     return (
         <div className={cx('cart-page')}>
             <div className={cx('cart-left')}>
-                <CartStep step={1} />
-                <div className={cx('cart-content')}>
-                    <div className={cx('cart-list-header')}>
-                        <span>Ảnh đại diện</span>
-                        <span>Tên sản phẩm</span>
-                        <span>Thông tin</span>
-                        <span>Số lượng</span>
-                        <span>Tổng tiền</span>
-                        <span>Xóa</span>
-                    </div>
-                    {cartData.carts && cartData.carts.length > 0 ? (
-                        cartData.carts.map((item, index) => <CartItem key={`cart-item-${index}`} item={item} />)
-                    ) : (
-                        <div>Vui lòng thêm hàng vào giỏ</div>
-                    )}
-                </div>
+                <CartStep step={3} />
+                <div className={cx('cart-content')}></div>
             </div>
             <div className={cx('cart-right')}>
                 <h2>Tổng tiền giỏ hàng</h2>
@@ -55,7 +55,7 @@ const Cart = () => {
                     width="100%"
                     contentCenter
                     large
-                    onClick={() => navigate(config.routes.user.cartStep2)}
+                    onClick={() => navigate(config.routes.user.cartStep3)}
                 >
                     Đặt hàng
                 </Button>
@@ -64,4 +64,4 @@ const Cart = () => {
     );
 };
 
-export default Cart;
+export default CartStep3;

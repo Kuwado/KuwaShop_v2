@@ -7,6 +7,8 @@ const publicRoutes = [
     { path: config.routes.user.productDetail, component: pages.user.productDetail, layout: layouts.user.default },
     { path: config.routes.user.productList, component: pages.user.productList, layout: layouts.user.default },
     { path: config.routes.user.cart, component: pages.user.cart, layout: layouts.user.default },
+    { path: config.routes.user.cartStep2, component: pages.user.cartStep2, layout: layouts.user.default },
+    { path: config.routes.user.cartStep3, component: pages.user.cartStep3, layout: layouts.user.default },
 
     { path: config.routes.other.login, component: pages.other.login, layout: layouts.other.default },
     { path: config.routes.other.register, component: pages.other.register, layout: layouts.other.default },

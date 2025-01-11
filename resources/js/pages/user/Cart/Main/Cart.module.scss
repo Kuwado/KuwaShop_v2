@@ -11,12 +11,6 @@
     gap: var(--gap);
 }
 
-.cart-right {
-    width: 30%;
-    height: 500px;
-    background-color: yellowgreen;
-}
-
 .cart-content {
     display: flex;
     flex-direction: column;
@@ -64,4 +58,26 @@
         display: flex;
         justify-content: center;
     }
+}
+
+// Right
+.cart-right {
+    width: 30%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background-color: var(--primary-25);
+}
+
+.cart-right-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.cart-right-last-line {
+    padding-top: 20px;
+    border-bottom: 1px solid var(--secondary-50);
 }

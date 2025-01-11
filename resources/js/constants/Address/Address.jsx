@@ -10,15 +10,18 @@ import { Button } from '~/components/Button';
 const cx = classNames.bind(styles);
 
 const Address = ({ address, ward, district, province, setField }) => {
-    const [currentProvince, setCurrentProvince] = useState({});
-    const [currentDistrict, setCurrentDistrict] = useState({});
+    const [currentProvince, setCurrentProvince] = useState(null);
+    const [currentDistrict, setCurrentDistrict] = useState(null);
     const [districtList, setDistrictList] = useState([]);
     const [wardList, setWardList] = useState([]);
+
+    console.log(currentProvince);
+    console.log(currentDistrict);
 
     const resetDistrict = () => {
         setField('district', '');
         setDistrictList([]);
-        setCurrentDistrict({});
+        setCurrentDistrict(null);
     };
 
     const resetWard = () => {
@@ -27,11 +30,11 @@ const Address = ({ address, ward, district, province, setField }) => {
     };
 
     useEffect(() => {
-        if (province) {
+        if (currentProvince && currentProvince !== province) {
             resetDistrict();
             resetWard();
-            setCurrentProvince(provinces.find((p) => p.name === province) || {});
         }
+        setCurrentProvince(provinces.find((p) => p.name === province) || null);
     }, [province]);
 
     useEffect(() => {
@@ -39,14 +42,16 @@ const Address = ({ address, ward, district, province, setField }) => {
     }, [currentProvince]);
 
     useEffect(() => {
-        if (district) {
+        if (currentDistrict && currentDistrict !== district) {
             resetWard();
-            setCurrentDistrict(districtList.find((d) => d.name === district) || {});
         }
-    }, [district]);
+        console.log('5');
+
+        setCurrentDistrict(districtList.find((d) => d.name === district) || null);
+    }, [district, districtList]);
 
     useEffect(() => {
-        setWardList(currentDistrict.wards ?? []);
+        if (currentDistrict) setWardList(currentDistrict.wards ?? []);
     }, [currentDistrict]);
 
     return (
